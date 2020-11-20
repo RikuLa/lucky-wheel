@@ -1,0 +1,12 @@
+body {
+  --color1: #541388;
+  --color2: #D90368;
+  --color3: #F1E9DA;
+  --color4: #2E294E;
+  --color5: #FFD400;
+
+  background-color: var(--color4);
+  color: var(--color5);
+  font-family: 'Mystery Quest', cursive;
+  font-size: 16pt;
+}
