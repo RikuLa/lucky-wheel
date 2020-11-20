@@ -4,6 +4,11 @@ import Lobby from './Lobby';
 export class House extends React.PureComponent {
 
   render() {
-    return <Lobby />;
+    const room: React.Component | null = null;
+    if (room !== null) {
+      return room;
+    } else {
+      return <Lobby />;
+    }
   }
 }
