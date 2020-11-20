@@ -16,7 +16,7 @@ export const useSyncedState = (): [
 ] => {
   const [internalState, setInternalState] = useState<SharedState>(defaultState);
   useEffect(() => {
-    const listener = ({data}) => {
+    const listener = ({ data }) => {
       setInternalState(data);
       console.log("received", data);
     };

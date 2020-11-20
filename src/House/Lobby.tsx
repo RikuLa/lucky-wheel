@@ -30,6 +30,7 @@ const PopupPermissionsEnabler = ({ onPass }: { onPass: () => void }) => {
   );
 };
 
+// eslint-disable-next-line react/display-name
 export default () => {
   const [popupsWork, setPopupsWork] = React.useState(false);
   const [state, setState] = useSyncedState();
