@@ -6,7 +6,6 @@ const getWordStream = (): ReadableStream => {
   return new ReadableStream<string>(
     {
       start(controller) {
-        // eslint-disable-next-line no-restricted-syntax
         for (const s of message) {
           controller.enqueue(s);
         }
