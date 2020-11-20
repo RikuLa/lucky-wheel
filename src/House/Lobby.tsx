@@ -42,7 +42,7 @@ export default () => {
           <button
             onClick={() => {
               for (let i = 0; i < 3; ++i) {
-                setTimeout(() => window.open("/"), 100 * i);
+                setTimeout(() => window.open(location.href), 100 * i);
               }
             }}
           >
