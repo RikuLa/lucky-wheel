@@ -1,4 +1,5 @@
 import * as React from "react";
+import { RoomApi } from "./api";
 import Lobby from "./Lobby";
 
 const RoomStub = () => "";
@@ -14,7 +15,8 @@ export const House = () => {
     },
     false
   );
-  const Room: React.Component | null = roomId !== null ? RoomStub : null;
+  const Room: React.Component<RoomApi> | null =
+    roomId !== null ? RoomStub : null;
   if (Room !== null) {
     return <Room />;
   } else {
