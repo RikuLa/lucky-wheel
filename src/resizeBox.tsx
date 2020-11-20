@@ -1,7 +1,107 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-export default function resizeBox() {
-  return <div>Spurdo spärde</div>;
+export default function ResizeBox() {
+  const minimumSize = 20;
+  const [ originalWidth, setOriginalWidth ] = useState(0);
+  const [ originalHeight, setOriginalHeight ] = useState(0);
+  const [ originalX, setOriginalX ] = useState(0);
+  const [ originalY, setOriginalY ] = useState(0);
+  const [ originalMouseX, setOriginalMouseX ] = useState(0);
+  const [ originalMouseY, setOriginalMouseY ] = useState(0);
+
+  useEffect(() => {
+    const box = document.querySelector(".resizableBox") as HTMLElement;
+    const corners = document.querySelectorAll(" .corners");
+
+    function resize(e) {
+      console.log(e.target.classList)
+      const corner = e.target;
+      if (corner.classList.contains('bottom-right')) {
+        const width = originalWidth + (e.pageX - originalMouseX);
+        const height = originalHeight + (e.pageY - originalMouseY);
+        if (width > minimumSize) {
+          box.style.width = `${width}px`;
+        }
+        if (height > minimumSize) {
+          box.style.height = `${height}px`;
+        }
+      } else if (corner.classList.contains('bottom-left')) {
+        const height = originalHeight + (e.pageY - originalMouseY);
+        const width = originalWidth - (e.pageX - originalMouseX);
+        if (height > minimumSize) {
+          box.style.height = `${height}px`;
+        }
+        if (width > minimumSize) {
+          box.style.width = `${width}px`;
+          box.style.left = `${originalX + (e.pageX - originalMouseX)}px`;
+        }
+      } else if (corner.classList.contains('top-right')) {
+        const width = originalWidth + (e.pageX - originalMouseX);
+        const height = originalHeight - (e.pageY - originalMouseY);
+        if (width > minimumSize) {
+          box.style.width = `${width}px`;
+        }
+        if (height > minimumSize) {
+          box.style.height = `${height}px`;
+          box.style.top = `${originalY + (e.pageY - originalMouseY)}px`;
+        }
+      } else if (corner.classList.contains('top-left'){
+        const width = originalWidth - (e.pageX - originalMouseX);
+        const height = originalHeight - (e.pageY - originalMouseY);
+        if (width > minimumSize) {
+          box.style.width = `${width}px`;
+          box.style.left = `${originalX + (e.pageX - originalMouseX)}px`;
+        }
+        if (height > minimumSize) {
+          box.style.height = `${height}px`;
+          box.style.top = `${originalY + (e.pageY - originalMouseY)}px`;
+        }
+      }
+    }
+    function stopResize() {
+      window.removeEventListener('mousemove', resize);
+    }
+    const mouseEvent = (e) => {
+      e.preventDefault();
+      setOriginalWidth(
+        parseFloat(
+          getComputedStyle(box, null)
+            .getPropertyValue("width")
+            .replace("px", "")
+        )
+      );
+      setOriginalHeight(
+        parseFloat(
+          getComputedStyle(box, null)
+            .getPropertyValue("height")
+            .replace("px", "")
+        )
+      );
+      setOriginalX(box.getBoundingClientRect().left);
+      setOriginalY(box.getBoundingClientRect().top);
+      setOriginalMouseX(e.pageX);
+      setOriginalMouseY(e.pageY);
+      window.addEventListener("mousemove", resize);
+      window.addEventListener("mouseup", stopResize);
+    };
+
+    for (let i = 0; i < corners.length; i += 1) {
+      const corner = corners[i];
+      corner.addEventListener('mousedown', mouseEvent);
+    }
+  
+  }, []);
+
+  return (
+    <div className="resizableBox">
+      <div className="corners">
+        <div className="corner top-left"></div>
+        <div className="corner top-right"></div>
+        <div className="corner bottom-left"></div>
+        <div className="corner bottmo-right"></div>
+      </div>
+    </div>
+  );
 }
 
 /*

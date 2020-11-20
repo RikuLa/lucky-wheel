@@ -10,3 +10,49 @@ body {
   font-family: 'Mystery Quest', cursive;
   font-size: 16pt;
 }
+
+.resizableBox {
+  background: white;
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 100px;
+  left: 100px;
+}
+
+.resizableBox .corners{
+  width: 100%;
+  height: 100%;
+  border: 3px solid #4286f4;
+  box-sizing: border-box;
+}
+
+.resizableBox .corners .corner{
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid #4286f4;
+  position: absolute;
+}
+
+.resizableBox .corners .corner.top-left {
+  left: -5px;
+  top: -5px;
+  cursor: nwse-resize;
+}
+.resizableBox .corners .corner.top-right {
+  right: -5px;
+  top: -5px;
+  cursor: nesw-resize;
+}
+.resizableBox .corners .corner.bottom-left {
+  left: -5px;
+  bottom: -5px;
+  cursor: nesw-resize;
+}
+.resizableBox .corners .corner.bottom-right {
+  right: -5px;
+  bottom: -5px;
+  cursor: nwse-resize;
+}
