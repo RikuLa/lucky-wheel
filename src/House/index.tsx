@@ -1,14 +1,23 @@
-import * as React from 'react';
-import Lobby from './Lobby';
+import * as React from "react";
+import Lobby from "./Lobby";
 
-export class House extends React.PureComponent {
+const RoomStub = () => "";
 
-  render() {
-    const room: React.Component | null = null;
-    if (room !== null) {
-      return room;
-    } else {
-      return <Lobby />;
-    }
+export const House = () => {
+  const [roomId, setRoomId] = React.useState(null);
+  window.addEventListener(
+    "message",
+    (event) => {
+      if (typeof event.data === "string") {
+        setRoomId(event.data);
+      }
+    },
+    false
+  );
+  const Room: React.Component | null = roomId !== null ? RoomStub : null;
+  if (Room !== null) {
+    return <Room />;
+  } else {
+    return <Lobby />;
   }
-}
+};
