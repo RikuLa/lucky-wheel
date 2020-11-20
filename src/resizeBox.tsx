@@ -1,3 +1,14 @@
+import React, { useState } from 'react';
+
+export default function resizeBox() {
+  return (
+    <div>
+      Spurdo spärde
+    </div>
+  );
+}
+
+/*
 export default function (box, corners) {
   const minimumSize = 20;
   let originalWidth = 0;
@@ -75,7 +86,29 @@ export default function (box, corners) {
   }
 }
 
-/*
+// Wait for dom to load
+window.addEventListener('DOMContentLoaded', () => {
+    const resizableBox = document.createElement('div');
+    resizableBox.className = 'resizableBox';
+    const corners = document.createElement('div');
+    corners.className = 'corners';
+    const tl = document.createElement('div');
+    const tr = document.createElement('div');
+    const bl = document.createElement('div');
+    const br = document.createElement('div');
+    tl.className = 'corner top-left';
+    tr.className = 'corner top-right';
+    bl.className = 'corner bottom-left';
+    br.className = 'corner bottom-right';
+    document.body.appendChild(resizableBox);
+    resizableBox.appendChild(corners);
+    corners.appendChild(tl);
+    corners.appendChild(tr);
+    corners.appendChild(bl);
+    corners.appendChild(br);
+    resizeBox(resizableBox, [tl, tr, bl, br]);
+  });
+
 const resizeObserver = new ResizeObserver((entries) => {
   console.log('Size changed');
   entries.forEach((entry) => {
@@ -94,4 +127,64 @@ const resizeObserver = new ResizeObserver((entries) => {
 });
 
 resizeObserver.observe(box);
+*/
+
+/*
+<style>
+    body,
+    html {
+      background: black;
+    }
+    html {
+            width: 100%;
+            height: 100%;
+        }
+
+    .resizableBox {
+      background: white;
+      width: 100px;
+      height: 100px;
+      position: absolute;
+      top: 100px;
+      left: 100px;
+    }
+
+    .resizableBox .corners{
+      width: 100%;
+      height: 100%;
+      border: 3px solid #4286f4;
+      box-sizing: border-box;
+    }
+
+    .resizableBox .corners .corner{
+      width: 10px;
+      height: 10px;
+      border-radius: 50%; // magic to turn square into circle
+      background: white;
+      border: 3px solid #4286f4;
+      position: absolute;
+    }
+
+    .resizableBox .corners .corner.top-left {
+      left: -5px;
+      top: -5px;
+      cursor: nwse-resize; // corner cursor
+    }
+    .resizableBox .corners .corner.top-right {
+      right: -5px;
+      top: -5px;
+      cursor: nesw-resize;
+    }
+    .resizableBox .corners .corner.bottom-left {
+      left: -5px;
+      bottom: -5px;
+      cursor: nesw-resize;
+    }
+    .resizableBox .corners .corner.bottom-right {
+      right: -5px;
+      bottom: -5px;
+      cursor: nwse-resize;
+    }
+
+    </style>
 */

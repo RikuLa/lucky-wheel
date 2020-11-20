@@ -1,67 +1,12 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <script src="./index.ts"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 <body>
+    <div id="root"></div>
+    <script src="index.tsx"></script>
 </body>
 </html>
-
-<style>
-body,
-html {
-  background: black;
-}
-html {
-        width: 100%;
-        height: 100%;
-    }
-
-
-.resizableBox {
-  background: white;
-  width: 100px;
-  height: 100px;
-  position: absolute;
-  top: 100px;
-  left: 100px;
-}
-
-.resizableBox .corners{
-  width: 100%;
-  height: 100%;
-  border: 3px solid #4286f4;
-  box-sizing: border-box;
-}
-
-.resizableBox .corners .corner{
-  width: 10px;
-  height: 10px;
-  border-radius: 50%; /*magic to turn square into circle*/
-  background: white;
-  border: 3px solid #4286f4;
-  position: absolute;
-}
-
-.resizableBox .corners .corner.top-left {
-  left: -5px;
-  top: -5px;
-  cursor: nwse-resize; /*corner cursor*/
-}
-.resizableBox .corners .corner.top-right {
-  right: -5px;
-  top: -5px;
-  cursor: nesw-resize;
-}
-.resizableBox .corners .corner.bottom-left {
-  left: -5px;
-  bottom: -5px;
-  cursor: nesw-resize;
-}
-.resizableBox .corners .corner.bottom-right {
-  right: -5px;
-  bottom: -5px;
-  cursor: nwse-resize;
-}
-
-
-</style>
