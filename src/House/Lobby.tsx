@@ -43,7 +43,10 @@ export default () => {
           <button
             onClick={() => {
               for (let i = 0; i < 3; ++i) {
-                setTimeout(() => window.open(location.href), 100 * i);
+                setTimeout(() => {
+                  const opened = window.open(location.href);
+                  setTimeout(() => opened.postMessage("room", "*"), 200);
+                }, 100 * i);
               }
             }}
           >
