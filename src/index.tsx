@@ -1,9 +1,8 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-
-import ResizeBox from './resizeBox.tsx';
+import { House } from './House';
 
 ReactDOM.render(
-  <ResizeBox />,
-  document.getElementById('root'),
+  <House />,
+  document.getElementById('root')
 );
