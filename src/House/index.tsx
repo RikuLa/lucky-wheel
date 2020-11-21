@@ -27,6 +27,12 @@ const RoomManager = ({
     <Room
       onReady={() => {
         setRoomState(roomId, { ready: true });
+        navigator.serviceWorker.controller.postMessage({
+          type: "ENTERED_ROOM",
+          payload: {
+            roomId,
+          },
+        });
       }}
     />
   );

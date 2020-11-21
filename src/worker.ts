@@ -1,9 +1,20 @@
-self.addEventListener("install", function (event) {
+export type RoomEventType = "ENTERED_ROOM";
+
+export interface RoomEvent {
+  type: RoomEventType;
+  payload: Record<string, any>;
+}
+
+export interface RoomMessage {
+  data: RoomEvent;
+}
+
+self.addEventListener("install", (event) => {
   // Perform install steps
   console.log("web worker installed:", event);
 });
 
-self.addEventListener("fetch", function (event: any) {
-  // do nothing here, just log all the network requests
-  console.log(event.request.url);
+self.addEventListener("message", (event: RoomMessage) => {
+  console.log("message received:", event.data.type);
+  console.log("message received:", event.data.payload);
 });
