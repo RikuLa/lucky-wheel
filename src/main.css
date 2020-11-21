@@ -26,13 +26,14 @@ body {
 
   background-color: var(--color4);
   color: var(--color5);
-  font-family: "Mystery Quest", cursive;
+  font-family: 'Goldman', monospace;
   font-size: 16pt;
 
   background-image: url("./assets/starbg.jpg");
   animation: animated-bg 150s linear infinite;
 
   margin: 0;
+  padding: 0;
 }
 
 .resizableBox .corners .corner.top-left {

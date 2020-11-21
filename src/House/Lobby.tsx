@@ -3,6 +3,25 @@ import styled from "styled-components";
 import { rooms } from "./rooms";
 import { useSyncedState } from "./sync";
 
+const Container = styled.div`
+  margin: 0;
+  padding: 40px 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+`;
+
+const TextBox = styled.div`
+  width: 100%;
+  font-size: 1.1em;
+`;
+
+const ActionButton = styled.div`
+  margin-top: 20px;
+  padding: 5px;
+  background: #541388;
+  display: inline-block;
+  text-align: center;
+`;
+
 const attemptPopups = () => {
   const [a, b] = [window.open("about:blank"), window.open("about:blank")];
   a?.close();
@@ -14,10 +33,12 @@ const PopupPermissionsEnabler = ({ onPass }: { onPass: () => void }) => {
   const [failed, setFailed] = React.useState(false);
   return (
     <>
-      {failed
-        ? "We detected pop-up blocker :("
-        : "We rely on popup permissions. Press test button and disable popup blocker for this page if needed."}
-      <button
+      <TextBox>
+        {failed
+          ? "We detected pop-up blocker :("
+          : "We rely on popup permissions. Press test button and disable popup blocker for this page if needed."}
+      </TextBox>
+      <ActionButton
         onClick={() => {
           if (attemptPopups()) {
             onPass();
@@ -27,38 +48,28 @@ const PopupPermissionsEnabler = ({ onPass }: { onPass: () => void }) => {
         }}
       >
         Test
-      </button>
+      </ActionButton>
     </>
   );
 };
 
-const Panel = styled.div`
-  background-color: rgba(0, 0, 0, 0.8);
-  padding: 50px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 600px;
-  height: 300px;
-  margin-left: -300px;
-  margin-top: -150px;
-`;
-
-// eslint-disable-next-line react/display-name
-export default () => {
+const Lobby = () => {
   const [popupsWork, setPopupsWork] = React.useState(false);
   const [state] = useSyncedState();
   return (
-    <Panel>
+    <Container>
       {popupsWork && (
         <>
-          Ready to play!
-          <span>
-            ready:{" "}
-            {Object.values(state.roomStates).filter((s) => s.ready).length} /
-            {Object.values(state.roomStates).length}
-          </span>
-          <button
+          <TextBox>
+            Are you ready to begin your adventure? You wake up from cryo sleep
+            to the blare of klaxons. Just another day at the office, you say to
+            yourself. Not that there is anyone else aboard SCP RustBucket.
+            <br />
+            <br />
+            You need to send a message home and isolate the virus. Also, the
+            oxygen seems to be running particularly low today...
+          </TextBox>
+          <ActionButton
             onClick={() => {
               const windows = Object.keys(rooms).map((id) =>
                 window.open(`#${id}`)
@@ -66,8 +77,15 @@ export default () => {
               console.log("opened", windows);
             }}
           >
-            Start
-          </button>
+            Begin your mission.
+          </ActionButton>
+          <br />
+          <br />
+          <div>
+            Completed rooms :{" "}
+            {Object.values(state.roomStates).filter((s) => s.ready).length} /
+            {Object.values(state.roomStates).length}
+          </div>
         </>
       )}
       {!popupsWork && (
@@ -75,6 +93,8 @@ export default () => {
           <PopupPermissionsEnabler onPass={() => setPopupsWork(true)} />
         </>
       )}
-    </Panel>
+    </Container>
   );
 };
+
+export default Lobby;
