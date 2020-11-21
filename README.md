@@ -1,9 +1,16 @@
 # Lucky Wheel App
 
-## TODO:
-- Application
+Available in https://rikula.github.io/lucky-wheel/
 
 ## Usage
+
+[![Video thumbnail placeholder](doc/screenshot_youtube.PNG)](https://www.youtube.com/watch?v=VIDEO-ID "Put hover text here!")
+
+Used APIs (**From roulette**)
+* **Page Visibility API**
+* **ReadableStream**
+* **Resize Observer API**
+* Service Worker API
 
 ### Development
 
