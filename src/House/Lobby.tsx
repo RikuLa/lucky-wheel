@@ -1,4 +1,5 @@
 import * as React from "react";
+import styled from "styled-components";
 import { rooms } from "./rooms";
 import { useSyncedState } from "./sync";
 
@@ -31,12 +32,24 @@ const PopupPermissionsEnabler = ({ onPass }: { onPass: () => void }) => {
   );
 };
 
+const Panel = styled.div`
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 50px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 600px;
+  height: 300px;
+  margin-left: -300px;
+  margin-top: -150px;
+`;
+
 // eslint-disable-next-line react/display-name
 export default () => {
   const [popupsWork, setPopupsWork] = React.useState(false);
   const [state] = useSyncedState();
   return (
-    <>
+    <Panel>
       {popupsWork && (
         <>
           Ready to play!
@@ -62,6 +75,6 @@ export default () => {
           <PopupPermissionsEnabler onPass={() => setPopupsWork(true)} />
         </>
       )}
-    </>
+    </Panel>
   );
 };

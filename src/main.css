@@ -1,3 +1,22 @@
+/* apply a natural box layout model to all elements, but allowing components to change */
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+@keyframes animated-bg {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
 body {
   --color1: #541388;
   --color2: #d90368;
@@ -9,6 +28,9 @@ body {
   color: var(--color5);
   font-family: "Mystery Quest", cursive;
   font-size: 16pt;
+
+  background-image: url("./assets/starbg.jpg");
+  animation: animated-bg 150s linear infinite;
 
   margin: 0;
 }
