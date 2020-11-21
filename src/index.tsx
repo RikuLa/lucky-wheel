@@ -1,7 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { WordTuner } from "./House/Rooms/WordTuner";
-// import { House } from "./House";
-// import ResizeBox from "./resizeBox";
+import { House } from "./House";
 
-ReactDOM.render(<WordTuner />, document.getElementById("root"));
+ReactDOM.render(<House />, document.getElementById("root"));
