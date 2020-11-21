@@ -13,7 +13,6 @@ export interface SharedState {
   roomStates: {
     wordBox: BaseRoomState;
     resizer: BaseRoomState;
-    bombTest: BaseRoomState;
     card: BaseRoomState;
     engine: BaseRoomState;
   };
@@ -22,7 +21,12 @@ type RoomStates = SharedState["roomStates"];
 
 const defaultState: SharedState = {
   roomStates: {
-    card: { ready: false, closed: false, completed: false, oxygenDepleted: false },
+    card: {
+      ready: false,
+      closed: false,
+      completed: false,
+      oxygenDepleted: false,
+    },
     wordBox: {
       ready: false,
       closed: false,

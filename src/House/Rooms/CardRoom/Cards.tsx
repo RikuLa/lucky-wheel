@@ -85,7 +85,7 @@ export const Cards = ({ onReady, onComplete }: RoomApi) => {
           </Card>
         );
       })}
-      {codes.map((c, i) => {
+      {codes.map((c) => {
         return (
           <Reader
             key={c.code}
