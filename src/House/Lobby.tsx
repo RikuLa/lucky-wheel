@@ -62,7 +62,7 @@ const LimitedImage = styled.img`
   padding: 10px;
 `;
 
-const WinText = styled.div`
+const GameEndText = styled.div`
   height: 250px;
 `;
 
@@ -230,7 +230,10 @@ const Lobby = () => {
               Try again?
             </ActionButton>
           </TextBox>
-          <LimitedImage src={deathImage} alt="The player has suffocated" />
+
+          <GameEndText>
+            <LimitedImage src={deathImage} alt="The player has suffocated" />
+          </GameEndText>
         </>
       ) : state === "active" ? (
         <>
@@ -280,7 +283,7 @@ const Lobby = () => {
         <>
           <TextBox>Completed!</TextBox>
           <br />
-          <WinText>
+          <GameEndText>
             <LimitedImage
               src={winImage}
               alt="The player receedes back to the sleep"
@@ -289,7 +292,7 @@ const Lobby = () => {
               Unfortunately this does not seem like the place for you. Thus the
               cryo sleep calls for you again.
             </span>
-          </WinText>
+          </GameEndText>
         </>
       )}
       <input
