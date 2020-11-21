@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useOxygen } from "../hooks/oxygen";
+import { RoomId, useSyncedState } from "../House/sync";
 
 const METER_WIDTH = 200;
 
@@ -18,8 +19,15 @@ const Value = styled.div`
 
 const HARD_CODED_OXYGEN_VALUE = 10;
 
-export const OxygenMeter = () => {
+export const OxygenMeter = ({ roomId }: { roomId: RoomId }) => {
   const [oxygen] = useOxygen(HARD_CODED_OXYGEN_VALUE);
+  const [, setSyncedState] = useSyncedState();
+  React.useEffect(() => {
+    if (oxygen === 0) {
+      console.log("YOU ARE DEAD");
+      setSyncedState(roomId, { oxygenDepleted: true });
+    }
+  }, [oxygen]);
   return (
     <Meter>
       <Value value={oxygen} max={HARD_CODED_OXYGEN_VALUE} />
