@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 const bc = new BroadcastChannel("house-sync");
 
-type BaseRoomState = { ready: boolean };
+type BaseRoomState = { ready: boolean; closed: boolean };
 
 export interface SharedState {
   roomStates: {
@@ -14,8 +14,8 @@ type RoomStates = SharedState["roomStates"];
 
 const defaultState: SharedState = {
   roomStates: {
-    wordBox: { ready: false },
-    resizer: { ready: false },
+    wordBox: { ready: false, closed: false },
+    resizer: { ready: false, closed: false },
   },
 };
 
@@ -27,7 +27,7 @@ type Message = {
 
 export const useSyncedState = (): [
   SharedState,
-  <T extends keyof RoomStates>(roomId: T, state: RoomStates[T]) => void
+  <T extends keyof RoomStates>(roomId: T, state: Partial<RoomStates[T]>) => void
 ] => {
   const [internalState, setInternalState] = useState<SharedState>(defaultState);
   useEffect(() => {
@@ -37,7 +37,7 @@ export const useSyncedState = (): [
           ...prev,
           roomStates: {
             ...prev.roomStates,
-            [data.roomId]: data.payload,
+            [data.roomId]: { ...prev.roomStates[data.roomId], ...data.payload },
           },
         }));
       }
@@ -49,7 +49,7 @@ export const useSyncedState = (): [
 
   const setRoomState = <T extends keyof RoomStates>(
     roomId: T,
-    state: RoomStates[T]
+    state: Partial<RoomStates[T]>
   ) => {
     bc.postMessage({
       kind: "room-update",
@@ -60,7 +60,7 @@ export const useSyncedState = (): [
       ...prev,
       roomStates: {
         ...prev.roomStates,
-        [roomId]: state,
+        [roomId]: { ...prev.roomStates[roomId], ...state },
       },
     }));
   };

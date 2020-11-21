@@ -1,5 +1,5 @@
 import * as React from "react";
-import { RoomApi, rooms } from "./rooms";
+import { RoomApi, RoomKeys, rooms } from "./rooms";
 import Lobby from "./Lobby";
 import { useSyncedState } from "./sync";
 
@@ -11,14 +11,21 @@ const RoomManager = ({
   roomId,
   Room,
 }: {
-  roomId: string;
+  roomId: RoomKeys;
   Room: React.ComponentType<RoomApi>;
 }) => {
   const [, setRoomState] = useSyncedState();
+  React.useEffect(() => {
+    const listener = () => {
+      setRoomState(roomId, { closed: true });
+    };
+    window.addEventListener("beforeunload", listener);
+    return () => window.removeEventListener("beforeunload", listener);
+  }, []);
   return (
     <Room
       onReady={() => {
-        setRoomState(roomId as any, { ready: true });
+        setRoomState(roomId, { ready: true });
       }}
     />
   );
@@ -37,7 +44,7 @@ export const House = () => {
   );
   const Room = rooms[roomId];
   if (Room) {
-    return <RoomManager roomId={roomId} Room={Room} />;
+    return <RoomManager roomId={roomId as RoomKeys} Room={Room} />;
   } else {
     return <Lobby />;
   }
