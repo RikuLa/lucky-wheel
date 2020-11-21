@@ -4,6 +4,13 @@ import { ActionButton } from "../../Lobby";
 import { OxygenMeter } from "../../../OxygenMeter";
 import { RoomApi } from "../../rooms";
 
+import { useAudio } from "../../../hooks/useAudio";
+
+// @ts-ignore
+import success from "../../../assets/success.wav";
+// @ts-ignore
+import beep from "../../../assets/beep.flac";
+
 import { TargetBox } from "./TargetBox";
 
 const minimumSize = 20;
@@ -96,6 +103,9 @@ export const ResizeBox = ({
     return ret;
   };
 
+  const [, playScanSound] = useAudio(success);
+  const [, playBeep] = useAudio(beep);
+
   useEffect(() => {
     onReady("Scanner");
   }, []);
@@ -107,6 +117,7 @@ export const ResizeBox = ({
       const corner = corners[i];
 
       const resize = (e) => {
+        playBeep();
         const [dX, dY] =
           e.type === "touchmove"
             ? getTouchOffset(e)
@@ -226,6 +237,7 @@ export const ResizeBox = ({
           onClick={() => {
             if (Math.round(scaneLevel * 10000) / 100 >= 100) {
               setTarget(currentTarget + 1);
+              playScanSound();
             }
           }}
           style={{ marginTop: 0, marginLeft: 25 }}
