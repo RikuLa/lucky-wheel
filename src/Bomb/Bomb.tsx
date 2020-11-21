@@ -9,7 +9,8 @@ export const BombTest = () => {
 
   React.useEffect(() => {
     if (audio != null && !isVisible) {
-      audio.current.play();
+      // audio.current.play();
+      console.log("bomb goes boom");
     }
   }, [isVisible]);
 
