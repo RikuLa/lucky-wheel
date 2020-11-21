@@ -64,7 +64,7 @@ export const ResizeBox = ({
   };
 
   useEffect(() => {
-    onReady();
+    onReady("Scanner");
 
     const box = document.querySelector(".resizableBox") as HTMLElement;
     const corners = document.querySelectorAll(".corner");

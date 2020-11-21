@@ -81,7 +81,7 @@ export class WordTuner extends React.PureComponent<RoomApi, State> {
   };
 
   componentDidMount() {
-    this.props.onReady();
+    this.props.onReady("Word Tuner");
   }
 
   render() {

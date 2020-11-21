@@ -25,8 +25,9 @@ const RoomManager = ({
   }, []);
   return (
     <Room
-      onReady={() => {
+      onReady={(roomName) => {
         setRoomState(roomId, { ready: true });
+        document.title = `<${roomName}>`;
       }}
     />
   );

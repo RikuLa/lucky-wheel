@@ -4,7 +4,7 @@ import { WordTuner } from "./Rooms/WordTuner";
 import { BombTest } from "../Bomb/Bomb";
 
 export interface RoomApi {
-  onReady: () => void;
+  onReady: (roomName: string) => void;
 }
 
 export const rooms = {

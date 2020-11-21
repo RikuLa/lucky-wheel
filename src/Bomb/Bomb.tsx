@@ -6,7 +6,7 @@ import bomb from "./bomb.wav";
 
 export const BombTest = (props: RoomApi) => {
   React.useEffect(() => {
-    props.onReady();
+    props.onReady("Da Bomb");
   }, []);
 
   const [isVisible] = useIsVisible();
