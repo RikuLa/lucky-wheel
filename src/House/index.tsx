@@ -3,8 +3,9 @@ import { RoomApi, RoomKeys, rooms } from "./rooms";
 import Lobby from "./Lobby";
 import { useSyncedState } from "./sync";
 
-const roomIdFromHash = () => {
-  return location.hash.substring(1);
+const roomIdFromHash = (): RoomKeys | null => {
+  const id = location.hash.substring(1);
+  return id in rooms ? (id as RoomKeys) : null;
 };
 
 const RoomManager = ({
@@ -32,16 +33,7 @@ const RoomManager = ({
 };
 
 export const House = () => {
-  const [roomId, setRoomId] = React.useState(roomIdFromHash);
-  window.addEventListener(
-    "message",
-    (event) => {
-      if (typeof event.data === "string") {
-        setRoomId(event.data);
-      }
-    },
-    false
-  );
+  const [roomId] = React.useState<RoomKeys | null>(roomIdFromHash);
   const Room = rooms[roomId];
   if (Room) {
     return <RoomManager roomId={roomId as RoomKeys} Room={Room} />;

@@ -6,10 +6,8 @@ export interface RoomApi {
   onReady: () => void;
 }
 
-export type RoomKeys = "resizer" | "wordBox";
-export const rooms: {
-  [K in RoomKeys]: React.ComponentType<RoomApi>;
-} = {
-  resizer: ResizeBox,
-  wordBox: WordTuner,
+export const rooms = {
+  resizer: ResizeBox as React.ComponentType<RoomApi>,
+  wordBox: WordTuner as React.ComponentType<RoomApi>,
 };
+export type RoomKeys = keyof typeof rooms;
