@@ -105,6 +105,7 @@ const Lobby = () => {
       )
     ) {
       console.log("some room oxygen is depleted");
+      setState("game-over");
     }
 
     if (state === "game-over" && roomWindows.current) {
