@@ -50,6 +50,10 @@ export class WordTuner extends React.PureComponent<RoomApi, State> {
     this.emitter.setCipher(foo.target.value);
   };
 
+  private updateChannel = (foo) => {
+    this.emitter.setActiveStream(foo.target.value);
+  };
+
   render() {
     return (
       <Radio>
@@ -61,6 +65,14 @@ export class WordTuner extends React.PureComponent<RoomApi, State> {
           step="1"
           onChange={this.updateCipher}
           value={this.emitter.getCipher}
+        />
+        <CipherInput
+          type={"range"}
+          min="0"
+          max="2"
+          step="1"
+          onChange={this.updateChannel}
+          value={this.emitter.activeChannel}
         />
       </Radio>
     );
