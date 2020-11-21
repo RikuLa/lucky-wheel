@@ -5,19 +5,56 @@ import { RoomId, useSyncedState } from "../House/sync";
 
 const METER_WIDTH = 200;
 
+const Container = styled.div`
+  display: inline-block;
+  padding: 10px;
+  background-color: #121212;
+  text-align: center;
+  color: #888;
+  border: 2px solid #666;
+  font-family: monospace;
+  font-size: 14pt;
+  border-radius: 6px;
+
+  h4 {
+    margin: 0;
+    margin-bottom: 8px;
+  }
+`;
+
 const Meter = styled.div`
+  position: relative;
   width: ${METER_WIDTH}px;
   height: 50px;
-  background-color: red;
+  background-color: #002;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #444;
+  border-bottom: 1px solid #333;
 `;
 
 const Value = styled.div`
   width: ${(props) => ((props.value * 1.0) / props.max) * 100}%;
   height: 100%;
-  background-color: green;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    0deg,
+    rgba(2, 36, 0, 1) 0%,
+    rgba(9, 121, 9, 1) 15%,
+    rgba(0, 255, 212, 1) 100%
+  );
+  border-right: 2px solid black;
 `;
 
-const HARD_CODED_OXYGEN_VALUE = 45;
+const Label = styled.span`
+  position: absolute;
+  top: 15px;
+  right: 10%;
+  color: white;
+  font-family: sans-serif;
+`;
+
+const HARD_CODED_OXYGEN_VALUE = 10;
 
 export const OxygenMeter = ({ roomId }: { roomId: RoomId }) => {
   const [oxygen] = useOxygen(HARD_CODED_OXYGEN_VALUE);
@@ -29,8 +66,14 @@ export const OxygenMeter = ({ roomId }: { roomId: RoomId }) => {
     }
   }, [oxygen]);
   return (
-    <Meter>
-      <Value value={oxygen} max={HARD_CODED_OXYGEN_VALUE} />
-    </Meter>
+    <Container>
+      <h4>Room Oxygen Level</h4>
+      <Meter>
+        <Value value={oxygen} max={HARD_CODED_OXYGEN_VALUE} />
+        <Label>
+          O<sub>2</sub>
+        </Label>
+      </Meter>
+    </Container>
   );
 };
