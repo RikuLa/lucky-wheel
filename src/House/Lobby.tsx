@@ -1,4 +1,5 @@
 import * as React from "react";
+import { rooms } from "./rooms";
 import { useSyncedState } from "./sync";
 
 const attemptPopups = () => {
@@ -42,12 +43,10 @@ export default () => {
           <span>count is {state.count}</span>
           <button
             onClick={() => {
-              for (let i = 0; i < 3; ++i) {
-                setTimeout(() => {
-                  const opened = window.open(location.href);
-                  setTimeout(() => opened.postMessage("room", "*"), 200);
-                }, 100 * i);
-              }
+              const windows = Object.keys(rooms).map((id) =>
+                window.open(`#${id}`)
+              );
+              console.log("opened", windows);
             }}
           >
             Start
