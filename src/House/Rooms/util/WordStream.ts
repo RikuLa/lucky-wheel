@@ -24,7 +24,7 @@ export const getWordStream = (encrypted: string): ReadableStream => {
 };
 
 export class MessageEmitter {
-  private readonly message = "lucky-wheel///";
+  private readonly message = "lucky///";
 
   private rotateCharacter = (s: string, by: number) => {
     return String.fromCharCode(s.charCodeAt(0) + by);

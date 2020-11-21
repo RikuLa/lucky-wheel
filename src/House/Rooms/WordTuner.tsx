@@ -5,8 +5,10 @@ import { RoomApi } from "../rooms";
 import { Silver } from "react-dial-knob";
 
 const Radio = styled.div`
-  height: 500px;
-  width: 500px;
+  height: 80%;
+  width: 95%;
+  margin: auto;
+  margin-top: 20px;
   background-color: #111111;
   border: 1px solid gray;
   border-radius: 6px;
@@ -23,6 +25,9 @@ const TextDisplay = styled.div`
   border-radius: 4px;
   line-height: 75px;
   height: 75px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
 `;
 
 const KnobContainer = styled.div`
@@ -55,7 +60,7 @@ export class WordTuner extends React.PureComponent<RoomApi, State> {
     this.setState({ message: newValue });
   };
 
-  private readonly messageLength = 16;
+  private readonly messageLength = 22;
 
   private emitter = new MessageEmitter(this.onMessage);
 
@@ -85,7 +90,7 @@ export class WordTuner extends React.PureComponent<RoomApi, State> {
         <TextDisplay>{this.state.message}</TextDisplay>
         <KnobContainer>
           <Silver
-            diameter={180}
+            diameter={100}
             min={6}
             max={20}
             step={1}
@@ -97,7 +102,7 @@ export class WordTuner extends React.PureComponent<RoomApi, State> {
             }}
           />
           <Silver
-            diameter={180}
+            diameter={100}
             min={0}
             max={2}
             step={1}
