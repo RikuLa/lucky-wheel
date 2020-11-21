@@ -3,7 +3,7 @@ import ResizeBox from "../resizeBox";
 import { WordTuner } from "./Rooms/WordTuner";
 
 export interface RoomApi {
-  isSpying: boolean;
+  onReady: () => void;
 }
 
 export const rooms: {

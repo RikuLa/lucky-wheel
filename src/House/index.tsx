@@ -1,9 +1,27 @@
 import * as React from "react";
-import { rooms } from "./rooms";
+import { RoomApi, rooms } from "./rooms";
 import Lobby from "./Lobby";
+import { useSyncedState } from "./sync";
 
 const roomIdFromHash = () => {
   return location.hash.substring(1);
+};
+
+const RoomManager = ({
+  roomId,
+  Room,
+}: {
+  roomId: string;
+  Room: React.ComponentType<RoomApi>;
+}) => {
+  const [, setRoomState] = useSyncedState();
+  return (
+    <Room
+      onReady={() => {
+        setRoomState(roomId as any, { ready: true });
+      }}
+    />
+  );
 };
 
 export const House = () => {
@@ -19,7 +37,7 @@ export const House = () => {
   );
   const Room = rooms[roomId];
   if (Room) {
-    return <Room isSpying={false} />;
+    return <RoomManager roomId={roomId} Room={Room} />;
   } else {
     return <Lobby />;
   }
