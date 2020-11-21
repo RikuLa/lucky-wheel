@@ -14,11 +14,11 @@ type BoxPorps = {
 
 const ResizableBox = styled.div`
   background: white;
-  width: ${100}px;
-  height: ${100}px;
+  width: ${(props) => (props.width ? props.width : 100)}px;
+  height: ${(props) => (props.height ? props.height : 100)}px;
   position: absolute;
-  top: ${100}px;
-  left: ${100}px;
+  top: ${(props) => (props.y ? props.y : 100)}px;
+  left: ${(props) => (props.x ? props.x : 100)}px;
 `;
 
 const Corners = styled.div`
@@ -38,16 +38,12 @@ const Corner = styled.div`
 `;
 
 export const ResizeBox = ({
-  width = 100,
+  width = 200,
   height = 100,
   x = 100,
   y = 100,
   onReady,
 }: BoxPorps & RoomApi) => {
-  const originalWidth = width;
-  const originalHeight = height;
-  const originalX = x;
-  const originalY = y;
   const getTouchOffset = (e) => {
     const ret = [
       e.touches[0].pageX - lastTouch[0],
@@ -156,9 +152,9 @@ export const ResizeBox = ({
     /* tslint:disable-next-line */
     // @ts-ignore
     const resizeObserver = new ResizeObserver((entries) => {
-      console.log("Size changed");
       entries.forEach((entry) => {
         const cr = entry.contentRect;
+        /*
         console.log("box:", entry.target);
         console.log(`box size: ${cr.width}px x ${cr.height}px`);
         console.log(`box padding: ${cr.top}px ; ${cr.left}px`);
@@ -169,6 +165,7 @@ export const ResizeBox = ({
         } else {
           console.log("boxxx");
         }
+        */
       });
     });
 
@@ -176,7 +173,13 @@ export const ResizeBox = ({
   }, []);
 
   return (
-    <ResizableBox className="resizableBox">
+    <ResizableBox
+      width={width}
+      height={height}
+      x={x}
+      y={y}
+      className="resizableBox"
+    >
       <Corners className="corners">
         <Corner className="corner top-left" />
         <Corner className="corner top-right" />
