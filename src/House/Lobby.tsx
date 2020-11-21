@@ -16,7 +16,7 @@ const TextBox = styled.div`
   font-size: 1.1em;
 `;
 
-const ActionButton = styled.div`
+export const ActionButton = styled.div`
   margin-top: 20px;
   padding: 8px;
   background: #541388;
