@@ -62,9 +62,9 @@ const PopupPermissionsEnabler = ({ onPass }: { onPass: () => void }) => {
 
 const Lobby = () => {
   const [popupsWork, setPopupsWork] = React.useState(false);
-  const [state, setState] = React.useState<"waiting" | "loading" | "active">(
-    "waiting"
-  );
+  const [state, setState] = React.useState<
+    "waiting" | "loading" | "active" | "game-over"
+  >("waiting");
   const roomWindows = React.useRef<Window[]>();
   const [syncedState] = useSyncedState();
 
@@ -81,7 +81,12 @@ const Lobby = () => {
       )
     ) {
       // User closed a room tab without completing it..
-      // TODO lose
+      setState("game-over");
+    }
+    if (state === "game-over" && roomWindows.current) {
+      for (const window of roomWindows.current) {
+        window.close();
+      }
     }
   }, [state, syncedState]);
 
@@ -129,6 +134,10 @@ const Lobby = () => {
             }{" "}
             / {Object.values(syncedState.roomStates).length}
           </div>
+        </>
+      ) : state === "game-over" ? (
+        <>
+          <TextBox>Game over! Refresh to try again.</TextBox>
         </>
       ) : (
         <>
