@@ -18,7 +18,7 @@ export const House = () => {
     false
   );
   const Room = rooms[roomId];
-  if (Room !== null) {
+  if (Room) {
     return <Room isSpying={false} />;
   } else {
     return <Lobby />;
