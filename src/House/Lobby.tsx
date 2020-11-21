@@ -7,13 +7,13 @@ import Spaceship from "./Spaceship";
 // @ts-ignore
 import ambient from "../assets/OutThere.ogg";
 
-const Container = styled.div`
+export const Container = styled.div`
   margin: 0;
   padding: 40px 20px;
   background-color: rgba(0, 0, 0, 0.8);
 `;
 
-const TextBox = styled.div`
+export const TextBox = styled.div`
   width: 100%;
   font-size: 1.1em;
 `;
