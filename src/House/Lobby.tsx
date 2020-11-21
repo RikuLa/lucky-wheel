@@ -44,8 +44,7 @@ const Panel = styled.div`
   margin-top: -150px;
 `;
 
-// eslint-disable-next-line react/display-name
-export default () => {
+const Lobby = () => {
   const [popupsWork, setPopupsWork] = React.useState(false);
   const [state] = useSyncedState();
   return (
@@ -78,3 +77,5 @@ export default () => {
     </Panel>
   );
 };
+
+export default Lobby;
