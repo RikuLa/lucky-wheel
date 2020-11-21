@@ -27,12 +27,12 @@ const Corner = styled.div`
 `;
 
 const minimumSize = 20;
-let originalWidth = 0;
-let originalHeight = 0;
-let originalX = 0;
-let originalY = 0;
-let originalMouseX = 0;
-let originalMouseY = 0;
+let originalWidth;
+let originalHeight;
+let originalX;
+let originalY;
+let originalMouseX;
+let originalMouseY;
 
 export default function ResizeBox() {
   useEffect(() => {
