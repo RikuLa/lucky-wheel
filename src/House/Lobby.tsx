@@ -17,7 +17,7 @@ const TextBox = styled.div`
 
 const ActionButton = styled.div`
   margin-top: 20px;
-  padding: 5px;
+  padding: 8px;
   background: #541388;
   display: inline-block;
   text-align: center;
@@ -25,10 +25,15 @@ const ActionButton = styled.div`
 `;
 
 const PopupPrompt = styled.div`
-  background-color: orange;
+  background-color: ${({ done }: { done: boolean }) =>
+    done ? "green" : "orange"};
   color: black;
   margin: 10px;
   padding: 10px;
+
+  & ${ActionButton} {
+    color: white;
+  }
 `;
 
 const StrikedThrough = styled.span`
@@ -106,9 +111,13 @@ const Lobby = () => {
   return (
     <Container>
       <OxygenMeter />
-      {!popupsWork && state === "waiting" && (
-        <PopupPrompt>
-          <PopupPermissionsEnabler onPass={() => setPopupsWork(true)} />
+      {state === "waiting" && (
+        <PopupPrompt done={popupsWork}>
+          {popupsWork ? (
+            "Popups confirmed to work!"
+          ) : (
+            <PopupPermissionsEnabler onPass={() => setPopupsWork(true)} />
+          )}
         </PopupPrompt>
       )}
       {state === "waiting" ? (
