@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { RoomApi } from "../../rooms";
+import { OxygenMeter } from "../../../OxygenMeter";
 
 const TextDisplay = styled.div`
   width: 100%;
@@ -100,6 +101,7 @@ export const Printer = ({ onReady, onComplete }: RoomApi) => {
 
   return (
     <>
+      <OxygenMeter roomId="printer" />
       <TextDisplay>
         {selected ? "holding " + selected : "Pick the document"}
       </TextDisplay>

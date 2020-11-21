@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { RoomApi } from "../../rooms";
+import { OxygenMeter } from "../../../OxygenMeter";
 
 const TextDisplay = styled.div`
   width: 100%;
@@ -85,7 +86,7 @@ export const Fax = ({ onReady, onComplete }: RoomApi) => {
   const [selected, setSelected] = useState(null);
 
   useEffect(() => {
-    onReady("Printer");
+    onReady("Fax");
     navigator.clipboard.readText().then((clipText) => {
       if (clipText.startsWith("Log")) {
         setSelected(clipText);
@@ -98,6 +99,7 @@ export const Fax = ({ onReady, onComplete }: RoomApi) => {
 
   return (
     <>
+      <OxygenMeter roomId="fax" />
       <TextDisplay>
         {selected
           ? "holding " + selected
