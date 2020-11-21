@@ -12,6 +12,31 @@ type BoxPorps = {
   y: number;
 };
 
+const ResizableBox = styled.div`
+  background: white;
+  width: ${100}px;
+  height: ${100}px;
+  position: absolute;
+  top: ${100}px;
+  left: ${100}px;
+`;
+
+const Corners = styled.div`
+  width: 100%;
+  height: 100%;
+  border: 3px solid #4286f4;
+  box-sizing: border-box;
+`;
+
+const Corner = styled.div`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid #4286f4;
+  position: absolute;
+`;
+
 export const ResizeBox = ({
   width = 100,
   height = 100,
@@ -23,32 +48,6 @@ export const ResizeBox = ({
   const originalHeight = height;
   const originalX = x;
   const originalY = y;
-
-  const ResizableBox = styled.div`
-    background: white;
-    width: ${originalWidth}px;
-    height: ${originalHeight}px;
-    position: absolute;
-    top: ${originalY}px;
-    left: ${originalX}px;
-  `;
-
-  const Corners = styled.div`
-    width: 100%;
-    height: 100%;
-    border: 3px solid #4286f4;
-    box-sizing: border-box;
-  `;
-
-  const Corner = styled.div`
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: white;
-    border: 3px solid #4286f4;
-    position: absolute;
-  `;
-
   const getTouchOffset = (e) => {
     const ret = [
       e.touches[0].pageX - lastTouch[0],
