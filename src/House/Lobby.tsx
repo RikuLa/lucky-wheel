@@ -175,8 +175,8 @@ const Lobby = () => {
             />
             <TextBox>
               You wake up from cryo sleep to the blare of klaxons. SCP
-              RustBucket is passing by yet another sun. It's time to see if this
-              location would host your next home.
+              RustBucket is passing by yet another sun. It&apos;s time to see if
+              this location would host your next home.
               <br />
               <br />
               The planets need to be scanned, comms need to be checked for
