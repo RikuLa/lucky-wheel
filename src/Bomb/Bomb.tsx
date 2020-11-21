@@ -1,9 +1,14 @@
 import React from "react";
 import { useIsVisible } from "../hooks/visibility";
+import { RoomApi } from "../House/rooms";
 // @ts-ignore
 import bomb from "./bomb.wav";
 
-export const BombTest = () => {
+export const BombTest = (props: RoomApi) => {
+  React.useEffect(() => {
+    props.onReady();
+  }, []);
+
   const [isVisible] = useIsVisible();
   const audio = React.useRef(null);
 

@@ -22,6 +22,13 @@ const ActionButton = styled.div`
   text-align: center;
 `;
 
+const PopupPrompt = styled.div`
+  background-color: orange;
+  color: black;
+  margin: 10px;
+  padding: 10px;
+`;
+
 const attemptPopups = () => {
   const [a, b] = [window.open("about:blank"), window.open("about:blank")];
   a?.close();
@@ -55,10 +62,29 @@ const PopupPermissionsEnabler = ({ onPass }: { onPass: () => void }) => {
 
 const Lobby = () => {
   const [popupsWork, setPopupsWork] = React.useState(false);
-  const [state] = useSyncedState();
+  const [state, setState] = React.useState<"waiting" | "loading" | "active">(
+    "waiting"
+  );
+  const roomWindows = React.useRef<Window[]>();
+  const [syncedState] = useSyncedState();
+
+  React.useEffect(() => {
+    if (
+      state === "loading" &&
+      Object.values(syncedState.roomStates).every((s) => s.ready)
+    ) {
+      setState("active");
+    }
+  }, [state, syncedState]);
+
   return (
     <Container>
-      {popupsWork && (
+      {!popupsWork && (
+        <PopupPrompt>
+          <PopupPermissionsEnabler onPass={() => setPopupsWork(true)} />
+        </PopupPrompt>
+      )}
+      {state === "waiting" ? (
         <>
           <TextBox>
             Are you ready to begin your adventure? You wake up from cryo sleep
@@ -75,23 +101,29 @@ const Lobby = () => {
                 window.open(`#${id}`)
               );
               console.log("opened", windows);
+              roomWindows.current = windows;
+
+              setState("loading");
             }}
           >
             Begin your mission.
           </ActionButton>
-          <br />
+        </>
+      ) : state === "loading" ? (
+        <>
+          <TextBox>Loading rooms.. Please stand by</TextBox>
           <br />
           <div>
-            Completed rooms :{" "}
-            {Object.values(state.roomStates).filter((s) => s.ready).length} /
-            {Object.values(state.roomStates).length}
+            Loaded rooms :{" "}
+            {
+              Object.values(syncedState.roomStates).filter((s) => s.ready)
+                .length
+            }{" "}
+            / {Object.values(syncedState.roomStates).length}
           </div>
         </>
-      )}
-      {!popupsWork && (
-        <>
-          <PopupPermissionsEnabler onPass={() => setPopupsWork(true)} />
-        </>
+      ) : (
+        <TextBox>Game active</TextBox>
       )}
     </Container>
   );
