@@ -21,6 +21,7 @@ const ActionButton = styled.div`
   background: #541388;
   display: inline-block;
   text-align: center;
+  cursor: pointer;
 `;
 
 const PopupPrompt = styled.div`
