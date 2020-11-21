@@ -20,9 +20,12 @@ const ActionButton = styled.div`
   margin-top: 20px;
   padding: 8px;
   background: #541388;
+  padding: 5px;
+  background: ${(props) => (props.disabled ? "lightgray" : "#541388")};
+  color: ${(props) => (props.disabled ? "darkgray" : "#ffd400")};
   display: inline-block;
   text-align: center;
-  cursor: pointer;
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
 `;
 
 const PopupPrompt = styled.div`
@@ -73,11 +76,11 @@ const PopupPermissionsEnabler = ({ onPass }: { onPass: () => void }) => {
   );
 };
 
+type GameState = "waiting" | "loading" | "active" | "game-over" | "completed";
+
 const Lobby = () => {
   const [popupsWork, setPopupsWork] = React.useState(false);
-  const [state, setState] = React.useState<
-    "waiting" | "loading" | "active" | "game-over" | "completed"
-  >("waiting");
+  const [state, setState] = React.useState<GameState>("waiting");
   const roomWindows = React.useRef<Window[]>();
   const [syncedState] = useSyncedState();
 
@@ -100,12 +103,6 @@ const Lobby = () => {
       for (const window of roomWindows.current) {
         window.close();
       }
-    }
-    if (
-      Object.values(syncedState.roomStates).every((s) => s.completed) &&
-      state !== "completed"
-    ) {
-      setState("completed");
     }
   }, [state, syncedState]);
 
@@ -151,11 +148,11 @@ const Lobby = () => {
           <TextBox>Loading tasks.. Please stand by</TextBox>
           <br />
           <div>
-            Loaded tasks :{" "}
+            Loaded tasks:
             {
               Object.values(syncedState.roomStates).filter((s) => s.ready)
                 .length
-            }{" "}
+            }
             / {Object.values(syncedState.roomStates).length}
           </div>
         </>
@@ -173,38 +170,50 @@ const Lobby = () => {
           <TextBox>Game active</TextBox>
           <br />
           <div>
-            Tasks ({" "}
+            Tasks (
             {
               Object.values(syncedState.roomStates).filter((s) => s.completed)
                 .length
-            }{" "}
+            }
             / {Object.values(syncedState.roomStates).length} completed):
           </div>
           <div>
             <ul>
-              {Object.entries(syncedState.roomStates)
-                .filter(([, s]) => !s.completed)
-                .map(([id]) => {
-                  return <li key={id}>{id}</li>;
-                })}
-              {Object.entries(syncedState.roomStates)
-                .filter(([, s]) => s.completed)
-                .map(([id]) => {
+              {Object.entries(syncedState.roomStates).map(([id, state]) => {
+                if (state.completed) {
                   return (
                     <li key={id}>
                       <StrikedThrough>{id}</StrikedThrough>
                     </li>
                   );
-                })}
+                } else {
+                  return <li key={id}>{id}</li>;
+                }
+              })}
             </ul>
           </div>
           <Spaceship roomStates={syncedState.roomStates} />
+          {Object.values(syncedState.roomStates).every(
+            (state) => state.completed
+          ) ? (
+            <ActionButton
+              onClick={() => {
+                setState("completed");
+              }}
+            >
+              Go to Sleep
+            </ActionButton>
+          ) : (
+            <ActionButton disabled>
+              Complete all tasks before going to sleep
+            </ActionButton>
+          )}
         </>
       ) : (
         <>
           <TextBox>Completed!</TextBox>
           <br />
-          <div>You have done it! Time to go back to sleep</div>
+          <div>You have done it! Sweet, sweet cryosleep calls</div>
         </>
       )}
     </Container>
