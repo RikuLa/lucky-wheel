@@ -84,6 +84,8 @@ export default function ResizeBox() {
       corner.addEventListener("mousedown", mouseEvent);
     }
 
+    // Will be fixed once https://github.com/microsoft/TypeScript-DOM-lib-generator/pull/948 is availrable
+    // @ts-ignore
     const resizeObserver = new ResizeObserver((entries) => {
       console.log("Size changed");
       entries.forEach((entry) => {
