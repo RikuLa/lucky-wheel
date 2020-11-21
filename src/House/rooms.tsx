@@ -1,5 +1,5 @@
 import * as React from "react";
-import ResizeBox from "../resizeBox";
+import { ResizeBox } from "../resizeBox";
 import { WordTuner } from "./Rooms/WordTuner";
 import { BombTest } from "../Bomb/Bomb";
 
