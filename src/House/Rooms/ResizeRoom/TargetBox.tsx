@@ -40,6 +40,5 @@ export const TargetBox = ({
   x = 100,
   y = 100,
 }: BoxPorps) => {
-  console.log("doing box", width, height, "at", x, y);
   return <Box width={width} height={height} x={x} y={y} />;
 };

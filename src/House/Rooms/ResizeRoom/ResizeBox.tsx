@@ -178,22 +178,6 @@ export const ResizeBox = ({
       if (targets.length > currentTarget) {
         entries.forEach((entry) => {
           const cr = entry.contentRect;
-          console.log("target is", targets[currentTarget]);
-          console.log(
-            "we are",
-            box,
-            cr.width,
-            cr.height,
-            box.offsetTop,
-            box.offsetLeft
-          );
-          console.log(
-            currentTarget,
-            Math.abs(targets[currentTarget][0] - cr.width),
-            Math.abs(targets[currentTarget][1] - cr.height),
-            Math.abs(targets[currentTarget][2] - box.offsetTop),
-            Math.abs(targets[currentTarget][3] - box.offsetLeft)
-          );
           if (
             Math.abs(targets[currentTarget][0] - cr.width) < treshold &&
             Math.abs(targets[currentTarget][1] - cr.height) < treshold &&
@@ -208,7 +192,6 @@ export const ResizeBox = ({
 
     resizeObserver.observe(box);
   }, [currentTarget, targets]);
-  console.log("doing target", currentTarget, targets[currentTarget]);
   return (
     <>
       {targets.length > currentTarget
