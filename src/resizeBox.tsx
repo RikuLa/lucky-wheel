@@ -13,7 +13,6 @@ type BoxPorps = {
 };
 
 const ResizableBox = styled.div`
-  background: white;
   width: ${(props) => (props.width ? props.width : 100)}px;
   height: ${(props) => (props.height ? props.height : 100)}px;
   position: absolute;
@@ -24,16 +23,16 @@ const ResizableBox = styled.div`
 const Corners = styled.div`
   width: 100%;
   height: 100%;
-  border: 3px solid #4286f4;
+  border: 3px solid #009900;
   box-sizing: border-box;
 `;
 
 const Corner = styled.div`
-  width: 10px;
-  height: 10px;
+  width: 15px;
+  height: 15px;
   border-radius: 50%;
-  background: white;
-  border: 3px solid #4286f4;
+  border: 5px solid #009900;
+  border-top-color: transparent;
   position: absolute;
 `;
 

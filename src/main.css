@@ -36,22 +36,32 @@ body {
   padding: 0;
 }
 
+.resizableBox{
+  background-image: url("assets/gridTile.png");
+  background-repeat: repeat;
+}
+
+
 .resizableBox .corners .corner.top-left {
+  -webkit-transform: rotate(125deg);
   left: -5px;
   top: -5px;
   cursor: nwse-resize;
 }
 .resizableBox .corners .corner.top-right {
+  -webkit-transform: rotate(-125deg);
   right: -5px;
   top: -5px;
   cursor: nesw-resize;
 }
 .resizableBox .corners .corner.bottom-left {
+  -webkit-transform: rotate(45deg);
   left: -5px;
   bottom: -5px;
   cursor: nesw-resize;
 }
 .resizableBox .corners .corner.bottom-right {
+  -webkit-transform: rotate(-45deg);
   right: -5px;
   bottom: -5px;
   cursor: nwse-resize;
