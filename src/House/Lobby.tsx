@@ -55,8 +55,15 @@ const StrikedThrough = styled.span`
 `;
 
 const LimitedImage = styled.img`
-  min-width: 320px;
+  margin: auto;
+  width: 340px;
   max-width: 100%;
+  float: left;
+  padding: 10px;
+`;
+
+const WinText = styled.div`
+  height: 250px;
 `;
 
 const attemptPopups = () => {
@@ -273,14 +280,16 @@ const Lobby = () => {
         <>
           <TextBox>Completed!</TextBox>
           <br />
-          <div>
-            Unfortunately this does not seem like the place for you. Thus the
-            cryo sleep calls for you again.
-          </div>
-          <LimitedImage
-            src={winImage}
-            alt="The player receedes back to the sleep"
-          />
+          <WinText>
+            <LimitedImage
+              src={winImage}
+              alt="The player receedes back to the sleep"
+            />
+            <span>
+              Unfortunately this does not seem like the place for you. Thus the
+              cryo sleep calls for you again.
+            </span>
+          </WinText>
         </>
       )}
       <input
