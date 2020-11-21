@@ -10,14 +10,13 @@ export const useOxygen = (initial: number) => {
   React.useEffect(() => {
     interval = setInterval(() => {
       if (visible && remaining > 0) {
-        console.log("remaining is:", remaining);
         setRemaining((remaining) => remaining - 1);
       }
     }, 1000);
     return () => {
       clearInterval(interval);
     };
-  }, [visible]);
+  }, [visible, remaining]);
 
   return [remaining];
 };
