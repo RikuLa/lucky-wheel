@@ -15,9 +15,11 @@ export const House = () => {
     },
     false
   );
+  // @ts-ignore
   const Room: React.Component<RoomApi> | null =
     roomId !== null ? RoomStub : null;
   if (Room !== null) {
+    // @ts-ignore
     return <Room />;
   } else {
     return <Lobby />;
