@@ -1,4 +1,5 @@
 import * as React from "react";
+import { rooms } from "./rooms";
 import { useSyncedState } from "./sync";
 
 const attemptPopups = () => {
@@ -33,31 +34,26 @@ const PopupPermissionsEnabler = ({ onPass }: { onPass: () => void }) => {
 // eslint-disable-next-line react/display-name
 export default () => {
   const [popupsWork, setPopupsWork] = React.useState(false);
-  const [state, setState] = useSyncedState();
+  const [state] = useSyncedState();
   return (
     <>
       {popupsWork && (
         <>
           Ready to play!
-          <span>count is {state.count}</span>
+          <span>
+            ready:{" "}
+            {Object.values(state.roomStates).filter((s) => s.ready).length} /
+            {Object.values(state.roomStates).length}
+          </span>
           <button
             onClick={() => {
-              for (let i = 0; i < 3; ++i) {
-                setTimeout(() => {
-                  const opened = window.open(location.href);
-                  setTimeout(() => opened.postMessage("room", "*"), 200);
-                }, 100 * i);
-              }
+              const windows = Object.keys(rooms).map((id) =>
+                window.open(`#${id}`)
+              );
+              console.log("opened", windows);
             }}
           >
             Start
-          </button>
-          <button
-            onClick={() => {
-              setState({ count: state.count + 1 });
-            }}
-          >
-            more count
           </button>
         </>
       )}

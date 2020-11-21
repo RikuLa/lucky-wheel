@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
+import { RoomApi } from "./House/rooms";
 
 const minimumSize = 20;
 const lastTouch = [0, 0];
@@ -52,7 +53,10 @@ export const ResizeBox = ({ width, height, x, y }: BoxPorps) => {
     return ret;
   };
 
+export default function ResizeBox(props: RoomApi) {
   useEffect(() => {
+    props.onReady();
+
     const box = document.querySelector(".resizableBox") as HTMLElement;
     const corners = document.querySelectorAll(".corner");
     for (let i = 0; i < corners.length; i += 1) {

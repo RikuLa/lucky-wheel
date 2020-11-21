@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { MessageEmitter } from "./util/WordStream";
+import { RoomApi } from "../rooms";
 
 const Radio = styled.div`
   height: 500px;
@@ -31,7 +32,7 @@ interface State {
   message: string;
 }
 
-export class WordTuner extends React.PureComponent<unknown, State> {
+export class WordTuner extends React.PureComponent<RoomApi, State> {
   private onMessage = (value: string) => {
     const newValue = (this.state.message + value).substr(-this.messageLength);
     this.setState({ message: newValue });
@@ -49,6 +50,14 @@ export class WordTuner extends React.PureComponent<unknown, State> {
     this.emitter.setCipher(foo.target.value);
   };
 
+  private updateChannel = (foo) => {
+    this.emitter.setActiveStream(foo.target.value);
+  };
+
+  componentDidMount() {
+    this.props.onReady();
+  }
+
   render() {
     return (
       <Radio>
@@ -60,6 +69,14 @@ export class WordTuner extends React.PureComponent<unknown, State> {
           step="1"
           onChange={this.updateCipher}
           value={this.emitter.getCipher}
+        />
+        <CipherInput
+          type={"range"}
+          min="0"
+          max="2"
+          step="1"
+          onChange={this.updateChannel}
+          value={this.emitter.activeChannel}
         />
       </Radio>
     );

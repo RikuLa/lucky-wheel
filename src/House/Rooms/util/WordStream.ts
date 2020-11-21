@@ -1,3 +1,5 @@
+import Chance from "chance";
+
 export const getWordStream = (encrypted: string): ReadableStream => {
   const message = encrypted;
 
@@ -22,13 +24,7 @@ export const getWordStream = (encrypted: string): ReadableStream => {
 };
 
 export class MessageEmitter {
-  private interval;
-
-  constructor(private callback: (value: string) => void) {
-    this.startListeningToStream();
-  }
-
-  private cipher = 6;
+  private readonly message = "lucky-wheel///";
 
   private rotateCharacter = (s: string, by: number) => {
     return String.fromCharCode(s.charCodeAt(0) + by);
@@ -39,13 +35,33 @@ export class MessageEmitter {
       .map((s) => this.rotateCharacter(s, by))
       .join("");
 
-  private wordStream = getWordStream(
-    this.shift("lucky-wheel///", 13)
-  ).getReader();
+  private buildStream = (seed: number) => {
+    const chance = new Chance(seed);
+
+    return getWordStream(
+      this.shift(chance.shuffle(this.message), 13)
+    ).getReader();
+  };
+
+  private bandwidths = [
+    this.buildStream(1),
+    this.buildStream(2),
+    getWordStream(this.shift(this.message, 13)).getReader(),
+  ];
+
+  private activeStream = 0;
+
+  private interval;
+
+  constructor(private callback: (value: string) => void) {
+    this.startListeningToStream();
+  }
+
+  private cipher = 6;
 
   private startListeningToStream = () => {
     this.interval = setInterval(async () => {
-      const { value } = await this.wordStream.read();
+      const { value } = await this.bandwidths[this.activeStream].read();
       this.callback(this.shift(value, -this.cipher));
     }, 200);
   };
@@ -56,5 +72,13 @@ export class MessageEmitter {
 
   public get getCipher() {
     return this.cipher;
+  }
+
+  public setActiveStream = (channel: number) => {
+    this.activeStream = channel;
+  };
+
+  public get activeChannel() {
+    return this.activeStream;
   }
 }
