@@ -63,6 +63,7 @@ const Headphones = styled.div`
 const ControlPanel = styled.div`
   display: grid;
   width: 500px;
+  max-width: 95vw;
   height: 450px;
   grid-template-columns: 140px 1fr;
   grid-template-rows: 100px 1fr;
