@@ -12,7 +12,13 @@ type BoxPorps = {
   y: number;
 };
 
-export const ResizeBox = ({ width, height, x, y, onReady }: BoxPorps & RoomApi) => {
+export const ResizeBox = ({
+  width,
+  height,
+  x,
+  y,
+  onReady,
+}: BoxPorps & RoomApi) => {
   const originalWidth = width;
   const originalHeight = height;
   const originalX = x;
@@ -53,9 +59,8 @@ export const ResizeBox = ({ width, height, x, y, onReady }: BoxPorps & RoomApi) 
     return ret;
   };
 
-export default function ResizeBox(props: RoomApi) {
   useEffect(() => {
-    props.onReady();
+    onReady();
 
     const box = document.querySelector(".resizableBox") as HTMLElement;
     const corners = document.querySelectorAll(".corner");
