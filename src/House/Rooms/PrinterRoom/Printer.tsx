@@ -50,22 +50,17 @@ const generateCard = () => {
   return { code: code, color: getRandomColor(), solved: false };
 };
 
-export const Cards = ({ onReady, onComplete }: RoomApi) => {
+export const Printer = ({ onReady, onComplete }: RoomApi) => {
   const [codes, setCodes] = useState(generateCards);
   const [selected, setSelected] = useState(null);
 
   useEffect(() => {
-    onReady("Cards");
+    onReady("Printer");
   }, []);
 
   React.useEffect(() => {
-    if (codes.every((c) => c.solved)) {
-      console.log("jee");
-      onComplete();
-    } else {
-      console.log("yhyy", codes);
-    }
-  }, [selected]);
+    onComplete();
+  }, []);
   return (
     <>
       {codes.map((c, i) => {
