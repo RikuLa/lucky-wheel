@@ -1,6 +1,12 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 
+import Planet1 from "../../../assets/planet_18.png";
+import Planet2 from "../../../assets/planet_19.png";
+import Planet3 from "../../../assets/planet_23.png";
+import Planet4 from "../../../assets/planet_31.png";
+const planetImgs = [Planet1, Planet2, Planet3, Planet4];
+
 type BoxPorps = {
   width: number;
   height: number;
@@ -20,6 +26,14 @@ const blink = keyframes`
   }
 `;
 
+const PlanetImg = styled.img`
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  left: ${({ left }: { left: number }) => left}px;
+  top: ${({ top }: { top: number }) => top}px;
+  z-index: -1;
+`;
 const Box = styled.div`
   width: ${(props) => (props.width ? props.width : 100)}px;
   height: ${(props) => (props.height ? props.height : 100)}px;
@@ -40,5 +54,19 @@ export const TargetBox = ({
   x = 100,
   y = 100,
 }: BoxPorps) => {
-  return <Box width={width} height={height} x={x} y={y} />;
+  const img = React.useMemo(
+    () => planetImgs[Math.floor(Math.random() * planetImgs.length)],
+    [x, y, width, height]
+  );
+  return (
+    <Box width={width} height={height} x={x} y={y}>
+      <div style={{ position: "relative" }}>
+        <PlanetImg
+          src={img}
+          left={-(200 - width) / 2}
+          top={-(200 - width) / 2}
+        />
+      </div>
+    </Box>
+  );
 };
