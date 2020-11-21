@@ -1,9 +1,13 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 
+// @ts-ignore
 import Planet1 from "../../../assets/planet_18.png";
+// @ts-ignore
 import Planet2 from "../../../assets/planet_19.png";
+// @ts-ignore
 import Planet3 from "../../../assets/planet_23.png";
+// @ts-ignore
 import Planet4 from "../../../assets/planet_31.png";
 const planetImgs = [Planet1, Planet2, Planet3, Planet4];
 
