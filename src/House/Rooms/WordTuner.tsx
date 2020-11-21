@@ -4,6 +4,7 @@ import { MessageEmitter } from "./util/WordStream";
 import { RoomApi } from "../rooms";
 import { Silver } from "react-dial-knob";
 import { OxygenMeter } from "../../OxygenMeter";
+import { Container, TextBox } from "../Lobby";
 
 const Radio = styled.div`
   height: 80%;
@@ -37,6 +38,13 @@ const KnobContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-around;
+`;
+
+const Knob = styled.div`
+  font-family: "Courier New", Courier, monospace;
+  font-size: 50px;
+  color: #c0c0c0;
+  text-align: center;
 `;
 
 const SubmitButton = styled.div`
@@ -111,40 +119,55 @@ export class WordTuner extends React.PureComponent<RoomApi, State> {
 
   render() {
     return (
-      <Radio>
-        <OxygenMeter roomId="wordBox" />
-        <TextDisplay>{this.state.message}</TextDisplay>
-        <KnobContainer>
-          <Silver
-            diameter={120}
-            min={6}
-            max={20}
-            step={1}
-            onValueChange={this.updateCipher}
-            value={this.state.cipher}
-            style={{
-              display: "inline-block",
-              margin: "0px 20px",
-            }}
-          />
-          <Silver
-            diameter={120}
-            min={0}
-            max={2}
-            step={1}
-            onValueChange={this.updateChannel}
-            value={this.state.channel}
-            style={{
-              display: "inline-block",
-              margin: "0px 20px",
-            }}
-          />
-        </KnobContainer>
-        <ControlsContainer>
-          <SubmitButton onClick={this.submitSolution}>SEND</SubmitButton>
-          <Indicator done={this.props.roomCompleted} />
-        </ControlsContainer>
-      </Radio>
+      <>
+        <Container>
+          <TextBox>
+            You go to check the comms, but somewhere along the way the radio
+            settings have taken a beating. Maybe you can identify a familiar
+            message from the chatter.
+          </TextBox>
+        </Container>
+        <Radio>
+          <OxygenMeter roomId="wordBox" />
+          <TextDisplay>{this.state.message}</TextDisplay>
+          <KnobContainer>
+            <Knob>
+              <p>Offset</p>
+              <Silver
+                diameter={120}
+                min={6}
+                max={14}
+                step={1}
+                onValueChange={this.updateCipher}
+                value={this.state.cipher}
+                style={{
+                  display: "inline-block",
+                  margin: "0px 20px",
+                }}
+              />
+            </Knob>
+            <Knob>
+              <p>Phase</p>
+              <Silver
+                diameter={120}
+                min={0}
+                max={2}
+                step={1}
+                onValueChange={this.updateChannel}
+                value={this.state.channel}
+                style={{
+                  display: "inline-block",
+                  margin: "0px 20px",
+                }}
+              />
+            </Knob>
+          </KnobContainer>
+          <ControlsContainer>
+            <SubmitButton onClick={this.submitSolution}>SEND</SubmitButton>
+            <Indicator done={this.props.roomCompleted} />
+          </ControlsContainer>
+        </Radio>
+      </>
     );
   }
 }
