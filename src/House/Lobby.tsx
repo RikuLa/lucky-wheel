@@ -2,6 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 import { rooms } from "./rooms";
 import { useSyncedState } from "./sync";
+import { useLocalStorage } from "../hooks/localStorage";
 import Spaceship from "./Spaceship";
 
 // @ts-ignore
@@ -82,7 +83,7 @@ type GameState = "waiting" | "loading" | "active" | "game-over" | "completed";
 
 const Lobby = () => {
   const [tempo, setTempo] = React.useState(1);
-  const [popupsWork, setPopupsWork] = React.useState(false);
+  const [popupsWork, setPopupsWork] = useLocalStorage("popupsWork", false);
   const [state, setState] = React.useState<GameState>("waiting");
   const roomWindows = React.useRef<Window[]>();
   const audioCtx = React.useRef<AudioContext>();
