@@ -15,9 +15,13 @@ export default function ResizeBox() {
     for (let i = 0; i < corners.length; i += 1) {
       const corner = corners[i];
       const resize = (e) => {
+        const [posX, posY] =
+          e.type === "touchmove"
+            ? [e.touches[0].clientX, e.touches[0].clientY]
+            : [e.pageX, e.pageY];
         if (corner.classList.contains("bottom-right")) {
-          const width = originalWidth + (e.pageX - originalMouseX);
-          const height = originalHeight + (e.pageY - originalMouseY);
+          const width = originalWidth + (posX - originalMouseX);
+          const height = originalHeight + (posY - originalMouseY);
           if (width > minimumSize) {
             box.style.width = `${width}px`;
           }
@@ -25,35 +29,35 @@ export default function ResizeBox() {
             box.style.height = `${height}px`;
           }
         } else if (corner.classList.contains("bottom-left")) {
-          const height = originalHeight + (e.pageY - originalMouseY);
-          const width = originalWidth - (e.pageX - originalMouseX);
+          const height = originalHeight + (posY - originalMouseY);
+          const width = originalWidth - (posX - originalMouseX);
           if (height > minimumSize) {
             box.style.height = `${height}px`;
           }
           if (width > minimumSize) {
             box.style.width = `${width}px`;
-            box.style.left = `${originalX + (e.pageX - originalMouseX)}px`;
+            box.style.left = `${originalX + (posX - originalMouseX)}px`;
           }
         } else if (corner.classList.contains("top-right")) {
-          const width = originalWidth + (e.pageX - originalMouseX);
-          const height = originalHeight - (e.pageY - originalMouseY);
+          const width = originalWidth + (posX - originalMouseX);
+          const height = originalHeight - (posY - originalMouseY);
           if (width > minimumSize) {
             box.style.width = `${width}px`;
           }
           if (height > minimumSize) {
             box.style.height = `${height}px`;
-            box.style.top = `${originalY + (e.pageY - originalMouseY)}px`;
+            box.style.top = `${originalY + (posY - originalMouseY)}px`;
           }
         } else if (corner.classList.contains("top-left")) {
-          const width = originalWidth - (e.pageX - originalMouseX);
-          const height = originalHeight - (e.pageY - originalMouseY);
+          const width = originalWidth - (posX - originalMouseX);
+          const height = originalHeight - (posY - originalMouseY);
           if (width > minimumSize) {
             box.style.width = `${width}px`;
-            box.style.left = `${originalX + (e.pageX - originalMouseX)}px`;
+            box.style.left = `${originalX + (posX - originalMouseX)}px`;
           }
           if (height > minimumSize) {
             box.style.height = `${height}px`;
-            box.style.top = `${originalY + (e.pageY - originalMouseY)}px`;
+            box.style.top = `${originalY + (posY - originalMouseY)}px`;
           }
         }
       };
@@ -62,6 +66,11 @@ export default function ResizeBox() {
         window.removeEventListener("mousemove", resize);
       };
       const mouseEvent = (e) => {
+        const [posX, posY] =
+          e.type === "touchstart"
+            ? [e.touches[0].clientX, e.touches[0].clientY]
+            : [e.pageX, e.pageY];
+
         e.preventDefault();
         originalWidth = parseFloat(
           getComputedStyle(box, null)
@@ -75,13 +84,15 @@ export default function ResizeBox() {
         );
         originalX = box.getBoundingClientRect().left;
         originalY = box.getBoundingClientRect().top;
-        originalMouseX = e.pageX;
-        originalMouseY = e.pageY;
-        console.log("dododoo", e.target);
+        originalMouseX = posX;
+        originalMouseY = posY;
         window.addEventListener("mousemove", resize);
         window.addEventListener("mouseup", stopResize);
+        window.addEventListener("touchmove", resize);
+        window.addEventListener("touchend", stopResize);
       };
       corner.addEventListener("mousedown", mouseEvent);
+      corner.addEventListener("touchstart", mouseEvent);
     }
 
     // Will be fixed once https://github.com/microsoft/TypeScript-DOM-lib-generator/pull/948 is availeable
