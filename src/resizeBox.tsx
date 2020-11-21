@@ -19,6 +19,8 @@ export const ResizeBox = ({
   y,
   onReady,
 }: BoxPorps & RoomApi) => {
+  onReady();
+
   const originalWidth = width;
   const originalHeight = height;
   const originalX = x;
@@ -60,8 +62,6 @@ export const ResizeBox = ({
   };
 
   useEffect(() => {
-    onReady();
-
     const box = document.querySelector(".resizableBox") as HTMLElement;
     const corners = document.querySelectorAll(".corner");
     for (let i = 0; i < corners.length; i += 1) {
