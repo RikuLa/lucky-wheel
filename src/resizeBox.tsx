@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 
 const minimumSize = 20;
 let originalWidth = 0;
@@ -9,7 +9,6 @@ let originalMouseX = 0;
 let originalMouseY = 0;
 
 export default function ResizeBox() {
-  //const [movingCorner, setCorner] = useState(null)
   useEffect(() => {
     const box = document.querySelector(".resizableBox") as HTMLElement;
     const corners = document.querySelectorAll(" .corner");
