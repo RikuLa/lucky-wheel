@@ -12,7 +12,7 @@ type BoxPorps = {
   y: number;
 };
 
-export const ResizeBox = ({ width, height, x, y }: BoxPorps) => {
+export const ResizeBox = ({ width, height, x, y, onReady }: BoxPorps & RoomApi) => {
   const originalWidth = width;
   const originalHeight = height;
   const originalX = x;
