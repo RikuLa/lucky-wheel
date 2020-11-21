@@ -36,7 +36,7 @@ const SubmitButton = styled.div`
   margin-top: 40px;
   background-color: darkgreen;
   color: lightgreen;
-  height 50px;
+  height: 50px;
   font-size: 50px;
   width: 50%;
   text-align: center;
