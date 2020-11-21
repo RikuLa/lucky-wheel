@@ -39,6 +39,7 @@ body {
 .resizableBox{
   background-image: url("assets/gridTile.png");
   background-repeat: repeat;
+  opacity: 0.8;
 }
 
 

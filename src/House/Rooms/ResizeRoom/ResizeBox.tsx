@@ -189,6 +189,10 @@ export const ResizeBox = ({
 
   return (
     <>
+      {targets.length > currentTarget
+        ? "Scan the Highlighted sector!"
+        : "Your Winner"}
+
       <ResizableBox
         width={width}
         height={height}
@@ -210,9 +214,7 @@ export const ResizeBox = ({
           y={targets[currentTarget][2]}
           x={targets[currentTarget][3]}
         />
-      ) : (
-        "Your Winner"
-      )}
+      ) : null}
     </>
   );
 };
