@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { ActionButton } from "../../Lobby";
+import { OxygenMeter } from "../../../OxygenMeter";
 import { RoomApi } from "../../rooms";
 
 import { TargetBox } from "./TargetBox";
@@ -217,6 +218,7 @@ export const ResizeBox = ({
   }, [targets, currentTarget]);
   return (
     <>
+      <OxygenMeter roomId="resizer" />
       <TextDisplay>
         Accuracy: {Math.round(scaneLevel * 10000) / 100}%
         <ActionButton

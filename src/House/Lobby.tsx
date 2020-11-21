@@ -1,6 +1,5 @@
 import * as React from "react";
 import styled from "styled-components";
-import { OxygenMeter } from "../OxygenMeter";
 import { rooms } from "./rooms";
 import { useSyncedState } from "./sync";
 import Spaceship from "./Spaceship";
@@ -99,6 +98,16 @@ const Lobby = () => {
       // User closed a room tab without completing it..
       setState("game-over");
     }
+
+    if (
+      Object.values(syncedState.roomStates).some(
+        (s) => s.oxygenDepleted && !s.completed
+      )
+    ) {
+      console.log("some room oxygen is depleted");
+      setState("game-over");
+    }
+
     if (state === "game-over" && roomWindows.current) {
       for (const window of roomWindows.current) {
         window.close();
@@ -108,7 +117,6 @@ const Lobby = () => {
 
   return (
     <Container>
-      <OxygenMeter />
       {state === "waiting" && (
         <PopupPrompt done={popupsWork}>
           {popupsWork ? (

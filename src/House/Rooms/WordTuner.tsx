@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { MessageEmitter } from "./util/WordStream";
 import { RoomApi } from "../rooms";
 import { Silver } from "react-dial-knob";
+import { OxygenMeter } from "../../OxygenMeter";
 
 const Radio = styled.div`
   height: 80%;
@@ -111,6 +112,7 @@ export class WordTuner extends React.PureComponent<RoomApi, State> {
   render() {
     return (
       <Radio>
+        <OxygenMeter roomId="wordBox" />
         <TextDisplay>{this.state.message}</TextDisplay>
         <KnobContainer>
           <Silver
