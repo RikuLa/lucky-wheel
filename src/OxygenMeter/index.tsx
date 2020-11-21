@@ -61,22 +61,25 @@ const MAX_OXYGEN = 60;
 
 export const OxygenMeter = ({ roomId }: { roomId: RoomId }) => {
   const [oxygen] = useOxygen(MAX_OXYGEN);
-  const [, setSyncedState] = useSyncedState();
+  const [state, setSyncedState] = useSyncedState();
   React.useEffect(() => {
-    if (oxygen === 0) {
+    if (oxygen === 0 && !state.roomStates[roomId]?.completed) {
       console.log("YOU ARE DEAD");
       setSyncedState(roomId, { oxygenDepleted: true });
     }
   }, [oxygen]);
+  const completed = state.roomStates[roomId]?.completed ?? false;
   return (
     <Container>
-      <h4>Room Oxygen Level</h4>
-      <Meter>
-        <Value value={oxygen} max={MAX_OXYGEN} />
-        <Label>
-          O<sub>2</sub>
-        </Label>
-      </Meter>
+      <h4>{completed ? "Room Completed" : "Room Oxygen Level"}</h4>
+      {!completed && (
+        <Meter>
+          <Value value={oxygen} max={MAX_OXYGEN} />
+          <Label>
+            O<sub>2</sub>
+          </Label>
+        </Meter>
+      )}
     </Container>
   );
 };
