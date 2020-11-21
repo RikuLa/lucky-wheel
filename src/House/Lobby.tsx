@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { OxygenMeter } from "../OxygenMeter";
 import { rooms } from "./rooms";
 import { useSyncedState } from "./sync";
+import Spaceship from "./Spaceship";
 
 const Container = styled.div`
   margin: 0;
@@ -197,6 +198,7 @@ const Lobby = () => {
                 })}
             </ul>
           </div>
+          <Spaceship roomStates={syncedState.roomStates} />
         </>
       ) : (
         <>
