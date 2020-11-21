@@ -30,6 +30,7 @@
   "dependencies": {
     "chance": "^1.1.7",
     "react": "^17.0.1",
+    "react-dial-knob": "^1.1.5",
     "react-dom": "^17.0.1",
     "styled-components": "^5.2.1"
   }

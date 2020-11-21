@@ -70,15 +70,7 @@ export class MessageEmitter {
     this.cipher = newCipher;
   };
 
-  public get getCipher() {
-    return this.cipher;
-  }
-
   public setActiveStream = (channel: number) => {
     this.activeStream = channel;
   };
-
-  public get activeChannel() {
-    return this.activeStream;
-  }
 }
