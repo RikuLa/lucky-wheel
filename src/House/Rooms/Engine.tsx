@@ -4,6 +4,7 @@ import { RoomApi } from "../rooms";
 
 // @ts-ignore
 import bomb from "../../assets/bomb.wav";
+import { OxygenMeter } from "../../OxygenMeter";
 
 export const Engine = (props: RoomApi) => {
   const [level, setLevel] = React.useState(10);
@@ -34,6 +35,7 @@ export const Engine = (props: RoomApi) => {
 
   return (
     <div>
+      <OxygenMeter roomId="engine" />
       is this visible? {isVisible ? "yess" : "no"}
       <br />
       <br />
