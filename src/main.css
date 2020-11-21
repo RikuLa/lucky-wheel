@@ -26,7 +26,7 @@ body {
 
   background-color: var(--color4);
   color: var(--color5);
-  font-family: "Mystery Quest", cursive;
+  font-family: 'Goldman', monospace;
   font-size: 16pt;
 
   background-image: url("./assets/starbg.jpg");

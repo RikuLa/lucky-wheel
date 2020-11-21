@@ -52,11 +52,11 @@ const Lobby = () => {
       {popupsWork && (
         <>
           Ready to play!
-          <span>
-            ready:{" "}
+          <div>
+            Completed rooms :{" "}
             {Object.values(state.roomStates).filter((s) => s.ready).length} /
             {Object.values(state.roomStates).length}
-          </span>
+          </div>
           <button
             onClick={() => {
               const windows = Object.keys(rooms).map((id) =>
