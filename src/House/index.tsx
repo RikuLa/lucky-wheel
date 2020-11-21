@@ -32,12 +32,16 @@ const RoomManager = ({
   );
 };
 
-export const House = () => {
+export const House = ({ className }: { className?: string }) => {
   const [roomId] = React.useState<RoomKeys | null>(roomIdFromHash);
   const Room = rooms[roomId];
-  if (Room) {
-    return <RoomManager roomId={roomId as RoomKeys} Room={Room} />;
-  } else {
-    return <Lobby />;
-  }
+  return (
+    <div className={className}>
+      {Room ? (
+        <RoomManager roomId={roomId as RoomKeys} Room={Room} />
+      ) : (
+        <Lobby />
+      )}
+    </div>
+  );
 };
