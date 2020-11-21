@@ -1,8 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { RoomApi } from "./House/rooms";
+import { RoomApi } from "../../rooms";
+
+import { TargetBox } from "./TargetBox";
 
 const minimumSize = 20;
+const treshold = 3;
+
 const lastTouch = [0, 0];
 
 type BoxPorps = {
@@ -10,10 +14,10 @@ type BoxPorps = {
   height: number;
   x: number;
   y: number;
+  targets: number[][];
 };
 
 const ResizableBox = styled.div`
-  background: white;
   width: ${(props) => (props.width ? props.width : 100)}px;
   height: ${(props) => (props.height ? props.height : 100)}px;
   position: absolute;
@@ -24,16 +28,16 @@ const ResizableBox = styled.div`
 const Corners = styled.div`
   width: 100%;
   height: 100%;
-  border: 3px solid #4286f4;
+  border: 3px solid #009900;
   box-sizing: border-box;
 `;
 
 const Corner = styled.div`
-  width: 10px;
-  height: 10px;
+  width: 15px;
+  height: 15px;
   border-radius: 50%;
-  background: white;
-  border: 3px solid #4286f4;
+  border: 5px solid #009900;
+  border-top-color: transparent;
   position: absolute;
 `;
 
@@ -42,8 +46,13 @@ export const ResizeBox = ({
   height = 100,
   x = 100,
   y = 100,
+  targets = [
+    [30, 70, 200, 200],
+    [70, 200, 40, 200],
+  ],
   onReady,
 }: BoxPorps & RoomApi) => {
+  const [currentTarget, setTarget] = useState(0);
   const getTouchOffset = (e) => {
     const ret = [
       e.touches[0].pageX - lastTouch[0],
@@ -152,38 +161,60 @@ export const ResizeBox = ({
     /* tslint:disable-next-line */
     // @ts-ignore
     const resizeObserver = new ResizeObserver((entries) => {
-      entries.forEach((entry) => {
-        const cr = entry.contentRect;
-        console.log("box:", entry.target);
-        console.log(`box size: ${cr.width}px x ${cr.height}px`);
-        console.log(`box padding: ${cr.top}px ; ${cr.left}px`);
-        if (cr.width > cr.height) {
-          console.log("Ländskeip");
-        } else if (cr.width < cr.height) {
-          console.log("porttrait");
-        } else {
-          console.log("boxxx");
-        }
-      });
+      if (targets.length > currentTarget) {
+        entries.forEach((entry) => {
+          const cr = entry.contentRect;
+          console.log(cr, box);
+          console.log(
+            currentTarget,
+            Math.abs(targets[currentTarget][0] - cr.width),
+            Math.abs(targets[currentTarget][1] - cr.height),
+            Math.abs(targets[currentTarget][2] - box.offsetTop),
+            Math.abs(targets[currentTarget][3] - box.offsetLeft)
+          );
+          if (
+            Math.abs(targets[currentTarget][0] - cr.width) < treshold &&
+            Math.abs(targets[currentTarget][1] - cr.height) < treshold &&
+            Math.abs(targets[currentTarget][2] - box.offsetTop) < treshold &&
+            Math.abs(targets[currentTarget][3] - box.offsetLeft) < treshold
+          ) {
+            setTarget(currentTarget + 1);
+          }
+        });
+      }
     });
 
     resizeObserver.observe(box);
-  }, []);
+  }, [currentTarget]);
 
   return (
-    <ResizableBox
-      width={width}
-      height={height}
-      x={x}
-      y={y}
-      className="resizableBox"
-    >
-      <Corners className="corners">
-        <Corner className="corner top-left" />
-        <Corner className="corner top-right" />
-        <Corner className="corner bottom-left" />
-        <Corner className="corner bottom-right" />
-      </Corners>
-    </ResizableBox>
+    <>
+      {targets.length > currentTarget
+        ? "Scan the Highlighted sector!"
+        : "Your Winner"}
+
+      <ResizableBox
+        width={width}
+        height={height}
+        x={x}
+        y={y}
+        className="resizableBox"
+      >
+        <Corners className="corners">
+          <Corner className="corner top-left" />
+          <Corner className="corner top-right" />
+          <Corner className="corner bottom-left" />
+          <Corner className="corner bottom-right" />
+        </Corners>
+      </ResizableBox>
+      {targets.length > currentTarget ? (
+        <TargetBox
+          width={targets[currentTarget][0]}
+          height={targets[currentTarget][1]}
+          y={targets[currentTarget][2]}
+          x={targets[currentTarget][3]}
+        />
+      ) : null}
+    </>
   );
 };
