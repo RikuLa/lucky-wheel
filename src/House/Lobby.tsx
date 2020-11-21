@@ -7,6 +7,12 @@ import Spaceship from "./Spaceship";
 
 // @ts-ignore
 import ambient from "../assets/OutThere.ogg";
+// @ts-ignore
+import startImage from "../assets/start_cryo.png";
+// @ts-ignore
+import deathImage from "../assets/lose_suffocate.png";
+// @ts-ignore
+import winImage from "../assets/win_cryo.png";
 
 export const Container = styled.div`
   margin: 0;
@@ -46,6 +52,11 @@ const PopupPrompt = styled.div`
 const StrikedThrough = styled.span`
   text-decoration: line-through;
   color: gray;
+`;
+
+const LimitedImage = styled.img`
+  min-width: 320px;
+  max-width: 100%;
 `;
 
 const attemptPopups = () => {
@@ -157,15 +168,23 @@ const Lobby = () => {
       )}
       {state === "waiting" ? (
         <>
-          <TextBox>
-            Are you ready to begin your adventure? You wake up from cryo sleep
-            to the blare of klaxons. Just another day at the office, you say to
-            yourself. Not that there is anyone else aboard SCP RustBucket.
-            <br />
-            <br />
-            You need to send a message home and isolate the virus. Also, the
-            oxygen seems to be running particularly low today...
-          </TextBox>
+          <div>
+            <LimitedImage
+              src={startImage}
+              alt="A frustrated engineer climbs out of a cryo-pod"
+            />
+            <TextBox>
+              You wake up from cryo sleep to the blare of klaxons. SCP
+              RustBucket is passing by yet another sun. It&apos;s time to see if
+              this location would host your next home.
+              <br />
+              <br />
+              The planets need to be scanned, comms need to be checked for
+              messages and the course needs to be adjusted. But the oxygen
+              supplies are not designed for you to stay awake. You better
+              hurry...
+            </TextBox>
+          </div>
           <ActionButton
             onClick={() => {
               // ensure that engine opens last
@@ -199,11 +218,12 @@ const Lobby = () => {
       ) : state === "game-over" ? (
         <>
           <TextBox>
-            Game over!{" "}
+            Death comes to those who do not have oxygen. Game over!{" "}
             <ActionButton onClick={() => location.reload()}>
               Try again?
             </ActionButton>
           </TextBox>
+          <LimitedImage src={deathImage} alt="The player has suffocated" />
         </>
       ) : state === "active" ? (
         <>
@@ -241,11 +261,11 @@ const Lobby = () => {
                 setState("completed");
               }}
             >
-              Go to Sleep
+              Settle down on the galaxy?
             </ActionButton>
           ) : (
             <ActionButton disabled>
-              Complete all tasks before going to sleep
+              Complete all tasks the tasks before the oxygen runs out
             </ActionButton>
           )}
         </>
@@ -253,7 +273,14 @@ const Lobby = () => {
         <>
           <TextBox>Completed!</TextBox>
           <br />
-          <div>You have done it! Sweet, sweet cryosleep calls</div>
+          <div>
+            Unfortunately this does not seem like the place for you. Thus the
+            cryo sleep calls for you again.
+          </div>
+          <LimitedImage
+            src={winImage}
+            alt="The player receedes back to the sleep"
+          />
         </>
       )}
       <input
