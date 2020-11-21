@@ -1,10 +1,12 @@
 import * as React from "react";
-import { ResizeBox } from "../resizeBox";
+import { ResizeBox } from "./Rooms/ResizeRoom/ResizeBox";
 import { WordTuner } from "./Rooms/WordTuner";
 import { BombTest } from "../Bomb/Bomb";
 
 export interface RoomApi {
-  onReady: () => void;
+  onReady: () => {
+    console.log("Readying!")
+  };
 }
 
 export const rooms = {
