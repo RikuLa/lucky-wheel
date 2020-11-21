@@ -27,9 +27,11 @@ type Message = {
   payload: RoomStates[keyof RoomStates];
 };
 
+export type RoomId = keyof RoomStates;
+
 export const useSyncedState = (): [
   SharedState,
-  <T extends keyof RoomStates>(roomId: T, state: Partial<RoomStates[T]>) => void
+  <T extends RoomId>(roomId: T, state: Partial<RoomStates[T]>) => void
 ] => {
   const [internalState, setInternalState] = useState<SharedState>(defaultState);
   useEffect(() => {
