@@ -11,16 +11,18 @@ const Meter = styled.div`
 `;
 
 const Value = styled.div`
-  width: ${(props) => ((props.value * 1.0) / 10) * 100}%;
+  width: ${(props) => ((props.value * 1.0) / props.max) * 100}%;
   height: 100%;
   background-color: green;
 `;
 
+const HARD_CODED_OXYGEN_VALUE = 10;
+
 export const OxygenMeter = () => {
-  const [oxygen] = useOxygen(10);
+  const [oxygen] = useOxygen(HARD_CODED_OXYGEN_VALUE);
   return (
-    <Meter max={10}>
-      <Value value={oxygen} />
+    <Meter>
+      <Value value={oxygen} max={HARD_CODED_OXYGEN_VALUE} />
     </Meter>
   );
 };
