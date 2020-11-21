@@ -21,8 +21,8 @@ const Reader = styled.div`
   width: 60px;
   height: 50px;
   position: absolute;
-  top: ${(props) => (props.y ? props.y : 100)}px;
-  left: ${(props) => (props.x ? props.x : 100)}px;
+  top: ${(props) => (props.y ? props.y : 100)}%;
+  left: ${(props) => (props.x ? props.x : 100)}%;
   background: ${(props) => (props.color ? props.color : "#00ff00")};
   font-size: 0.8em;
   -webkit-text-stroke-width: 1px;
@@ -89,8 +89,8 @@ export const Cards = ({ onReady, onComplete }: RoomApi) => {
         return (
           <Reader
             key={c.code}
-            x={300}
-            y={100 + i * 100}
+            x={5 + 20 * Math.round(Math.random() * 4)}
+            y={5 + 5 * Math.round(Math.random() * 5)}
             color={c.solved ? c.color : getRandomColor()}
             onClick={() => {
               navigator.clipboard.readText().then((clipText) => {
