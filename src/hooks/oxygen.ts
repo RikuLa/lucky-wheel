@@ -8,13 +8,12 @@ export const useOxygen = (initial: number) => {
   let interval;
 
   React.useEffect(() => {
-    if (!interval) {
-      interval = setInterval(() => {
-        if (visible) {
-          setRemaining((remaining) => remaining - 1);
-        }
-      }, 1000);
-    }
+    interval = setInterval(() => {
+      if (visible && remaining > 0) {
+        console.log("remaining is:", remaining);
+        setRemaining((remaining) => remaining - 1);
+      }
+    }, 1000);
     return () => {
       clearInterval(interval);
     };
