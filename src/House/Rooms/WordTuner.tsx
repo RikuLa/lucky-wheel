@@ -22,6 +22,7 @@ const TextDisplay = styled.div`
   color: lightgreen;
   font-family: "Courier New", Courier, monospace;
   font-size: 50px;
+  text-align: center;
   border-radius: 4px;
   line-height: 75px;
   height: 75px;
@@ -34,13 +35,16 @@ const KnobContainer = styled.div`
   margin-top: 40px;
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
 `;
 
 const SubmitButton = styled.div`
   margin-top: 40px;
+  margin-left: auto;
+  margin-right: auto;
   background-color: darkgreen;
   color: lightgreen;
+  border-radius: 4px;
   height: 50px;
   font-size: 50px;
   width: 50%;
@@ -60,7 +64,7 @@ export class WordTuner extends React.PureComponent<RoomApi, State> {
     this.setState({ message: newValue });
   };
 
-  private readonly messageLength = 22;
+  private readonly messageLength = 14;
 
   private emitter = new MessageEmitter(this.onMessage);
 
