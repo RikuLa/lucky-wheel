@@ -91,4 +91,4 @@ module.exports="/lucky-wheel/spaceship.45ac30b5.png";
 },{"react":"n8MK","./rooms":"gNTp","./Lobby":"fL9l","./sync":"y9hF"}],"zo2T":[function(require,module,exports) {
 "use strict";var e=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(exports,"__esModule",{value:!0});var t=e(require("react")),r=e(require("react-dom")),u=require("./House");r.default.render(t.default.createElement(u.House,null),document.getElementById("root"));
 },{"react":"n8MK","react-dom":"NKHc","./House":"sKUg"}]},{},["zo2T"], null)
-//# sourceMappingURL=/lucky-wheel/src.a5ebf8be.js.map
+//# sourceMappingURL=/lucky-wheel/src.c975711c.js.map
