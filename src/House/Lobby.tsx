@@ -92,7 +92,7 @@ const Lobby = () => {
 
   return (
     <Container>
-      {!popupsWork && (
+      {!popupsWork && state === "waiting" && (
         <PopupPrompt>
           <PopupPermissionsEnabler onPass={() => setPopupsWork(true)} />
         </PopupPrompt>

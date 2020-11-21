@@ -64,16 +64,24 @@ function generateTarget() {
 
   return [w, h, x, y];
 }
+const generateTargets = () => [
+  generateTarget(),
+  generateTarget(),
+  generateTarget(),
+];
+
 export const ResizeBox = ({
   width = 200,
   height = 100,
   x = 100,
   y = 100,
   onReady,
+  onComplete,
 }: BoxPorps & RoomApi) => {
   const [scaneLevel, setScanLevel] = useState(0);
 
   const [targets, setTargets] = useState([]);
+  const [targets] = useState(generateTargets);
   const [currentTarget, setTarget] = useState(0);
   const getTouchOffset = (e) => {
     const ret = [
@@ -87,11 +95,6 @@ export const ResizeBox = ({
 
   useEffect(() => {
     onReady("Scanner");
-    const nargets = [];
-    nargets.push(generateTarget());
-    nargets.push(generateTarget());
-    nargets.push(generateTarget());
-    setTargets(nargets);
   }, []);
 
   useEffect(() => {
@@ -209,6 +212,11 @@ export const ResizeBox = ({
 
     resizeObserver.observe(box);
   }, [currentTarget, targets]);
+  React.useEffect(() => {
+    if (targets.length <= currentTarget) {
+      onComplete();
+    }
+  }, [targets, currentTarget]);
   return (
     <>
       <TextDisplay>

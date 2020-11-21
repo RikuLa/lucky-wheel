@@ -26,7 +26,7 @@ body {
 
   background-color: var(--color4);
   color: var(--color5);
-  font-family: 'Goldman', monospace;
+  font-family: "Goldman", monospace;
   font-size: 16pt;
 
   background-image: url("./assets/starbg.jpg");
@@ -35,15 +35,14 @@ body {
   margin: 0;
   padding: 0;
 
-  overflow-y: hidden;
+  overscroll-behavior: contain;
 }
 
-.resizableBox{
+.resizableBox {
   background-image: url("assets/gridTile.png");
   background-repeat: repeat;
   opacity: 0.8;
 }
-
 
 .resizableBox .corners .corner.top-left {
   -webkit-transform: rotate(125deg);
