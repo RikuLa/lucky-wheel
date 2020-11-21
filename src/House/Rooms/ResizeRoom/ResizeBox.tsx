@@ -41,15 +41,28 @@ const Corner = styled.div`
   position: absolute;
 `;
 
+const TextDisplay = styled.div`
+  width: 100%;
+  background-color: darkgreen;
+  color: lightgreen;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 50px;
+  text-align: center;
+  border-radius: 4px;
+  line-height: 75px;
+  height: 75px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+`;
+
 function generateTarget() {
-  const w = Math.max(40, Math.round(Math.random() * 200));
-  const h = Math.max(40, Math.round(Math.random() * 200));
-  return [
-    w,
-    h,
-    Math.round(Math.random() * 200),
-    Math.round(Math.random() * 200),
-  ];
+  const w = 40 + Math.round(Math.random() * 200);
+  const h = 40 + Math.round(Math.random() * 200);
+  const x = 100 + Math.round(Math.random() * 200);
+  const y = 50 + Math.round(Math.random() * 200);
+
+  return [w, h, x, y];
 }
 export const ResizeBox = ({
   width = 200,
@@ -58,6 +71,8 @@ export const ResizeBox = ({
   y = 100,
   onReady,
 }: BoxPorps & RoomApi) => {
+  const [scaneLevel, setScanLevel] = useState(0);
+
   const [targets, setTargets] = useState([]);
   const [currentTarget, setTarget] = useState(0);
   const getTouchOffset = (e) => {
@@ -178,12 +193,14 @@ export const ResizeBox = ({
       if (targets.length > currentTarget) {
         entries.forEach((entry) => {
           const cr = entry.contentRect;
-          if (
-            Math.abs(targets[currentTarget][0] - cr.width) < treshold &&
-            Math.abs(targets[currentTarget][1] - cr.height) < treshold &&
-            Math.abs(targets[currentTarget][2] - box.offsetTop) < treshold &&
-            Math.abs(targets[currentTarget][3] - box.offsetLeft) < treshold
-          ) {
+          const score =
+            Math.abs(targets[currentTarget][0] - cr.width) +
+            Math.abs(targets[currentTarget][1] - cr.height) +
+            Math.abs(targets[currentTarget][2] - box.offsetLeft) +
+            Math.abs(targets[currentTarget][3] - box.offsetTop);
+          setScanLevel(Math.min(1.0, (treshold * 4) / score));
+
+          if (score < treshold * 4) {
             setTarget(currentTarget + 1);
           }
         });
@@ -194,6 +211,9 @@ export const ResizeBox = ({
   }, [currentTarget, targets]);
   return (
     <>
+      <TextDisplay>
+        Scan Accuracy: {Math.round(scaneLevel * 10000) / 100}%
+      </TextDisplay>
       {targets.length > currentTarget
         ? "Scan the Highlighted sector!"
         : "Your Winner"}
@@ -201,8 +221,8 @@ export const ResizeBox = ({
         <TargetBox
           width={targets[currentTarget][0]}
           height={targets[currentTarget][1]}
-          y={targets[currentTarget][2]}
-          x={targets[currentTarget][3]}
+          x={targets[currentTarget][2]}
+          y={targets[currentTarget][3]}
         />
       ) : null}
 
