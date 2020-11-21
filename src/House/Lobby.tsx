@@ -1,5 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
+import { OxygenMeter } from "../OxygenMeter";
 import { rooms } from "./rooms";
 import { useSyncedState } from "./sync";
 
@@ -92,6 +93,7 @@ const Lobby = () => {
 
   return (
     <Container>
+      <OxygenMeter />
       {!popupsWork && state === "waiting" && (
         <PopupPrompt>
           <PopupPermissionsEnabler onPass={() => setPopupsWork(true)} />
