@@ -5,10 +5,8 @@ export const useOxygen = (initial: number) => {
   const [remaining, setRemaining] = React.useState<number>(initial);
   const [visible] = useIsVisible();
 
-  let interval;
-
   React.useEffect(() => {
-    interval = setInterval(() => {
+    const interval = setInterval(() => {
       if (visible && remaining > 0) {
         setRemaining((remaining) => remaining - 1);
       }
