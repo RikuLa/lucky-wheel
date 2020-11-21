@@ -75,6 +75,14 @@ const Lobby = () => {
     ) {
       setState("active");
     }
+    if (
+      Object.values(syncedState.roomStates).some(
+        (s) => s.closed && !s.completed
+      )
+    ) {
+      // User closed a room tab without completing it..
+      // TODO lose
+    }
   }, [state, syncedState]);
 
   return (
@@ -123,7 +131,18 @@ const Lobby = () => {
           </div>
         </>
       ) : (
-        <TextBox>Game active</TextBox>
+        <>
+          <TextBox>Game active</TextBox>
+          <br />
+          <div>
+            Completed rooms :{" "}
+            {
+              Object.values(syncedState.roomStates).filter((s) => s.completed)
+                .length
+            }{" "}
+            / {Object.values(syncedState.roomStates).length}
+          </div>
+        </>
       )}
     </Container>
   );

@@ -5,6 +5,7 @@ import { BombTest } from "../Bomb/Bomb";
 
 export interface RoomApi {
   onReady: (roomName: string) => void;
+  onComplete: () => void;
 }
 
 export const rooms = {

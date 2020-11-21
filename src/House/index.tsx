@@ -29,6 +29,9 @@ const RoomManager = ({
         setRoomState(roomId, { ready: true });
         document.title = `<${roomName}>`;
       }}
+      onComplete={() => {
+        setRoomState(roomId, { completed: true });
+      }}
     />
   );
 };
