@@ -4,14 +4,13 @@ import { useIsVisible } from "../hooks/visibility";
 import bomb from "./bomb.wav";
 
 export const BombTest = () => {
-  const [isVisible, cleanUp] = useIsVisible();
+  const [isVisible] = useIsVisible();
   const audio = React.useRef(null);
 
   React.useEffect(() => {
     if (audio != null && !isVisible) {
       audio.current.play();
     }
-    return cleanUp;
   }, [isVisible]);
 
   return (

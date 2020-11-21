@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export const useIsVisible = (): [boolean, () => void] => {
+export const useIsVisible = (): [boolean] => {
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   const handleVisibilityChange = () => {
@@ -11,15 +11,20 @@ export const useIsVisible = (): [boolean, () => void] => {
     }
   };
 
-  document.addEventListener("visibilitychange", handleVisibilityChange, false);
-
-  const cleanUp = () => {
-    document.removeEventListener(
+  useEffect(() => {
+    document.addEventListener(
       "visibilitychange",
       handleVisibilityChange,
       false
     );
-  };
+    return () => {
+      document.removeEventListener(
+        "visibilitychange",
+        handleVisibilityChange,
+        false
+      );
+    };
+  }, []);
 
-  return [isVisible, cleanUp];
+  return [isVisible];
 };
