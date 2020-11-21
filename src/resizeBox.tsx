@@ -13,10 +13,10 @@ type BoxPorps = {
 };
 
 export const ResizeBox = ({
-  width,
-  height,
-  x,
-  y,
+  width = 100,
+  height = 100,
+  x = 100,
+  y = 100,
   onReady,
 }: BoxPorps & RoomApi) => {
   onReady();
