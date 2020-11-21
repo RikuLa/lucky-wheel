@@ -64,7 +64,7 @@ const PopupPermissionsEnabler = ({ onPass }: { onPass: () => void }) => {
 const Lobby = () => {
   const [popupsWork, setPopupsWork] = React.useState(false);
   const [state, setState] = React.useState<
-    "waiting" | "loading" | "active" | "game-over"
+    "waiting" | "loading" | "active" | "game-over" | "completed"
   >("waiting");
   const roomWindows = React.useRef<Window[]>();
   const [syncedState] = useSyncedState();
@@ -88,6 +88,12 @@ const Lobby = () => {
       for (const window of roomWindows.current) {
         window.close();
       }
+    }
+    if (
+      Object.values(syncedState.roomStates).every((s) => s.completed) &&
+      state !== "completed"
+    ) {
+      setState("completed");
     }
   }, [state, syncedState]);
 
@@ -141,7 +147,7 @@ const Lobby = () => {
         <>
           <TextBox>Game over! Refresh to try again.</TextBox>
         </>
-      ) : (
+      ) : state === "active" ? (
         <>
           <TextBox>Game active</TextBox>
           <br />
@@ -153,6 +159,12 @@ const Lobby = () => {
             }{" "}
             / {Object.values(syncedState.roomStates).length}
           </div>
+        </>
+      ) : (
+        <>
+          <TextBox>Completed!</TextBox>
+          <br />
+          <div>You have done it! Time to go back to sleep</div>
         </>
       )}
     </Container>
