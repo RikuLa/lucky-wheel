@@ -19,6 +19,12 @@ type BoxPorps = {
   targets: number[][];
 };
 
+const RoomContainer = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+`;
+
 const ResizableBox = styled.div`
   width: ${(props) => (props.width ? props.width : 100)}px;
   height: ${(props) => (props.height ? props.height : 100)}px;
@@ -86,6 +92,7 @@ export const ResizeBox = ({
   const [scaneLevel, setScanLevel] = useState(0);
   const [targets] = useState(generateTargets);
   const [currentTarget, setTarget] = useState(0);
+
   const getTouchOffset = (e) => {
     const ret = [
       e.touches[0].pageX - lastTouch[0],
@@ -111,13 +118,20 @@ export const ResizeBox = ({
           e.type === "touchmove"
             ? getTouchOffset(e)
             : [e.movementX, e.movementY];
+
+        const { left, top, right, bottom } = box.getBoundingClientRect();
+
         if (corner.classList.contains("bottom-right")) {
           const width = box.clientWidth + dX;
+          console.log("width: ", width);
+          console.log("left", left);
+          console.log("Inner: ", window.innerWidth);
+
           const height = box.clientHeight + dY;
-          if (width > minimumSize) {
+          if (width > minimumSize && left + width < window.innerWidth) {
             box.style.width = `${width}px`;
           }
-          if (height > minimumSize) {
+          if (height > minimumSize && height + top < window.innerHeight) {
             box.style.height = `${height}px`;
           }
         } else if (corner.classList.contains("bottom-left")) {
@@ -126,17 +140,17 @@ export const ResizeBox = ({
           if (height > minimumSize) {
             box.style.height = `${height}px`;
           }
-          if (width > minimumSize) {
+          if (width > minimumSize && width + right) {
             box.style.width = `${width}px`;
             box.style.left = `${box.offsetLeft + dX}px`;
           }
         } else if (corner.classList.contains("top-right")) {
           const width = box.clientWidth + dX;
           const height = box.clientHeight - dY;
-          if (width > minimumSize) {
+          if (width > minimumSize && left + width < window.innerWidth) {
             box.style.width = `${width}px`;
           }
-          if (height > minimumSize) {
+          if (height > minimumSize && height + bottom < window.innerHeight) {
             box.style.height = `${height}px`;
             box.style.top = `${box.offsetTop + dY}px`;
           }
@@ -217,7 +231,7 @@ export const ResizeBox = ({
     }
   }, [targets, currentTarget]);
   return (
-    <>
+    <RoomContainer>
       <OxygenMeter roomId="resizer" />
       <TextDisplay>
         Accuracy: {Math.round(scaneLevel * 10000) / 100}%
@@ -233,32 +247,34 @@ export const ResizeBox = ({
           Scan
         </ActionButton>
       </TextDisplay>
-      {targets.length > currentTarget
-        ? "Scan the Highlighted sector!"
-        : "Your Winner"}
-      {targets.length > currentTarget ? (
-        <TargetBox
-          width={targets[currentTarget][0]}
-          height={targets[currentTarget][1]}
-          x={targets[currentTarget][2]}
-          y={targets[currentTarget][3]}
-        />
-      ) : null}
+      <div>
+        {targets.length > currentTarget
+          ? "Scan the Highlighted sector!"
+          : "Your Winner"}
+        {targets.length > currentTarget ? (
+          <TargetBox
+            width={targets[currentTarget][0]}
+            height={targets[currentTarget][1]}
+            x={targets[currentTarget][2]}
+            y={targets[currentTarget][3]}
+          />
+        ) : null}
 
-      <ResizableBox
-        width={width}
-        height={height}
-        x={x}
-        y={y}
-        className="resizableBox"
-      >
-        <Corners className="corners">
-          <Corner className="corner top-left" />
-          <Corner className="corner top-right" />
-          <Corner className="corner bottom-left" />
-          <Corner className="corner bottom-right" />
-        </Corners>
-      </ResizableBox>
-    </>
+        <ResizableBox
+          width={width}
+          height={height}
+          x={x}
+          y={y}
+          className="resizableBox"
+        >
+          <Corners className="corners">
+            <Corner className="corner top-left" />
+            <Corner className="corner top-right" />
+            <Corner className="corner bottom-left" />
+            <Corner className="corner bottom-right" />
+          </Corners>
+        </ResizableBox>
+      </div>
+    </RoomContainer>
   );
 };
