@@ -12,43 +12,38 @@ type BoxPorps = {
   y: number;
 };
 
+const ResizableBox = styled.div`
+  background: white;
+  width: ${(props) => (props.width ? props.width : 100)}px;
+  height: ${(props) => (props.height ? props.height : 100)}px;
+  position: absolute;
+  top: ${(props) => (props.y ? props.y : 100)}px;
+  left: ${(props) => (props.x ? props.x : 100)}px;
+`;
+
+const Corners = styled.div`
+  width: 100%;
+  height: 100%;
+  border: 3px solid #4286f4;
+  box-sizing: border-box;
+`;
+
+const Corner = styled.div`
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid #4286f4;
+  position: absolute;
+`;
+
 export const ResizeBox = ({
-  width = 100,
+  width = 200,
   height = 100,
   x = 100,
   y = 100,
   onReady,
 }: BoxPorps & RoomApi) => {
-  const originalWidth = width;
-  const originalHeight = height;
-  const originalX = x;
-  const originalY = y;
-
-  const ResizableBox = styled.div`
-    background: white;
-    width: ${originalWidth}px;
-    height: ${originalHeight}px;
-    position: absolute;
-    top: ${originalY}px;
-    left: ${originalX}px;
-  `;
-
-  const Corners = styled.div`
-    width: 100%;
-    height: 100%;
-    border: 3px solid #4286f4;
-    box-sizing: border-box;
-  `;
-
-  const Corner = styled.div`
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: white;
-    border: 3px solid #4286f4;
-    position: absolute;
-  `;
-
   const getTouchOffset = (e) => {
     const ret = [
       e.touches[0].pageX - lastTouch[0],
@@ -157,9 +152,9 @@ export const ResizeBox = ({
     /* tslint:disable-next-line */
     // @ts-ignore
     const resizeObserver = new ResizeObserver((entries) => {
-      console.log("Size changed");
       entries.forEach((entry) => {
         const cr = entry.contentRect;
+        /*
         console.log("box:", entry.target);
         console.log(`box size: ${cr.width}px x ${cr.height}px`);
         console.log(`box padding: ${cr.top}px ; ${cr.left}px`);
@@ -170,6 +165,7 @@ export const ResizeBox = ({
         } else {
           console.log("boxxx");
         }
+        */
       });
     });
 
@@ -177,7 +173,13 @@ export const ResizeBox = ({
   }, []);
 
   return (
-    <ResizableBox className="resizableBox">
+    <ResizableBox
+      width={width}
+      height={height}
+      x={x}
+      y={y}
+      className="resizableBox"
+    >
       <Corners className="corners">
         <Corner className="corner top-left" />
         <Corner className="corner top-right" />
