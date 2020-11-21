@@ -2,7 +2,12 @@ import { useState, useEffect } from "react";
 
 const bc = new BroadcastChannel("house-sync");
 
-type BaseRoomState = { ready: boolean; closed: boolean; completed: boolean };
+type BaseRoomState = {
+  ready: boolean;
+  closed: boolean;
+  completed: boolean;
+  oxygenDepleted: boolean;
+};
 
 export interface SharedState {
   roomStates: {
@@ -15,9 +20,24 @@ type RoomStates = SharedState["roomStates"];
 
 const defaultState: SharedState = {
   roomStates: {
-    wordBox: { ready: false, closed: false, completed: false },
-    resizer: { ready: false, closed: false, completed: false },
-    engine: { ready: false, closed: false, completed: false },
+    wordBox: {
+      ready: false,
+      closed: false,
+      completed: false,
+      oxygenDepleted: false,
+    },
+    resizer: {
+      ready: false,
+      closed: false,
+      completed: false,
+      oxygenDepleted: false,
+    },
+    engine: {
+      ready: false,
+      closed: false,
+      completed: false,
+      oxygenDepleted: false,
+    },
   },
 };
 
