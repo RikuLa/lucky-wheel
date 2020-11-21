@@ -9,7 +9,7 @@ const Radio = styled.div`
   width: 95%;
   margin: auto;
   margin-top: 20px;
-  background-color: #111111;
+  background-color: #222222;
   border: 1px solid gray;
   border-radius: 6px;
   padding: 20px;
@@ -39,17 +39,28 @@ const KnobContainer = styled.div`
 `;
 
 const SubmitButton = styled.div`
-  margin-top: 40px;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: darkgreen;
-  color: lightgreen;
+  background-color: lightgray;
+  color: darkgreen;
   border-radius: 4px;
   height: 50px;
   font-size: 50px;
-  width: 50%;
   text-align: center;
   cursor: pointer;
+`;
+
+// CAN WE USE WEB ANIMS FOR ANIMATING INDICATOR?
+const Indicator = styled.div`
+  height: 50px;
+  width: 50px;
+  background-color: ${(props) => (props.done ? "green" : "red")};
+  border-radius: 50%;
+`;
+
+const ControlsContainer = styled.div`
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  grid-column-gap: 20px;
 `;
 
 interface State {
@@ -81,12 +92,21 @@ export class WordTuner extends React.PureComponent<RoomApi, State> {
 
   private updateChannel = (channel: number) => {
     this.setState({ channel });
-    this.emitter.setActiveStream(channel);
+    this.emitter.setActiveChannel(channel);
   };
 
   componentDidMount() {
     this.props.onReady("Word Tuner");
   }
+
+  submitSolution = () => {
+    const isCorrect = this.emitter.checkAnswer();
+    if (isCorrect) {
+      this.props.onComplete();
+    } else {
+      console.error("Nope");
+    }
+  };
 
   render() {
     return (
@@ -94,7 +114,7 @@ export class WordTuner extends React.PureComponent<RoomApi, State> {
         <TextDisplay>{this.state.message}</TextDisplay>
         <KnobContainer>
           <Silver
-            diameter={100}
+            diameter={120}
             min={6}
             max={20}
             step={1}
@@ -106,7 +126,7 @@ export class WordTuner extends React.PureComponent<RoomApi, State> {
             }}
           />
           <Silver
-            diameter={100}
+            diameter={120}
             min={0}
             max={2}
             step={1}
@@ -118,9 +138,10 @@ export class WordTuner extends React.PureComponent<RoomApi, State> {
             }}
           />
         </KnobContainer>
-        <SubmitButton onClick={() => console.log("Clickety Clack")}>
-          SEND
-        </SubmitButton>
+        <ControlsContainer>
+          <SubmitButton onClick={this.submitSolution}>SEND</SubmitButton>
+          <Indicator done={this.props.roomCompleted} />
+        </ControlsContainer>
       </Radio>
     );
   }
