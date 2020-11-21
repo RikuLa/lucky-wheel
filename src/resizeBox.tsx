@@ -154,7 +154,6 @@ export const ResizeBox = ({
     const resizeObserver = new ResizeObserver((entries) => {
       entries.forEach((entry) => {
         const cr = entry.contentRect;
-        /*
         console.log("box:", entry.target);
         console.log(`box size: ${cr.width}px x ${cr.height}px`);
         console.log(`box padding: ${cr.top}px ; ${cr.left}px`);
@@ -165,7 +164,6 @@ export const ResizeBox = ({
         } else {
           console.log("boxxx");
         }
-        */
       });
     });
 
