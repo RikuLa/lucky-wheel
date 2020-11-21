@@ -79,8 +79,6 @@ export const ResizeBox = ({
   onComplete,
 }: BoxPorps & RoomApi) => {
   const [scaneLevel, setScanLevel] = useState(0);
-
-  const [targets, setTargets] = useState([]);
   const [targets] = useState(generateTargets);
   const [currentTarget, setTarget] = useState(0);
   const getTouchOffset = (e) => {
