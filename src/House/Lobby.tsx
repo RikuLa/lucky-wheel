@@ -168,7 +168,10 @@ const Lobby = () => {
           </TextBox>
           <ActionButton
             onClick={() => {
-              const windows = Object.keys(rooms).map((id) =>
+              // ensure that engine opens last
+              const roomIds = new Set(Object.keys(rooms));
+              roomIds.delete("engine");
+              const windows = [...Array.from(roomIds), "engine"].map((id) =>
                 window.open(`#${id}`)
               );
               console.log("opened", windows);
