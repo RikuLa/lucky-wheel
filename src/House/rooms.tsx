@@ -3,6 +3,7 @@ import { ResizeBox } from "./Rooms/ResizeRoom/ResizeBox";
 import { WordTuner } from "./Rooms/WordTuner";
 import { BombTest } from "../Bomb/Bomb";
 import { Cards } from "./Rooms/CardRoom/Cards";
+import { Engine } from "./Rooms/Engine";
 
 export interface RoomApi {
   onReady: (roomName: string) => void;
@@ -15,5 +16,6 @@ export const rooms = {
   wordBox: WordTuner as React.ComponentType<RoomApi>,
   bombTest: BombTest as React.ComponentType<RoomApi>,
   card: Cards as React.ComponentType<RoomApi>,
+  engine: Engine as React.ComponentType<RoomApi>,
 };
 export type RoomKeys = keyof typeof rooms;

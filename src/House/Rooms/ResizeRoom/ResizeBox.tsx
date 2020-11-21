@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { ActionButton } from "../../Lobby";
+import { OxygenMeter } from "../../../OxygenMeter";
 import { RoomApi } from "../../rooms";
 
 import { TargetBox } from "./TargetBox";
@@ -47,13 +49,16 @@ const TextDisplay = styled.div`
   color: lightgreen;
   font-family: "Courier New", Courier, monospace;
   font-size: 50px;
-  text-align: center;
   border-radius: 4px;
   line-height: 75px;
   height: 75px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: clip;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 `;
 
 function generateTarget() {
@@ -200,10 +205,6 @@ export const ResizeBox = ({
             Math.abs(targets[currentTarget][2] - box.offsetLeft) +
             Math.abs(targets[currentTarget][3] - box.offsetTop);
           setScanLevel(Math.min(1.0, (treshold * 4) / score));
-
-          if (score < treshold * 4) {
-            setTarget(currentTarget + 1);
-          }
         });
       }
     });
@@ -217,8 +218,20 @@ export const ResizeBox = ({
   }, [targets, currentTarget]);
   return (
     <>
+      <OxygenMeter roomId="resizer" />
       <TextDisplay>
-        Scan Accuracy: {Math.round(scaneLevel * 10000) / 100}%
+        Accuracy: {Math.round(scaneLevel * 10000) / 100}%
+        <ActionButton
+          disabled={Math.round(scaneLevel * 10000) / 100 < 100}
+          onClick={() => {
+            if (Math.round(scaneLevel * 10000) / 100 >= 100) {
+              setTarget(currentTarget + 1);
+            }
+          }}
+          style={{ marginTop: 0, marginLeft: 25 }}
+        >
+          Scan
+        </ActionButton>
       </TextDisplay>
       {targets.length > currentTarget
         ? "Scan the Highlighted sector!"

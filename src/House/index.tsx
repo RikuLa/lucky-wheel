@@ -31,6 +31,7 @@ const RoomManager = ({
       }}
       onComplete={() => {
         setRoomState(roomId, { completed: true });
+        console.log(roomId, "to completion");
       }}
       roomCompleted={roomState.roomStates[roomId].completed}
     />
