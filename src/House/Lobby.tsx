@@ -30,6 +30,11 @@ const PopupPrompt = styled.div`
   padding: 10px;
 `;
 
+const StrikedThrough = styled.span`
+  text-decoration: line-through;
+  color: gray;
+`;
+
 const attemptPopups = () => {
   const [a, b] = [window.open("about:blank"), window.open("about:blank")];
   a?.close();
@@ -132,10 +137,10 @@ const Lobby = () => {
         </>
       ) : state === "loading" ? (
         <>
-          <TextBox>Loading rooms.. Please stand by</TextBox>
+          <TextBox>Loading tasks.. Please stand by</TextBox>
           <br />
           <div>
-            Loaded rooms :{" "}
+            Loaded tasks :{" "}
             {
               Object.values(syncedState.roomStates).filter((s) => s.ready)
                 .length
@@ -152,12 +157,30 @@ const Lobby = () => {
           <TextBox>Game active</TextBox>
           <br />
           <div>
-            Completed rooms :{" "}
+            Tasks ({" "}
             {
               Object.values(syncedState.roomStates).filter((s) => s.completed)
                 .length
             }{" "}
-            / {Object.values(syncedState.roomStates).length}
+            / {Object.values(syncedState.roomStates).length} completed):
+          </div>
+          <div>
+            <ul>
+              {Object.entries(syncedState.roomStates)
+                .filter(([, s]) => !s.completed)
+                .map(([id]) => {
+                  return <li key={id}>{id}</li>;
+                })}
+              {Object.entries(syncedState.roomStates)
+                .filter(([, s]) => s.completed)
+                .map(([id]) => {
+                  return (
+                    <li key={id}>
+                      <StrikedThrough>{id}</StrikedThrough>
+                    </li>
+                  );
+                })}
+            </ul>
           </div>
         </>
       ) : (

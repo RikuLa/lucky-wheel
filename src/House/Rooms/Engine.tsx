@@ -2,6 +2,7 @@ import React from "react";
 import { useIsVisible } from "../../hooks/visibility";
 import { RoomApi } from "../rooms";
 
+// @ts-ignore
 import bomb from "../../assets/bomb.wav";
 
 export const Engine = (props: RoomApi) => {
@@ -36,13 +37,22 @@ export const Engine = (props: RoomApi) => {
       is this visible? {isVisible ? "yess" : "no"}
       <br />
       <br />
-      <button onClick={() => audioCtx.current.resume()}>joo joo</button>
+      <button
+        onClick={() => {
+          audioCtx.current.resume();
+          props.onComplete();
+        }}
+      >
+        joo joo
+      </button>
       <br />
       <br />
       <input
         type="range"
         value={level}
-        onChange={(e) => setLevel(e.target.valueAsNumber)}
+        onChange={(e) => {
+          setLevel(e.target.valueAsNumber);
+        }}
         min="1"
         max="30"
       />
