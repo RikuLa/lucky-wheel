@@ -17,7 +17,7 @@ const Value = styled.div`
   background-color: green;
 `;
 
-const HARD_CODED_OXYGEN_VALUE = 10;
+const HARD_CODED_OXYGEN_VALUE = 45;
 
 export const OxygenMeter = ({ roomId }: { roomId: RoomId }) => {
   const [oxygen] = useOxygen(HARD_CODED_OXYGEN_VALUE);
