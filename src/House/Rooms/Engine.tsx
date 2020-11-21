@@ -68,7 +68,7 @@ const ControlPanel = styled.div`
   grid-template-columns: 140px 1fr;
   grid-template-rows: 100px 1fr;
   grid-template-areas: "throttle text" "throttle headphones";
-  background-color: gray;
+  background-color: #333333;
   border: 1px solid black;
   border-radius: 4px;
   margin: auto;
