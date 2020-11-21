@@ -57,10 +57,10 @@ const Label = styled.span`
   font-family: sans-serif;
 `;
 
-const HARD_CODED_OXYGEN_VALUE = 10;
+const MAX_OXYGEN = 60;
 
 export const OxygenMeter = ({ roomId }: { roomId: RoomId }) => {
-  const [oxygen] = useOxygen(HARD_CODED_OXYGEN_VALUE);
+  const [oxygen] = useOxygen(MAX_OXYGEN);
   const [, setSyncedState] = useSyncedState();
   React.useEffect(() => {
     if (oxygen === 0) {
@@ -72,7 +72,7 @@ export const OxygenMeter = ({ roomId }: { roomId: RoomId }) => {
     <Container>
       <h4>Room Oxygen Level</h4>
       <Meter>
-        <Value value={oxygen} max={HARD_CODED_OXYGEN_VALUE} />
+        <Value value={oxygen} max={MAX_OXYGEN} />
         <Label>
           O<sub>2</sub>
         </Label>
