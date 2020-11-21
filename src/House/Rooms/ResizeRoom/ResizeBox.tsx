@@ -57,6 +57,7 @@ export const ResizeBox = ({
   x = 100,
   y = 100,
   onReady,
+  onComplete,
 }: BoxPorps & RoomApi) => {
   const [targets, setTargets] = useState([]);
   const [currentTarget, setTarget] = useState(0);
@@ -192,6 +193,11 @@ export const ResizeBox = ({
 
     resizeObserver.observe(box);
   }, [currentTarget, targets]);
+  React.useEffect(() => {
+    if (targets.length <= currentTarget) {
+      onComplete();
+    }
+  }, [targets, currentTarget]);
   return (
     <>
       {targets.length > currentTarget
