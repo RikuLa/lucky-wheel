@@ -5,25 +5,26 @@ export const getWordStream = (encrypted: string): ReadableStream => {
 
   let i = 0;
 
-  const strat = new CountQueuingStrategy({ highWaterMark: message.length });
-
-  return new ReadableStream<string>(
-    {
-      start(controller) {
-        for (const s of message) {
-          controller.enqueue(s);
-        }
-      },
-      pull(controller) {
-        controller.enqueue(message[i % message.length]);
-        i += 1;
-      },
+  return new ReadableStream<string>({
+    start(controller) {
+      for (const s of message) {
+        controller.enqueue(s);
+      }
     },
-    strat
-  );
+    pull(controller) {
+      controller.enqueue(message[i % message.length]);
+      i += 1;
+    },
+  });
 };
 
 export class MessageEmitter {
+  private readonly correctCipher = 13;
+  private cipher = 6;
+
+  private readonly correctChannel = 2;
+  private activeChannel = 0;
+
   private readonly message = "lucky///";
 
   private rotateCharacter = (s: string, by: number) => {
@@ -43,13 +44,11 @@ export class MessageEmitter {
     ).getReader();
   };
 
-  private bandwidths = [
+  private channels = [
     this.buildStream(1),
     this.buildStream(2),
     getWordStream(this.shift(this.message, 13)).getReader(),
   ];
-
-  private activeStream = 0;
 
   private interval;
 
@@ -57,11 +56,9 @@ export class MessageEmitter {
     this.startListeningToStream();
   }
 
-  private cipher = 6;
-
   private startListeningToStream = () => {
     this.interval = setInterval(async () => {
-      const { value } = await this.bandwidths[this.activeStream].read();
+      const { value } = await this.channels[this.activeChannel].read();
       this.callback(this.shift(value, -this.cipher));
     }, 200);
   };
@@ -70,7 +67,14 @@ export class MessageEmitter {
     this.cipher = newCipher;
   };
 
-  public setActiveStream = (channel: number) => {
-    this.activeStream = channel;
+  public setActiveChannel = (channel: number) => {
+    this.activeChannel = channel;
+  };
+
+  public checkAnswer = (): boolean => {
+    return (
+      this.activeChannel === this.correctChannel &&
+      this.cipher === this.correctCipher
+    );
   };
 }

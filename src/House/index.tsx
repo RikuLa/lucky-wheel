@@ -15,7 +15,7 @@ const RoomManager = ({
   roomId: RoomKeys;
   Room: React.ComponentType<RoomApi>;
 }) => {
-  const [, setRoomState] = useSyncedState();
+  const [roomState, setRoomState] = useSyncedState();
   React.useEffect(() => {
     const listener = () => {
       setRoomState(roomId, { closed: true });
@@ -32,6 +32,7 @@ const RoomManager = ({
       onComplete={() => {
         setRoomState(roomId, { completed: true });
       }}
+      roomCompleted={roomState.roomStates[roomId].completed}
     />
   );
 };
