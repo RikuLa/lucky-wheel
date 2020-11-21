@@ -2,6 +2,24 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { RoomApi } from "../../rooms";
 
+const TextDisplay = styled.div`
+  width: 100%;
+  background-color: darkgreen;
+  color: lightgreen;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 50px;
+  border-radius: 4px;
+  line-height: 75px;
+  height: 75px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+`;
+
 const Card = styled.div`
   width: 3em;
   height: 8em;
@@ -38,60 +56,61 @@ function getRandomColor() {
   return color;
 }
 
-const generateCards = () => [
-  generateCard(),
-  generateCard(),
-  generateCard(),
-  generateCard(),
-];
+const generateDocuments = () => {
+  const starLogs = [];
+  starLogs.push(generateDocument(14));
+  return starLogs;
+};
 
-const generateCard = () => {
-  const code = Math.random().toString().substr(2, 6);
-  return { code: code, color: getRandomColor(), solved: false };
+const generateDocument = (n) => {
+  const targetDate = new Date();
+  targetDate.setDate(targetDate.getDate() + 10);
+  const dd = targetDate.getDate() + n * 3;
+  const mm = targetDate.getMonth() + 1 + (n % 2 === 0 ? 1 : 0) + 1;
+  const yyyy = targetDate.getFullYear() + 231;
+  const dateString = yyyy + "" + dd + "" + mm;
+  const code = "Log" + dateString;
+  console.log(code, yyyy, dd, mm);
+  return {
+    code: code,
+    color: getRandomColor(),
+    solved: false,
+    x: 5 + 10 * Math.round(Math.random() * 7),
+    y: 5 + 5 * Math.round(Math.random() * 17),
+  };
 };
 
 export const Fax = ({ onReady, onComplete }: RoomApi) => {
-  const [codes, setCodes] = useState(generateCards);
+  const [codes, setCodes] = useState(generateDocuments);
   const [selected, setSelected] = useState(null);
 
   useEffect(() => {
-    onReady("Fax");
+    onReady("Printer");
+    navigator.clipboard.readText().then((clipText) => {
+      if (clipText.startsWith("Log")) {
+        setSelected(clipText);
+      }
+    });
+  }, []);
+  React.useEffect(() => {
+    onComplete();
   }, []);
 
-  React.useEffect(() => {
-    if (codes.every((c) => c.solved)) {
-      console.log("jee");
-      onComplete();
-    } else {
-      console.log("yhyy", codes);
-    }
-  }, [selected]);
   return (
     <>
-      {codes.map((c, i) => {
-        return (
-          <Card
-            key={c.code}
-            x={5 + i * 25}
-            y={5}
-            color={c.color}
-            selected={selected === c.code}
-            onClick={() => {
-              navigator.clipboard.writeText(c.code);
-              setSelected(c.code);
-            }}
-          >
-            {c.code}
-          </Card>
-        );
-      })}
+      <TextDisplay>
+        {selected
+          ? "holding " + selected
+          : "Return " + codes[0].code + " To the fax machine"}
+      </TextDisplay>
       {codes.map((c) => {
         return (
           <Reader
             key={c.code}
-            x={5 + 20 * Math.round(Math.random() * 4)}
-            y={5 + 5 * Math.round(Math.random() * 5)}
-            color={c.solved ? c.color : getRandomColor()}
+            x={c.x}
+            y={c.y}
+            color={c.color}
+            selected={selected === c.code}
             onClick={() => {
               navigator.clipboard.readText().then((clipText) => {
                 if (c.code === clipText) {
@@ -105,7 +124,7 @@ export const Fax = ({ onReady, onComplete }: RoomApi) => {
               });
             }}
           >
-            {c.solved ? c.code : " ?????"}
+            {c.code}
           </Reader>
         );
       })}
