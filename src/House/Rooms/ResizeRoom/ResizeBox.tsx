@@ -5,7 +5,7 @@ import { RoomApi } from "../../rooms";
 import { TargetBox } from "./TargetBox";
 
 const minimumSize = 20;
-const treshold = 3;
+const treshold = 4;
 
 const lastTouch = [0, 0];
 
@@ -41,17 +41,24 @@ const Corner = styled.div`
   position: absolute;
 `;
 
+function generateTarget() {
+  const w = Math.max(40, Math.round(Math.random() * 200));
+  const h = Math.max(40, Math.round(Math.random() * 200));
+  return [
+    w,
+    h,
+    Math.round(Math.random() * 200),
+    Math.round(Math.random() * 200),
+  ];
+}
 export const ResizeBox = ({
   width = 200,
   height = 100,
   x = 100,
   y = 100,
-  targets = [
-    [30, 70, 200, 200],
-    [70, 200, 40, 200],
-  ],
   onReady,
 }: BoxPorps & RoomApi) => {
+  const [targets, setTargets] = useState([]);
   const [currentTarget, setTarget] = useState(0);
   const getTouchOffset = (e) => {
     const ret = [
@@ -65,7 +72,14 @@ export const ResizeBox = ({
 
   useEffect(() => {
     onReady("Scanner");
+    const nargets = [];
+    nargets.push(generateTarget());
+    nargets.push(generateTarget());
+    nargets.push(generateTarget());
+    setTargets(nargets);
+  }, []);
 
+  useEffect(() => {
     const box = document.querySelector(".resizableBox") as HTMLElement;
     const corners = document.querySelectorAll(".corner");
     for (let i = 0; i < corners.length; i += 1) {
@@ -164,14 +178,6 @@ export const ResizeBox = ({
       if (targets.length > currentTarget) {
         entries.forEach((entry) => {
           const cr = entry.contentRect;
-          console.log(cr, box);
-          console.log(
-            currentTarget,
-            Math.abs(targets[currentTarget][0] - cr.width),
-            Math.abs(targets[currentTarget][1] - cr.height),
-            Math.abs(targets[currentTarget][2] - box.offsetTop),
-            Math.abs(targets[currentTarget][3] - box.offsetLeft)
-          );
           if (
             Math.abs(targets[currentTarget][0] - cr.width) < treshold &&
             Math.abs(targets[currentTarget][1] - cr.height) < treshold &&
@@ -185,13 +191,20 @@ export const ResizeBox = ({
     });
 
     resizeObserver.observe(box);
-  }, [currentTarget]);
-
+  }, [currentTarget, targets]);
   return (
     <>
       {targets.length > currentTarget
         ? "Scan the Highlighted sector!"
         : "Your Winner"}
+      {targets.length > currentTarget ? (
+        <TargetBox
+          width={targets[currentTarget][0]}
+          height={targets[currentTarget][1]}
+          y={targets[currentTarget][2]}
+          x={targets[currentTarget][3]}
+        />
+      ) : null}
 
       <ResizableBox
         width={width}
@@ -207,14 +220,6 @@ export const ResizeBox = ({
           <Corner className="corner bottom-right" />
         </Corners>
       </ResizableBox>
-      {targets.length > currentTarget ? (
-        <TargetBox
-          width={targets[currentTarget][0]}
-          height={targets[currentTarget][1]}
-          y={targets[currentTarget][2]}
-          x={targets[currentTarget][3]}
-        />
-      ) : null}
     </>
   );
 };
