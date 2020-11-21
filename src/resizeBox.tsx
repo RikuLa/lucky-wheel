@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { RoomApi } from "./House/rooms";
 
 const minimumSize = 20;
 let originalWidth = 0;
@@ -8,8 +9,10 @@ let originalY = 0;
 let originalMouseX = 0;
 let originalMouseY = 0;
 
-export default function ResizeBox() {
+export default function ResizeBox(props: RoomApi) {
   useEffect(() => {
+    props.onReady();
+
     const box = document.querySelector(".resizableBox") as HTMLElement;
     const corners = document.querySelectorAll(" .corner");
     for (let i = 0; i < corners.length; i += 1) {

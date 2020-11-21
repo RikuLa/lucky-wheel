@@ -54,6 +54,10 @@ export class WordTuner extends React.PureComponent<RoomApi, State> {
     this.emitter.setActiveStream(foo.target.value);
   };
 
+  componentDidMount() {
+    this.props.onReady();
+  }
+
   render() {
     return (
       <Radio>
