@@ -6,6 +6,9 @@ import { RoomId, useSyncedState } from "../House/sync";
 const METER_WIDTH = 200;
 
 const Container = styled.div`
+  position: fixed;
+  bottom: 0;
+  right: 0;
   display: inline-block;
   padding: 10px;
   background-color: #121212;
