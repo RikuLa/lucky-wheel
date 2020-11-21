@@ -89,6 +89,7 @@ export const ResizeBox = ({
   y = 100,
   onReady,
   onComplete,
+  roomCompleted,
 }: BoxPorps & RoomApi) => {
   const [scaneLevel, setScanLevel] = useState(0);
   const [targets] = useState(generateTargets);
@@ -257,20 +258,22 @@ export const ResizeBox = ({
         />
       ) : null}
 
-      <ResizableBox
-        width={width}
-        height={height}
-        x={x}
-        y={y}
-        className="resizableBox"
-      >
-        <Corners className="corners">
-          <Corner className="corner top-left" />
-          <Corner className="corner top-right" />
-          <Corner className="corner bottom-left" />
-          <Corner className="corner bottom-right" />
-        </Corners>
-      </ResizableBox>
+      {!roomCompleted && (
+        <ResizableBox
+          width={width}
+          height={height}
+          x={x}
+          y={y}
+          className="resizableBox"
+        >
+          <Corners className="corners">
+            <Corner className="corner top-left" />
+            <Corner className="corner top-right" />
+            <Corner className="corner bottom-left" />
+            <Corner className="corner bottom-right" />
+          </Corners>
+        </ResizableBox>
+      )}
     </>
   );
 };
