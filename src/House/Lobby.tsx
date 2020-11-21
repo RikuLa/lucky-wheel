@@ -4,6 +4,9 @@ import { rooms } from "./rooms";
 import { useSyncedState } from "./sync";
 import Spaceship from "./Spaceship";
 
+// @ts-ignore
+import ambient from "../assets/OutThere.ogg";
+
 const Container = styled.div`
   margin: 0;
   padding: 40px 20px;
@@ -78,9 +81,34 @@ const PopupPermissionsEnabler = ({ onPass }: { onPass: () => void }) => {
 type GameState = "waiting" | "loading" | "active" | "game-over" | "completed";
 
 const Lobby = () => {
+  const [tempo, setTempo] = React.useState(1);
   const [popupsWork, setPopupsWork] = React.useState(false);
   const [state, setState] = React.useState<GameState>("waiting");
   const roomWindows = React.useRef<Window[]>();
+  const audioCtx = React.useRef<AudioContext>();
+  const source = React.useRef<AudioBufferSourceNode>();
+
+  React.useEffect(() => {
+    audioCtx.current = new AudioContext();
+
+    fetch(ambient)
+      .then((response) => response.arrayBuffer())
+      .then((buffer) => audioCtx.current.decodeAudioData(buffer))
+      .then((sample) => {
+        source.current = audioCtx.current.createBufferSource();
+        source.current.loop = true;
+        source.current.buffer = sample;
+        source.current.start(0);
+        source.current.connect(audioCtx.current.destination);
+      });
+  }, []);
+
+  React.useEffect(() => {
+    if (source.current) {
+      source.current.playbackRate.value = tempo;
+    }
+  }, [tempo]);
+
   const [syncedState] = useSyncedState();
 
   React.useEffect(() => {
@@ -224,6 +252,14 @@ const Lobby = () => {
           <div>You have done it! Sweet, sweet cryosleep calls</div>
         </>
       )}
+      <input
+        type={"range"}
+        min={"0.25"}
+        max={"3"}
+        step={"0.25"}
+        value={tempo}
+        onChange={(e) => setTempo(Number(e.target.value))}
+      />
     </Container>
   );
 };
