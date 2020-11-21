@@ -3,12 +3,18 @@ import styled from "styled-components";
 import { RoomApi } from "../../rooms";
 
 const Card = styled.div`
-  width: 100px;
-  height: 60px;
+  width: 3em;
+  height: 8em;
   position: absolute;
-  top: ${(props) => (props.y ? props.y : 100)}px;
-  left: ${(props) => (props.x ? props.x : 100)}px;
+  bottom: ${(props) => (props.y ? props.y : 100)}%;
+  left: ${(props) => (props.x ? props.x : 100)}%;
   background: ${(props) => (props.color ? props.color : "#00ff00")};
+  border: ${(props) => (props.selected ? "6px solid #FFFFFF" : null)};
+  font-size: 0.8em;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
 `;
 
 const Reader = styled.div`
@@ -18,16 +24,10 @@ const Reader = styled.div`
   top: ${(props) => (props.y ? props.y : 100)}px;
   left: ${(props) => (props.x ? props.x : 100)}px;
   background: ${(props) => (props.color ? props.color : "#00ff00")};
+  font-size: 0.8em;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
 `;
-
-/*
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-}
-*/
 
 function getRandomColor() {
   const letters = "0123456789ABCDEF";
@@ -46,35 +46,39 @@ const generateCards = () => [
 ];
 
 const generateCard = () => {
-  const code = Math.random().toString().substr(2, 8);
+  const code = Math.random().toString().substr(2, 6);
   return { code: code, color: getRandomColor(), solved: false };
 };
 
 export const Cards = ({ onReady, onComplete }: RoomApi) => {
-  const [complete, setComplete] = useState(false);
   const [codes, setCodes] = useState(generateCards);
+  const [selected, setSelected] = useState(null);
 
   useEffect(() => {
     onReady("Cards");
   }, []);
 
   React.useEffect(() => {
-    if (complete) {
+    if (codes.every((c) => c.solved)) {
+      console.log("jee");
       onComplete();
+    } else {
+      console.log("yhyy", codes);
     }
-  }, [complete]);
-  console.log("cide", codes);
+  }, [selected]);
   return (
     <>
       {codes.map((c, i) => {
         return (
           <Card
             key={c.code}
-            x={10}
-            y={100 + i * 100}
+            x={5 + i * 25}
+            y={5}
             color={c.color}
+            selected={selected === c.code}
             onClick={() => {
               navigator.clipboard.writeText(c.code);
+              setSelected(c.code);
             }}
           >
             {c.code}
@@ -91,14 +95,13 @@ export const Cards = ({ onReady, onComplete }: RoomApi) => {
             onClick={() => {
               navigator.clipboard.readText().then((clipText) => {
                 if (c.code === clipText) {
-                  console.log("yeyye");
                   const newCodes = codes.slice();
                   const ni = newCodes.indexOf(c);
                   newCodes[ni].solved = true;
                   setCodes(newCodes);
-                } else {
-                  console.log("ei oo", c.code, clipText);
                 }
+                navigator.clipboard.writeText("");
+                setSelected(null);
               });
             }}
           >
