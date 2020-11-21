@@ -151,7 +151,12 @@ const Lobby = () => {
         </>
       ) : state === "game-over" ? (
         <>
-          <TextBox>Game over! Refresh to try again.</TextBox>
+          <TextBox>
+            Game over!{" "}
+            <ActionButton onClick={() => location.reload()}>
+              Try again?
+            </ActionButton>
+          </TextBox>
         </>
       ) : state === "active" ? (
         <>
