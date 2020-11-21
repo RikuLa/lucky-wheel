@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { MessageEmitter } from "./util/WordStream";
+import { RoomApi } from "../rooms";
 
 const Radio = styled.div`
   height: 500px;
@@ -31,7 +32,7 @@ interface State {
   message: string;
 }
 
-export class WordTuner extends React.PureComponent<unknown, State> {
+export class WordTuner extends React.PureComponent<RoomApi, State> {
   private onMessage = (value: string) => {
     const newValue = (this.state.message + value).substr(-this.messageLength);
     this.setState({ message: newValue });

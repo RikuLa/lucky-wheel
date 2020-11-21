@@ -1,8 +1,6 @@
 import * as React from "react";
-import { RoomApi } from "./api";
+import { rooms } from "./rooms";
 import Lobby from "./Lobby";
-
-const RoomStub = () => "";
 
 export const House = () => {
   const [roomId, setRoomId] = React.useState(null);
@@ -15,12 +13,9 @@ export const House = () => {
     },
     false
   );
-  // @ts-ignore
-  const Room: React.Component<RoomApi> | null =
-    roomId !== null ? RoomStub : null;
+  const Room = rooms[roomId];
   if (Room !== null) {
-    // @ts-ignore
-    return <Room />;
+    return <Room isSpying={false} />;
   } else {
     return <Lobby />;
   }
