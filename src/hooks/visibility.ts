@@ -12,6 +12,7 @@ export const useIsVisible = (): [boolean] => {
   };
 
   useEffect(() => {
+    handleVisibilityChange();
     document.addEventListener(
       "visibilitychange",
       handleVisibilityChange,
