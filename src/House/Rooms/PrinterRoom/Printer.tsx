@@ -34,7 +34,6 @@ export const DokuText = styled.div`
   top: ${(props) => (props.y ? props.y : 100)}%;
   left: ${(props) => (props.x ? props.x : 100)}%;
   transform: ${(props) => (props.selected ? "rotate(20deg)" : null)};
-
   width: 60px;
   height: 60px;
   margin: 10px;
