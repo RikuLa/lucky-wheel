@@ -2,9 +2,11 @@
 
 Available in https://rikula.github.io/lucky-wheel/
 
+A space story game for the lucky wheels hackathon. Your a space-engineer looking for a new home planet. You will have to solve puzzles spanning multiple tabs in your browser to analyse the local planets, decrypt messages from home, and to correct the course of your spaceship.
+
 ## Intro Video
 
-[![Video thumbnail placeholder](doc/screenshot_youtube.PNG)](https://www.youtube.com/watch?v=VIDEO-ID "Put hover text here!")
+https://youtu.be/5HXUw6YXDqk
 
 ## API Usage
 
@@ -55,6 +57,7 @@ https://rikula.github.io/lucky-wheel/
 - In order for the game to work popups need to be enabled, please see instructions below:
 - For best experience close all other tabs before you begin the game, otherwise
 the player needs to navigate back to the start screen.
+- The game will request clipboard access during one of the puzzles.
 
 ### Allowing popups in chrome
 
@@ -64,5 +67,5 @@ If not; popups can be allowed from:
 1. Settings
 2. Site-settings
 3. Pop-ups and redirects
-4. Allow `localhost:1234`
+4. Allow `localhost:1234` & https://rikula.github.io
 
