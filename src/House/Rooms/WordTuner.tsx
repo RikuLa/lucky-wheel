@@ -174,7 +174,7 @@ export class WordTuner extends React.PureComponent<RoomApi, State> {
             </ControlsContainer>
           </Radio>
         </RadioContainer>
-        {false && <OxygenMeter roomId="wordBox" />}
+        <OxygenMeter roomId="wordBox" />
       </>
     );
   }
