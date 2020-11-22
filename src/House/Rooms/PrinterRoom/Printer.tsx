@@ -71,7 +71,7 @@ const generateDocument = (n) => {
     color: getRandomColor(),
     solved: false,
     x: 5 + 10 * Math.round(Math.random() * 7),
-    y: 5 + 5 * Math.round(Math.random() * 16),
+    y: 10 + 5 * Math.round(Math.random() * 15),
   };
 };
 
