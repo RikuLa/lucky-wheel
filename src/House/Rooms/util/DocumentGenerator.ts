@@ -12,7 +12,7 @@ export const generateDocument = (n) => {
     color: getRandomColor(),
     solved: false,
     x: 5 + 10 * Math.round(Math.random() * 7),
-    y: 5 + 5 * Math.round(Math.random() * 17),
+    y: 10 + 5 * Math.round(Math.random() * 14),
   };
 };
 
