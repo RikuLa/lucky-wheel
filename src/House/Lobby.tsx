@@ -16,25 +16,30 @@ import winImage from "../assets/win_cryo.png";
 
 export const Container = styled.div`
   margin: 0;
-  padding: 40px 20px;
+  padding: 20px 20px;
   background-color: rgba(0, 0, 0, 0.8);
+  height: 100vh;
+  overflow-y: scroll;
 `;
 
 export const TextBox = styled.div`
   width: 100%;
-  font-size: 1.1em;
+  padding: 5px;
+  margin: 10px 0;
 `;
 
 export const ActionButton = styled.div`
   margin-top: 20px;
   padding: 8px;
   background: #541388;
-  padding: 5px;
+  padding: 10px 5px;
+  width: 100%;
   background: ${(props) => (props.disabled ? "lightgray" : "#541388")};
   color: ${(props) => (props.disabled ? "darkgray" : "#ffd400")};
   display: inline-block;
   text-align: center;
   cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+  border-radius: 4px;
 `;
 
 const PopupPrompt = styled.div`
@@ -55,11 +60,7 @@ const StrikedThrough = styled.span`
 `;
 
 const LimitedImage = styled.img`
-  margin: auto;
-  width: 340px;
-  max-width: 100%;
-  float: left;
-  padding: 10px;
+  width: 100%;
 `;
 
 const GameEndText = styled.div`
@@ -157,17 +158,13 @@ const Lobby = () => {
 
   return (
     <Container>
-      {state === "waiting" && (
-        <PopupPrompt done={popupsWork}>
-          {popupsWork ? (
-            "Popups confirmed to work!"
-          ) : (
-            <PopupPermissionsEnabler onPass={() => setPopupsWork(true)} />
-          )}
-        </PopupPrompt>
-      )}
       {state === "waiting" ? (
         <>
+          {!popupsWork && (
+            <PopupPrompt done={popupsWork}>
+              <PopupPermissionsEnabler onPass={() => setPopupsWork(true)} />
+            </PopupPrompt>
+          )}
           <div>
             <LimitedImage
               src={startImage}
@@ -218,7 +215,7 @@ const Lobby = () => {
       ) : state === "game-over" ? (
         <>
           <TextBox>
-            Death comes to those who do not have oxygen. Game over!{" "}
+            Death comes to those who do not have oxygen. Game over!
             <ActionButton onClick={() => location.reload()}>
               Try again?
             </ActionButton>
