@@ -28,6 +28,14 @@ export const TextBox = styled.div`
   margin: 10px 0;
 `;
 
+export const Header = styled.h1`
+  width: 100%;
+  text-align: center;
+  margin: 0 0 10px 0;
+  font-size: 2em;
+  font-weight: bold;
+`;
+
 export const ActionButton = styled.div`
   margin-top: 20px;
   padding: 8px;
@@ -66,6 +74,21 @@ const LimitedImage = styled.img`
 const GameEndText = styled.div`
   height: 250px;
 `;
+
+const ActiveContainer = styled.div`
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr;
+
+  @media screen and (min-width: 500px) {
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr;
+  }
+`;
+
+const TaskContainer = styled.div``;
+
+const ShipContainer = styled.div``;
 
 const attemptPopups = () => {
   const [a, b] = [window.open("about:blank"), window.open("about:blank")];
@@ -166,6 +189,7 @@ const Lobby = () => {
             </PopupPrompt>
           )}
           <div>
+            <Header>Good Morning, Commander!</Header>
             <LimitedImage
               src={startImage}
               alt="A frustrated engineer climbs out of a cryo-pod"
@@ -227,32 +251,33 @@ const Lobby = () => {
         </>
       ) : state === "active" ? (
         <>
-          <TextBox>Game active</TextBox>
-          <br />
-          <div>
-            Tasks (
-            {
-              Object.values(syncedState.roomStates).filter((s) => s.completed)
-                .length
-            }
-            / {Object.values(syncedState.roomStates).length} completed):
-          </div>
-          <div>
-            <ul>
-              {Object.entries(syncedState.roomStates).map(([id, state]) => {
-                if (state.completed) {
-                  return (
-                    <li key={id}>
-                      <StrikedThrough>{id}</StrikedThrough>
-                    </li>
-                  );
-                } else {
-                  return <li key={id}>{id}</li>;
-                }
-              })}
-            </ul>
-          </div>
-          <Spaceship roomStates={syncedState.roomStates} />
+          <Header>Mission In Progress</Header>
+          <ActiveContainer>
+            <TaskContainer>
+              Tasks (
+              {
+                Object.values(syncedState.roomStates).filter((s) => s.completed)
+                  .length
+              }
+              / {Object.values(syncedState.roomStates).length} completed):
+              <ul>
+                {Object.entries(syncedState.roomStates).map(([id, state]) => {
+                  if (state.completed) {
+                    return (
+                      <li key={id}>
+                        <StrikedThrough>{id}</StrikedThrough>
+                      </li>
+                    );
+                  } else {
+                    return <li key={id}>{id}</li>;
+                  }
+                })}
+              </ul>
+            </TaskContainer>
+            <ShipContainer>
+              <Spaceship roomStates={syncedState.roomStates} />
+            </ShipContainer>
+          </ActiveContainer>
           {Object.values(syncedState.roomStates).every(
             (state) => state.completed
           ) ? (
@@ -274,10 +299,7 @@ const Lobby = () => {
           <TextBox>Completed!</TextBox>
           <br />
           <GameEndText>
-            <LimitedImage
-              src={winImage}
-              alt="The player receedes back to the sleep"
-            />
+            <LimitedImage src={winImage} />
             <span>
               Unfortunately this does not seem like the place for you. Thus the
               cryo sleep calls for you again.
