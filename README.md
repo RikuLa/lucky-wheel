@@ -1,12 +1,14 @@
-# Lucky Wheel App
+# The Space Voyage
 
 Available in https://rikula.github.io/lucky-wheel/
 
-## Usage
+## Intro Video
 
 [![Video thumbnail placeholder](doc/screenshot_youtube.PNG)](https://www.youtube.com/watch?v=VIDEO-ID "Put hover text here!")
 
-Used APIs (**From roulette**)
+## API Usage
+
+Used APIs (**APIs listed in bold** are from the roulette)
 
 - **Page Visibility API**
 - **ReadableStream**
@@ -16,6 +18,16 @@ Used APIs (**From roulette**)
 - Web Storage API
 - Canvas API
 
+## How to build and Run the Project
+
+Requirements: [yarn](https://yarnpkg.com/)
+
+Install dependencies:
+
+```
+yarn install
+```
+
 ### Development
 
 To start the app with hot module reloading run:
@@ -24,13 +36,6 @@ To start the app with hot module reloading run:
 yarn start
 ```
 
-### Chrome allow pop-ups
-
-1. Settings
-2. Site-settings
-3. Pop-ups and redirects
-4. Allow `localhost:1234`
-
 ### Production
 
 To build the app in production mode run:
@@ -38,3 +43,24 @@ To build the app in production mode run:
 ```
 yarn build
 ```
+
+## Link to the mobile website
+
+https://rikula.github.io/lucky-wheel/
+
+### Restrictions:
+- The game has been developed using Android Chrome. Please use it for best results.
+- In order for the game to work popups need to be enabled, please see instructions below:
+- For best experience close all other tabs before you begin the game, otherwise
+the player needs to navigate back to the start screen.
+
+### Allowing popups in chrome
+
+Chrome should prompt you to allow popups from our site. 
+
+If not; popups can be allowed from:
+1. Settings
+2. Site-settings
+3. Pop-ups and redirects
+4. Allow `localhost:1234`
+
