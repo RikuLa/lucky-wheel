@@ -302,7 +302,7 @@ const Lobby = () => {
           <br />
           <GameEndText>
             <LimitedImage src={winImage} />
-            <span>Well deserved sleep can continue.</span>
+            <span>Well-deserved sleep can continue.</span>
           </GameEndText>
         </>
       )}
