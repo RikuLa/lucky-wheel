@@ -33,6 +33,7 @@ const Radio = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  margin-bottom: 150px;
 `;
 
 const TextDisplay = styled.div`
