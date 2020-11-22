@@ -7,35 +7,46 @@ const Canvas = styled.canvas`
 `;
 
 // @ts-ignore
-import spaceship from "../assets/spaceship.png";
+import spaceship_on from "../assets/rocket_On.png";
+// @ts-ignore
+import spaceship_off from "../assets/rocket_Off.png";
 
 type Props = {
   roomStates: SharedState["roomStates"];
 };
 
-const img = new Image();
-img.src = spaceship;
+const imgOn = new Image();
+imgOn.src = spaceship_on;
+
+const imgOff = new Image();
+imgOff.src = spaceship_off;
 
 const updateCanvas = (canvas: HTMLCanvasElement, props: Props) => {
   const ctx = canvas.getContext("2d");
   ctx.textAlign = "center";
-  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  ctx.drawImage(
+    props.roomStates.engine.completed ? imgOn : imgOff,
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
 
   ctx.fillStyle = props.roomStates.resizer.completed ? "green" : "gray";
-  ctx.fillRect(0.65 * canvas.width - 5, 0.7 * canvas.height, 10, 10);
-  ctx.fillText("Fax", 0.65 * canvas.width, 0.7 * canvas.height);
+  ctx.fillRect(0.5 * canvas.width - 5, 0.7 * canvas.height, 10, 10);
+  ctx.fillText("Fax", 0.5 * canvas.width, 0.7 * canvas.height);
 
   ctx.fillStyle = props.roomStates.resizer.completed ? "green" : "gray";
-  ctx.fillRect(0.35 * canvas.width - 5, 0.15 * canvas.height, 10, 10);
-  ctx.fillText("Scanner", 0.35 * canvas.width, 0.15 * canvas.height);
+  ctx.fillRect(0.25 * canvas.width - 5, 0.35 * canvas.height, 10, 10);
+  ctx.fillText("Scanner", 0.25 * canvas.width, 0.35 * canvas.height);
 
   ctx.fillStyle = props.roomStates.wordBox.completed ? "green" : "gray";
-  ctx.fillRect(0.4 * canvas.width - 5, 0.8 * canvas.height, 10, 10);
-  ctx.fillText("Word Box", 0.4 * canvas.width, 0.8 * canvas.height);
+  ctx.fillRect(0.3 * canvas.width - 5, 0.8 * canvas.height, 10, 10);
+  ctx.fillText("Word Box", 0.3 * canvas.width, 0.8 * canvas.height);
 
   ctx.fillStyle = props.roomStates.engine.completed ? "green" : "gray";
-  ctx.fillRect(0.65 * canvas.width - 5, 0.2 * canvas.height, 10, 10);
-  ctx.fillText("Engine", 0.65 * canvas.width, 0.2 * canvas.height);
+  ctx.fillRect(0.5 * canvas.width - 5, 0.2 * canvas.height, 10, 10);
+  ctx.fillText("Engine", 0.5 * canvas.width, 0.2 * canvas.height);
 };
 
 export default function Spaceship(props: Props) {
