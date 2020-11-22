@@ -5,10 +5,11 @@ import { RoomApi } from "../../rooms";
 import { useIsVisible } from "../../../hooks/visibility";
 import { generateDocument } from "../util/DocumentGenerator";
 
-import { Document } from "../PrinterRoom/Printer";
-
 import { OxygenMeter } from "../../../OxygenMeter";
 import { ExitHatch } from "../../ExitHatch";
+
+// @ts-ignore
+import FaxImg from "../../../assets/faxeri.png";
 
 const TextDisplay = styled.div`
   width: 100%;
@@ -28,16 +29,58 @@ const TextDisplay = styled.div`
   justify-content: center;
 `;
 
-const FaxMachine = styled(Document)`
+export const DokuText = styled.div`
+  top: ${(props) => (props.y ? props.y : 100)}%;
+  left: ${(props) => (props.x ? props.x : 100)}%;
+  transform: ${(props) => (props.selected ? "rotate(20deg)" : null)};
   width: 60px;
-  height: 50px;
+  height: 60px;
+  margin: 8em;
+  margin-top: 10px;
+  position: absolute;
+  font-size: 15px;
+  font-weight: bolder;
+  word-wrap: break-word;
+  font-family: "Courier New", Courier, monospace;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #000;
+  text-shadow: #000 0 0 3px;
+  color: #fff;
+  text-align: center;
+  line-height: 25px;
+`;
+
+export const FaxImage = styled.img`
+  top: ${(props) => (props.y ? props.y : 100)}%;
+  left: ${(props) => (props.x ? props.x : 100)}%;
+  filter: ${(props) => (props.completed ? "hue-rotate(90deg)" : null)};
+  width: 16em;
+  height: 16em;
+  position: absolute;
+  font-size: 15px;
+  font-weight: bolder;
+  word-wrap: break-word;
+  font-family: "Courier New", Courier, monospace;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #000;
+  text-shadow: #000 0 0 3px;
+  color: #fff;
+  text-align: center;
+  line-height: 25px;
+  src: ${(props) => (props.src ? props.src : FaxImg)};
+`;
+
+const FaxMachine = styled(FaxImage)`
   position: absolute;
   top: ${(props) => (props.y ? props.y : 100)}%;
   left: ${(props) => (props.x ? props.x : 100)}%;
-  background: ${(props) => (props.color ? props.color : "#00ff00")};
-  border: ${(props) => (props.completed ? "2px solid #FFFFFF" : null)};
 `;
+/**
+ * 
+ *   background: ${(props) => (props.color ? props.color : "#00ff00")};
+  border: ${(props) => (props.completed ? "2px solid #FFFFFF" : null)};
 
+ */
 const generateDocuments = () => {
   const starLogs = [];
   starLogs.push(generateDocument(14));
@@ -90,30 +133,39 @@ export const Fax = ({ onReady, onComplete, roomCompleted }: RoomApi) => {
       </TextDisplay>
       {codes.map((c) => {
         return (
-          <FaxMachine
-            key={c.code}
-            x={c.x}
-            y={c.y}
-            color={c.color}
-            completed={c.solved}
-            onClick={() => {
-              navigator.clipboard.readText().then((clipText) => {
-                if (c.code === clipText) {
-                  const newCodes = codes.slice();
-                  const ni = newCodes.indexOf(c);
-                  newCodes[ni].solved = true;
-                  setCodes(newCodes);
-                  setStatus({ label: "Sending document..", color: "gray" });
-                } else {
-                  setStatus({ label: "Wrong document", color: "#FF4136" });
-                }
-                navigator.clipboard.writeText("");
-                setSelected(null);
-              });
-            }}
-          >
-            {c.code}
-          </FaxMachine>
+          <>
+            <FaxMachine
+              key={c.code}
+              x={10}
+              y={30}
+              completed={c.solved}
+              src={FaxImg}
+              onClick={() => {
+                navigator.clipboard.readText().then((clipText) => {
+                  if (c.code === clipText) {
+                    const newCodes = codes.slice();
+                    const ni = newCodes.indexOf(c);
+                    newCodes[ni].solved = true;
+                    setCodes(newCodes);
+                    setStatus({ label: "Sending document..", color: "gray" });
+                  } else {
+                    setStatus({ label: "Wrong document", color: "#FF4136" });
+                  }
+                  navigator.clipboard.writeText("");
+                  setSelected(null);
+                });
+              }}
+            />
+            <DokuText
+              key={c.code}
+              x={10}
+              y={30}
+              color={c.color}
+              completed={c.solved}
+            >
+              {c.code}
+            </DokuText>
+          </>
         );
       })}
     </>
