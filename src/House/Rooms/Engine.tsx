@@ -16,6 +16,7 @@ const ThrottleSlider = styled.input`
   background-color: transparent;
   -webkit-appearance: none;
   -webkit-transform: rotate(-90deg);
+  touch-action: none;
   &:focus {
     outline: none;
   }
