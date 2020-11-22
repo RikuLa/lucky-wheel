@@ -85,7 +85,10 @@ export const Printer = ({ onReady, onComplete }: RoomApi) => {
   }, []);
 
   React.useEffect(() => {
-    onComplete();
+    //Printer is completed the same time as the fax
+    if (false) {
+      onComplete();
+    }
   }, []);
 
   useEffect(() => {

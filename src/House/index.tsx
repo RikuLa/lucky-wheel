@@ -30,6 +30,9 @@ const RoomManager = ({
         document.title = `<${roomName}>`;
       }}
       onComplete={() => {
+        if (roomId === "fax") {
+          setRoomState("printer", { completed: true });
+        }
         setRoomState(roomId, { completed: true });
         console.log(roomId, "to completion");
       }}

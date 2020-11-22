@@ -17,6 +17,10 @@ const updateCanvas = (canvas: HTMLCanvasElement, props: Props) => {
   ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
   ctx.fillStyle = props.roomStates.resizer.completed ? "green" : "gray";
+  ctx.fillRect(0.65 * canvas.width - 5, 0.7 * canvas.height, 10, 10);
+  ctx.fillText("Fax", 0.65 * canvas.width, 0.7 * canvas.height);
+
+  ctx.fillStyle = props.roomStates.resizer.completed ? "green" : "gray";
   ctx.fillRect(0.35 * canvas.width - 5, 0.15 * canvas.height, 10, 10);
   ctx.fillText("Scanner", 0.35 * canvas.width, 0.15 * canvas.height);
 
