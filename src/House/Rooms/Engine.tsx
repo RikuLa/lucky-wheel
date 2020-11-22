@@ -11,6 +11,11 @@ import bosestand from "../../assets/bosestand.webp";
 
 import { OxygenMeter } from "../../OxygenMeter";
 
+const CenteredParagraph = styled.p`
+  text-align: center;
+  padding: 3px;
+`;
+
 const ThrottleSlider = styled.input`
   writing-mode: bt-lr; /* IE */
   background-color: transparent;
@@ -45,20 +50,19 @@ const ThrottleSlider = styled.input`
 
 const HeadphoneHolder = styled.div`
   cursor: pointer;
-  width: 300px;
-  height: 300px;
   background-image: url(${bosestand});
   background-size: contain;
+  background-repeat: no-repeat;
 `;
 
 const Headphones = styled.div`
   cursor: pointer;
-  width: 250px;
-  height: 250px;
+  width: 200px;
+  height: 200px;
   background-image: url(${boset});
   background-size: contain;
-  margin-left: 25px;
-  margin-top: -13px;
+  margin-left: 55px;
+  margin-top: -8px;
 `;
 
 const ControlPanel = styled.div`
@@ -68,7 +72,7 @@ const ControlPanel = styled.div`
   height: 450px;
   grid-template-columns: 140px 1fr;
   grid-template-rows: 100px 1fr;
-  grid-template-areas: "throttle text" "throttle headphones";
+  grid-template-areas: "text text" "throttle headphones";
   background-color: #333333;
   border: 1px solid black;
   border-radius: 4px;
@@ -81,9 +85,8 @@ const ControlPanel = styled.div`
   & ${Headphones} {
     grid-area: headphones;
   }
-  & p {
+  & span {
     grid-area: text;
-    display: block;
   }
 `;
 
@@ -133,12 +136,10 @@ export const Engine = (props: RoomApi) => {
   return (
     <div>
       <OxygenMeter roomId="engine" />
-      <p>
+      <CenteredParagraph>
         You are wide awake, but something is missing. Where&apos;s the familiar
         sound of engine rumbling?
-      </p>
-      <br />
-      <br />
+      </CenteredParagraph>
       <ControlPanel>
         <ThrottleSlider
           type="range"
@@ -159,13 +160,13 @@ export const Engine = (props: RoomApi) => {
             }
           }}
         />
-        <p>
+        <span>
           {headphones
-            ? "Time to move onto next tasks by switching to another tab"
+            ? "Move to the next task by switching to another tab!"
             : props.roomCompleted
-            ? "Great! Here's your complimentary headphones to keep the volume down:"
+            ? "Great! Here's your complimentary headphones to keep it quiet:"
             : "Turn the engine on by turning on throttle"}
-        </p>
+        </span>
         {props.roomCompleted && (
           <HeadphoneHolder>
             {!headphones && <Headphones onClick={() => setHeadphones(true)} />}
