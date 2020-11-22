@@ -16,25 +16,38 @@ import winImage from "../assets/win_cryo.png";
 
 export const Container = styled.div`
   margin: 0;
-  padding: 40px 20px;
+  padding: 20px 20px;
   background-color: rgba(0, 0, 0, 0.8);
+  height: 100vh;
+  overflow-y: scroll;
 `;
 
 export const TextBox = styled.div`
   width: 100%;
-  font-size: 1.1em;
+  padding: 5px;
+  margin: 10px 0;
+`;
+
+export const Header = styled.h1`
+  width: 100%;
+  text-align: center;
+  margin: 0 0 10px 0;
+  font-size: 2em;
+  font-weight: bold;
 `;
 
 export const ActionButton = styled.div`
   margin-top: 20px;
   padding: 8px;
   background: #541388;
-  padding: 5px;
+  padding: 10px 5px;
+  width: 100%;
   background: ${(props) => (props.disabled ? "lightgray" : "#541388")};
   color: ${(props) => (props.disabled ? "darkgray" : "#ffd400")};
   display: inline-block;
   text-align: center;
   cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+  border-radius: 4px;
 `;
 
 const PopupPrompt = styled.div`
@@ -55,16 +68,27 @@ const StrikedThrough = styled.span`
 `;
 
 const LimitedImage = styled.img`
-  margin: auto;
-  width: 340px;
-  max-width: 100%;
-  float: left;
-  padding: 10px;
+  width: 100%;
 `;
 
 const GameEndText = styled.div`
   height: 250px;
 `;
+
+const ActiveContainer = styled.div`
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr;
+
+  @media screen and (min-width: 500px) {
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr;
+  }
+`;
+
+const TaskContainer = styled.div``;
+
+const ShipContainer = styled.div``;
 
 const attemptPopups = () => {
   const [a, b] = [window.open("about:blank"), window.open("about:blank")];
@@ -100,7 +124,6 @@ const PopupPermissionsEnabler = ({ onPass }: { onPass: () => void }) => {
 type GameState = "waiting" | "loading" | "active" | "game-over" | "completed";
 
 const Lobby = () => {
-  const [tempo, setTempo] = React.useState(1);
   const [popupsWork, setPopupsWork] = useLocalStorage("popupsWork", false);
   const [state, setState] = React.useState<GameState>("waiting");
   const roomWindows = React.useRef<Window[]>();
@@ -121,12 +144,6 @@ const Lobby = () => {
         source.current.connect(audioCtx.current.destination);
       });
   }, []);
-
-  React.useEffect(() => {
-    if (source.current) {
-      source.current.playbackRate.value = tempo;
-    }
-  }, [tempo]);
 
   const [syncedState] = useSyncedState();
 
@@ -164,18 +181,15 @@ const Lobby = () => {
 
   return (
     <Container>
-      {state === "waiting" && (
-        <PopupPrompt done={popupsWork}>
-          {popupsWork ? (
-            "Popups confirmed to work!"
-          ) : (
-            <PopupPermissionsEnabler onPass={() => setPopupsWork(true)} />
-          )}
-        </PopupPrompt>
-      )}
       {state === "waiting" ? (
         <>
+          {!popupsWork && (
+            <PopupPrompt done={popupsWork}>
+              <PopupPermissionsEnabler onPass={() => setPopupsWork(true)} />
+            </PopupPrompt>
+          )}
           <div>
+            <Header>Good Morning, Commander!</Header>
             <LimitedImage
               src={startImage}
               alt="A frustrated engineer climbs out of a cryo-pod"
@@ -225,7 +239,7 @@ const Lobby = () => {
       ) : state === "game-over" ? (
         <>
           <TextBox>
-            Death comes to those who do not have oxygen. Game over!{" "}
+            Death comes to those who do not have oxygen. Game over!
             <ActionButton onClick={() => location.reload()}>
               Try again?
             </ActionButton>
@@ -237,32 +251,33 @@ const Lobby = () => {
         </>
       ) : state === "active" ? (
         <>
-          <TextBox>Game active</TextBox>
-          <br />
-          <div>
-            Tasks (
-            {
-              Object.values(syncedState.roomStates).filter((s) => s.completed)
-                .length
-            }
-            / {Object.values(syncedState.roomStates).length} completed):
-          </div>
-          <div>
-            <ul>
-              {Object.entries(syncedState.roomStates).map(([id, state]) => {
-                if (state.completed) {
-                  return (
-                    <li key={id}>
-                      <StrikedThrough>{id}</StrikedThrough>
-                    </li>
-                  );
-                } else {
-                  return <li key={id}>{id}</li>;
-                }
-              })}
-            </ul>
-          </div>
-          <Spaceship roomStates={syncedState.roomStates} />
+          <Header>Mission In Progress</Header>
+          <ActiveContainer>
+            <TaskContainer>
+              Tasks (
+              {
+                Object.values(syncedState.roomStates).filter((s) => s.completed)
+                  .length
+              }
+              / {Object.values(syncedState.roomStates).length} completed):
+              <ul>
+                {Object.entries(syncedState.roomStates).map(([id, state]) => {
+                  if (state.completed) {
+                    return (
+                      <li key={id}>
+                        <StrikedThrough>{id}</StrikedThrough>
+                      </li>
+                    );
+                  } else {
+                    return <li key={id}>{id}</li>;
+                  }
+                })}
+              </ul>
+            </TaskContainer>
+            <ShipContainer>
+              <Spaceship roomStates={syncedState.roomStates} />
+            </ShipContainer>
+          </ActiveContainer>
           {Object.values(syncedState.roomStates).every(
             (state) => state.completed
           ) ? (
@@ -284,10 +299,7 @@ const Lobby = () => {
           <TextBox>Completed!</TextBox>
           <br />
           <GameEndText>
-            <LimitedImage
-              src={winImage}
-              alt="The player receedes back to the sleep"
-            />
+            <LimitedImage src={winImage} />
             <span>
               Unfortunately this does not seem like the place for you. Thus the
               cryo sleep calls for you again.
@@ -295,14 +307,6 @@ const Lobby = () => {
           </GameEndText>
         </>
       )}
-      <input
-        type={"range"}
-        min={"0.25"}
-        max={"3"}
-        step={"0.25"}
-        value={tempo}
-        onChange={(e) => setTempo(Number(e.target.value))}
-      />
     </Container>
   );
 };

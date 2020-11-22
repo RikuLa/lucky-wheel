@@ -1,5 +1,10 @@
 import * as React from "react";
 import { SharedState } from "./sync";
+import styled from "styled-components";
+
+const Canvas = styled.canvas`
+  width: 100%;
+`;
 
 // @ts-ignore
 import spaceship from "../assets/spaceship.png";
@@ -41,5 +46,5 @@ export default function Spaceship(props: Props) {
       updateCanvas(current, props);
     }
   }, [canvas.current, props]);
-  return <canvas ref={canvas} />;
+  return <Canvas ref={canvas} />;
 }
