@@ -27,7 +27,7 @@ const RoomManager = ({
     <Room
       onReady={(roomName) => {
         setRoomState(roomId, { ready: true });
-        document.title = `${roomName}`;
+        document.title = `${roomName} room`;
       }}
       onComplete={() => {
         if (roomId === "fax") {
