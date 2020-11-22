@@ -36,6 +36,8 @@ To start the app with hot module reloading run:
 yarn start
 ```
 
+Navigate to `localhost:1234` to start the game
+
 ### Production
 
 To build the app in production mode run:
