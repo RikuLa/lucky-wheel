@@ -18,7 +18,7 @@ import { ExitHatch } from "../../ExitHatch";
 const minimumSize = 20;
 const miniumTarget = 40;
 const TEXT_DISPLAY_HEIGHT = 75;
-const BOTTOM_MARGIN = 50;
+const BOTTOM_MARGIN = 100;
 
 const treshold = 4;
 
