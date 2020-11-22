@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { RoomApi } from "../../rooms";
-import { OxygenMeter } from "../../../OxygenMeter";
+import { generateDocument } from "../util/DocumentGenerator";
 
 import { useIsVisible } from "../../../hooks/visibility";
+
+import { OxygenMeter } from "../../../OxygenMeter";
 
 const TextDisplay = styled.div`
   width: 100%;
@@ -40,39 +42,12 @@ const Document = styled.div`
   text-orientation: upright;
 */
 
-function getRandomColor() {
-  const letters = "0123456789ABCDEF";
-  let color = "#";
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
-
 const generateDocuments = () => {
   const starLogs = [];
   for (let n = 0; n < 20; n++) {
     starLogs.push(generateDocument(n));
   }
   return starLogs;
-};
-
-const generateDocument = (n) => {
-  const targetDate = new Date();
-  targetDate.setDate(targetDate.getDate() + 10);
-  const dd = targetDate.getDate() + n * 3;
-  const mm = targetDate.getMonth() + 1 + (n % 2 === 0 ? 1 : 0) + 1;
-  const yyyy = targetDate.getFullYear() + 231;
-  const dateString = yyyy + "" + dd + "" + mm;
-  const code = "Log" + dateString;
-  console.log(code, yyyy, dd, mm);
-  return {
-    code: code,
-    color: getRandomColor(),
-    solved: false,
-    x: 5 + 10 * Math.round(Math.random() * 7),
-    y: 10 + 5 * Math.round(Math.random() * 15),
-  };
 };
 
 export const Printer = ({ onReady, onComplete }: RoomApi) => {
