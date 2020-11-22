@@ -136,7 +136,7 @@ export const Fax = ({ onReady, onComplete, roomCompleted }: RoomApi) => {
           <>
             <FaxMachine
               key={c.code}
-              x={10}
+              x={20}
               y={30}
               completed={c.solved}
               src={FaxImg}
@@ -158,7 +158,7 @@ export const Fax = ({ onReady, onComplete, roomCompleted }: RoomApi) => {
             />
             <DokuText
               key={c.code}
-              x={10}
+              x={20}
               y={30}
               color={c.color}
               completed={c.solved}
