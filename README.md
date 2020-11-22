@@ -1,4 +1,4 @@
-# The Space Voyage
+# The Space Voyage: Journey Beyond
 
 Available in https://rikula.github.io/lucky-wheel/
 
