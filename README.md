@@ -13,6 +13,8 @@ Used APIs (**From roulette**)
 - **Resize Observer API**
 - Service Worker API
 - Clipboard API
+- Web Audio API
+- Web Storage API
 
 ### Development
 
