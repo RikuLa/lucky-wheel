@@ -33,6 +33,7 @@ const Radio = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  margin-bottom: 150px;
 `;
 
 const TextDisplay = styled.div`
@@ -174,7 +175,7 @@ export class WordTuner extends React.PureComponent<RoomApi, State> {
             </ControlsContainer>
           </Radio>
         </RadioContainer>
-        {false && <OxygenMeter roomId="wordBox" />}
+        <OxygenMeter roomId="wordBox" />
       </>
     );
   }
