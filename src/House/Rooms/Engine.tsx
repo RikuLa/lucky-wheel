@@ -10,6 +10,7 @@ import boset from "../../assets/boset.png";
 import bosestand from "../../assets/bosestand.webp";
 
 import { OxygenMeter } from "../../OxygenMeter";
+import { ExitHatch } from "../ExitHatch";
 
 const CenteredParagraph = styled.p`
   text-align: center;
@@ -135,6 +136,7 @@ export const Engine = (props: RoomApi) => {
 
   return (
     <div>
+      <ExitHatch roomId="engine" />
       <OxygenMeter roomId="engine" />
       <CenteredParagraph>
         You are wide awake, but something is missing. Where&apos;s the familiar
