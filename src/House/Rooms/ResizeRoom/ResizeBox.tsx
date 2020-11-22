@@ -55,7 +55,7 @@ const TextDisplay = styled.div`
   background-color: darkgreen;
   color: lightgreen;
   font-family: "Courier New", Courier, monospace;
-  font-size: 50px;
+  font-size: 24px;
   border-radius: 4px;
   line-height: 75px;
   height: 75px;
@@ -65,7 +65,6 @@ const TextDisplay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-}
 `;
 
 function generateTarget() {
