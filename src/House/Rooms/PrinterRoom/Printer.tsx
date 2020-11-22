@@ -7,6 +7,11 @@ import { useIsVisible } from "../../../hooks/visibility";
 
 import { OxygenMeter } from "../../../OxygenMeter";
 
+// @ts-ignore
+import folder0 from "../../../assets/doku0.png";
+// @ts-ignore
+import folder0h from "../../../assets/doku0h.png";
+
 const TextDisplay = styled.div`
   width: 100%;
   background-color: ${({ background }: { background?: string }) =>
@@ -25,9 +30,31 @@ const TextDisplay = styled.div`
   justify-content: center;
 `;
 
-export const Document = styled.div`
+export const DokuText = styled.div`
+  top: ${(props) => (props.y ? props.y : 100)}%;
+  left: ${(props) => (props.x ? props.x : 100)}%;
+  transform: ${(props) => (props.selected ? "rotate(20deg)" : null)};
+
   width: 60px;
-  height: 50px;
+  height: 60px;
+  margin: 10px;
+  margin-top: 20px;
+  position: absolute;
+  font-size: 15px;
+  font-weight: bolder;
+  word-wrap: break-word;
+  font-family: "Courier New", Courier, monospace;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #000;
+  text-shadow: #000 0 0 3px;
+  color: #fff;
+  text-align: center;
+  line-height: 25px;
+`;
+
+export const Document = styled.img`
+  width: 80px;
+  height: 80px;
   position: absolute;
   font-size: 15px;
   font-weight: bolder;
@@ -44,10 +71,11 @@ export const Document = styled.div`
 const FloatingDocument = styled(Document)`
   top: ${(props) => (props.y ? props.y : 100)}%;
   left: ${(props) => (props.x ? props.x : 100)}%;
-  background: ${(props) => (props.color ? props.color : "#00ff00")};
-  border: ${(props) => (props.selected ? "2px solid #FFFFFF" : null)};
   transform: ${(props) => (props.selected ? "rotate(20deg)" : null)};
+  src: ${(props) => (props.src ? props.src : folder0)};
 `;
+//   background: ${(props) => (props.color ? props.color : "#00ff00")};
+//   border: ${(props) => (props.selected ? "2px solid #FFFFFF" : null)};
 
 const generateDocuments = () => {
   const starLogs = [];
@@ -91,29 +119,37 @@ export const Printer = ({ onReady, onComplete }: RoomApi) => {
       </TextDisplay>
       {codes.map((c) => {
         return (
-          <FloatingDocument
-            key={c.code}
-            x={c.x}
-            y={c.y}
-            color={c.color}
-            selected={selected === c.code}
-            onClick={() => {
-              navigator.clipboard.readText().then(() => {
-                const newCodes = codes.slice().map((nc) => {
-                  if (nc.code !== c.code) {
-                    nc.x = 5 + 10 * Math.round(Math.random() * 7);
-                    nc.y = 10 + 5 * Math.round(Math.random() * 14);
-                  }
-                  return nc;
+          <>
+            <FloatingDocument
+              key={c.code}
+              x={c.x}
+              y={c.y}
+              color={c.color}
+              selected={selected === c.code}
+              src={selected === c.code ? folder0h : folder0}
+            />
+            <DokuText
+              x={c.x}
+              y={c.y}
+              selected={selected === c.code}
+              onClick={() => {
+                navigator.clipboard.readText().then(() => {
+                  const newCodes = codes.slice().map((nc) => {
+                    if (nc.code !== c.code) {
+                      nc.x = 5 + 10 * Math.round(Math.random() * 7);
+                      nc.y = 10 + 5 * Math.round(Math.random() * 14);
+                    }
+                    return nc;
+                  });
+                  setCodes(newCodes);
+                  navigator.clipboard.writeText(c.code);
+                  setSelected(c.code);
                 });
-                setCodes(newCodes);
-                navigator.clipboard.writeText(c.code);
-                setSelected(c.code);
-              });
-            }}
-          >
-            {c.code}
-          </FloatingDocument>
+              }}
+            >
+              {c.code}
+            </DokuText>
+          </>
         );
       })}
     </>
@@ -121,5 +157,6 @@ export const Printer = ({ onReady, onComplete }: RoomApi) => {
 };
 
 /*
+          </FloatingDocument>
 
 */
