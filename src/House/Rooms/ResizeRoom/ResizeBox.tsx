@@ -276,7 +276,7 @@ export const ResizeBox = ({
       </TextDisplay>
       {targets.length > currentTarget
         ? "Scan the Highlighted sector!"
-        : "Your Winner"}
+        : "GSPS Data Restored"}
       {targets.length > currentTarget ? (
         <TargetBox
           width={targets[currentTarget][0]}
