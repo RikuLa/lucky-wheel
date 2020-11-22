@@ -23,7 +23,6 @@ const TextDisplay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-}
 `;
 
 export const Document = styled.div`
@@ -46,6 +45,7 @@ const FloatingDocument = styled(Document)`
   left: ${(props) => (props.x ? props.x : 100)}%;
   background: ${(props) => (props.color ? props.color : "#00ff00")};
   border: ${(props) => (props.selected ? "2px solid #FFFFFF" : null)};
+  transform: ${(props) => (props.selected ? "rotate(20deg)" : null)};
 `;
 
 const generateDocuments = () => {
@@ -99,8 +99,10 @@ export const Printer = ({ onReady, onComplete }: RoomApi) => {
             onClick={() => {
               navigator.clipboard.readText().then(() => {
                 const newCodes = codes.slice().map((nc) => {
-                  nc.x = 5 + 10 * Math.round(Math.random() * 7);
-                  nc.y = 5 + 5 * Math.round(Math.random() * 16);
+                  if (nc.code !== c.code) {
+                    nc.x = 5 + 10 * Math.round(Math.random() * 7);
+                    nc.y = 5 + 5 * Math.round(Math.random() * 16);
+                  }
                   return nc;
                 });
                 setCodes(newCodes);
