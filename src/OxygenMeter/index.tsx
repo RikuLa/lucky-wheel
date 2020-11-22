@@ -18,6 +18,7 @@ const Container = styled.div`
   font-family: monospace;
   font-size: 14pt;
   border-radius: 6px;
+  z-index: 10;
 
   h4 {
     margin: 0;

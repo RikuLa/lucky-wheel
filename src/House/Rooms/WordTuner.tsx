@@ -4,22 +4,38 @@ import { MessageEmitter } from "./util/WordStream";
 import { RoomApi } from "../rooms";
 import { Silver } from "react-dial-knob";
 import { OxygenMeter } from "../../OxygenMeter";
-import { Container, TextBox } from "../Lobby";
+import { TextBox } from "../Lobby";
+
+const RadioContainer = styled.div`
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+
+  @media screen and (min-width: 550px) {
+    height: 100vh;
+    grid-template-columns: 175px auto;
+    grid-template-rows: 1fr;
+  }
+`;
 
 const Radio = styled.div`
-  height: 80%;
-  width: 95%;
-  margin: auto;
-  margin-top: 20px;
+  min-height: 350px;
+  max-height: 100vh;
+  max-width: 100vw;
   background-color: #222222;
   border: 1px solid gray;
   border-radius: 6px;
   padding: 20px;
   font-family: "Courier New", Courier, monospace;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const TextDisplay = styled.div`
-  width: 100%;
   background-color: darkgreen;
   color: lightgreen;
   font-family: "Courier New", Courier, monospace;
@@ -34,7 +50,6 @@ const TextDisplay = styled.div`
 `;
 
 const KnobContainer = styled.div`
-  margin-top: 40px;
   width: 100%;
   display: flex;
   justify-content: space-around;
@@ -57,7 +72,6 @@ const SubmitButton = styled.div`
   cursor: pointer;
 `;
 
-// CAN WE USE WEB ANIMS FOR ANIMATING INDICATOR?
 const Indicator = styled.div`
   height: 50px;
   width: 50px;
@@ -66,7 +80,6 @@ const Indicator = styled.div`
 `;
 
 const ControlsContainer = styled.div`
-  margin-top: 40px;
   display: grid;
   grid-template-columns: 1fr 50px;
   grid-column-gap: 20px;
@@ -120,53 +133,48 @@ export class WordTuner extends React.PureComponent<RoomApi, State> {
   render() {
     return (
       <>
-        <Container>
+        <RadioContainer>
           <TextBox>
             You go to check the comms, but somewhere along the way the radio
-            settings have taken a beating. Maybe you can identify a familiar
-            message from the chatter.
+            settings have taken a beating.
           </TextBox>
-        </Container>
-        <Radio>
-          <OxygenMeter roomId="wordBox" />
-          <TextDisplay>{this.state.message}</TextDisplay>
-          <KnobContainer>
-            <Knob>
-              <p>Offset</p>
-              <Silver
-                diameter={120}
-                min={6}
-                max={14}
-                step={1}
-                onValueChange={this.updateCipher}
-                value={this.state.cipher}
-                style={{
-                  display: "inline-block",
-                  margin: "0px 20px",
-                }}
-              />
-            </Knob>
-            <Knob>
-              <p>Phase</p>
-              <Silver
-                diameter={120}
-                min={0}
-                max={2}
-                step={1}
-                onValueChange={this.updateChannel}
-                value={this.state.channel}
-                style={{
-                  display: "inline-block",
-                  margin: "0px 20px",
-                }}
-              />
-            </Knob>
-          </KnobContainer>
-          <ControlsContainer>
-            <SubmitButton onClick={this.submitSolution}>SEND</SubmitButton>
-            <Indicator done={this.props.roomCompleted} />
-          </ControlsContainer>
-        </Radio>
+          <Radio>
+            <TextDisplay>{this.state.message}</TextDisplay>
+            <KnobContainer>
+              <Knob>
+                <Silver
+                  diameter={100}
+                  min={6}
+                  max={14}
+                  step={1}
+                  onValueChange={this.updateCipher}
+                  value={this.state.cipher}
+                  style={{
+                    display: "inline-block",
+                  }}
+                />
+              </Knob>
+              <Knob>
+                <Silver
+                  diameter={100}
+                  min={0}
+                  max={2}
+                  step={1}
+                  onValueChange={this.updateChannel}
+                  value={this.state.channel}
+                  style={{
+                    display: "inline-block",
+                  }}
+                />
+              </Knob>
+            </KnobContainer>
+            <ControlsContainer>
+              <SubmitButton onClick={this.submitSolution}>SEND</SubmitButton>
+              <Indicator done={this.props.roomCompleted} />
+            </ControlsContainer>
+          </Radio>
+        </RadioContainer>
+        {false && <OxygenMeter roomId="wordBox" />}
       </>
     );
   }
