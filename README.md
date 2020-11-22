@@ -69,3 +69,33 @@ If not; popups can be allowed from:
 3. Pop-ups and redirects
 4. Allow `localhost:1234` & https://rikula.github.io
 
+# DO NOT READ THE NEXT SECTION IF YOU DO NOT WANT SPOILERS! 
+You have been warned! :)
+
+## Stuck? 
+
+The navigation in the game is done by changing the tab
+Here is a quick walkthrough of the game:
+
+### Radio room
+
+The idea is to tune the two knobs until a solution can be seen on the screen.
+The left knob tunes the cipher key and the right knob tunes the stream channel.
+Correct answers: 13 and 2
+
+### Scanner
+
+The resizable box must match the target
+
+### Fax & Archives
+
+To pass this puzzle you need to check the fax room for the Key, go to archives, copy the correct file
+by clicking and then going back to the fax and clicking the fax-machine
+
+### Engine
+
+Simply turn up the handle to restart the engines :)
+
+### Winning the game:
+
+To win the game, navigate back to the main tab after completing all the tasks and go back to sleep.
