@@ -129,8 +129,6 @@ export const Engine = (props: RoomApi) => {
 
       bqf.type = "lowpass";
       bqf.frequency.value = 400;
-
-      console.log("fugg :DD");
     }
   }, [headphones]);
 
@@ -166,7 +164,7 @@ export const Engine = (props: RoomApi) => {
           {headphones
             ? "Move to the next task by switching to another tab!"
             : props.roomCompleted
-            ? "Great! Here's your complimentary headphones to keep it quiet:"
+            ? "Great! Here's your complimentary earmuffs to keep it quiet:"
             : "Turn the engine on by turning on throttle"}
         </span>
         {props.roomCompleted && (

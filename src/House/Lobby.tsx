@@ -195,16 +195,17 @@ const Lobby = () => {
               alt="A frustrated engineer climbs out of a cryo-pod"
             />
             <TextBox>
-              You wake up from cryo sleep to the blare of klaxons. SCP
-              RustBucket is passing by yet another sun. It&apos;s time to see if
-              this location would host your next home.
+              You wake up from cryo sleep to the blare of klaxons. The engine
+              has shut down, communications have gone dark and your location is
+              unknown. You need to fix the situation or your precious cargo of
+              potassium will never reach its destination at the Tannhauser Gate.
               <br />
               <br />
-              The planets need to be scanned, comms need to be checked for
-              messages and the course needs to be adjusted. The different parts
-              of the spaceship will be located in different tabs in your
+              Restore power to the engine, scan your surroundings to find your
+              whereabouts, adjust the communications equipment. The different
+              parts of the spaceship will be located in different tabs in your
               browser. However, the oxygen supplies are not designed for you to
-              stay awake. You better hurry...
+              stay awake. Do your job and then go back to rest to save oxygen.
             </TextBox>
           </div>
           <ActionButton
@@ -287,7 +288,7 @@ const Lobby = () => {
                 setState("completed");
               }}
             >
-              Settle down on the galaxy?
+              Go back to Cryosleep
             </ActionButton>
           ) : (
             <ActionButton disabled>
@@ -297,14 +298,11 @@ const Lobby = () => {
         </>
       ) : (
         <>
-          <TextBox>Completed!</TextBox>
+          <TextBox>Systems nominal. Regular routines restored.</TextBox>
           <br />
           <GameEndText>
             <LimitedImage src={winImage} />
-            <span>
-              Unfortunately this does not seem like the place for you. Thus the
-              cryo sleep calls for you again.
-            </span>
+            <span>Well-deserved sleep can continue.</span>
           </GameEndText>
         </>
       )}
