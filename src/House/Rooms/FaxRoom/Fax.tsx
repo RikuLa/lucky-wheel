@@ -5,14 +5,17 @@ import { RoomApi } from "../../rooms";
 import { useIsVisible } from "../../../hooks/visibility";
 import { generateDocument } from "../util/DocumentGenerator";
 
+import { Document } from "../PrinterRoom/Printer";
+
 import { OxygenMeter } from "../../../OxygenMeter";
 
 const TextDisplay = styled.div`
   width: 100%;
-  background-color: darkgreen;
+  background-color: ${({ background }: { background?: string }) =>
+    background || "darkgreen"};
   color: lightgreen;
   font-family: "Courier New", Courier, monospace;
-  font-size: 50px;
+  font-size: 35px;
   border-radius: 4px;
   line-height: 75px;
   height: 75px;
@@ -25,7 +28,7 @@ const TextDisplay = styled.div`
 }
 `;
 
-const FaxMachine = styled.div`
+const FaxMachine = styled(Document)`
   width: 60px;
   height: 50px;
   position: absolute;
@@ -33,9 +36,6 @@ const FaxMachine = styled.div`
   left: ${(props) => (props.x ? props.x : 100)}%;
   background: ${(props) => (props.color ? props.color : "#00ff00")};
   border: ${(props) => (props.completed ? "6px solid #FFFFFF" : null)};
-  font-size: 0.8em;
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: black;
 `;
 
 const generateDocuments = () => {
@@ -53,7 +53,7 @@ export const Fax = ({ onReady, onComplete }: RoomApi) => {
     onReady("Fax");
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (codes.every((c) => c.solved)) {
       onComplete();
     }
@@ -67,15 +67,25 @@ export const Fax = ({ onReady, onComplete }: RoomApi) => {
     });
   }, [visible]);
 
+  const [status, setStatus] = useState<{ color: string; label: string } | null>(
+    null
+  );
+  useEffect(() => {
+    const timer = setTimeout(() => setStatus(null), 2000);
+    return () => clearTimeout(timer);
+  }, [status]);
+
+  const solved = codes.every((c) => c.solved);
+
   return (
     <>
       <OxygenMeter roomId="fax" />
-      <TextDisplay>
-        {codes.every((c) => c.solved)
-          ? "Log has been faxed to base"
-          : selected
-          ? "holding " + selected
-          : "Return " + codes[0].code + " To the fax machine"}
+      <TextDisplay background={solved ? "#0074D9" : status && status.color}>
+        {solved
+          ? "All logs faxed!"
+          : status
+          ? status.label
+          : "Send out document"}
       </TextDisplay>
       {codes.map((c) => {
         return (
@@ -92,6 +102,9 @@ export const Fax = ({ onReady, onComplete }: RoomApi) => {
                   const ni = newCodes.indexOf(c);
                   newCodes[ni].solved = true;
                   setCodes(newCodes);
+                  setStatus({ label: "Sending document..", color: "gray" });
+                } else {
+                  setStatus({ label: "Wrong document", color: "#FF4136" });
                 }
                 navigator.clipboard.writeText("");
                 setSelected(null);

@@ -10,7 +10,7 @@ import { OxygenMeter } from "../../../OxygenMeter";
 const TextDisplay = styled.div`
   width: 100%;
   background-color: ${({ background }: { background?: string }) =>
-    background ?? "darkgreen"};
+    background || "darkgreen"};
   color: lightgreen;
   font-family: "Courier New", Courier, monospace;
   font-size: 40px;
@@ -26,15 +26,11 @@ const TextDisplay = styled.div`
 }
 `;
 
-const Document = styled.div`
+export const Document = styled.div`
   width: 60px;
   height: 50px;
   position: absolute;
-  top: ${(props) => (props.y ? props.y : 100)}%;
-  left: ${(props) => (props.x ? props.x : 100)}%;
-  background: ${(props) => (props.color ? props.color : "#00ff00")};
-  border: ${(props) => (props.selected ? "2px solid #FFFFFF" : null)};
-  font-size: 16px;
+  font-size: 15px;
   font-weight: bolder;
   word-wrap: break-word;
   font-family: "Courier New", Courier, monospace;
@@ -44,10 +40,13 @@ const Document = styled.div`
   text-align: center;
   line-height: 25px;
 `;
-/*
-  writing-mode: vertical-rl;
-  text-orientation: upright;
-*/
+
+const FloatingDocument = styled(Document)`
+  top: ${(props) => (props.y ? props.y : 100)}%;
+  left: ${(props) => (props.x ? props.x : 100)}%;
+  background: ${(props) => (props.color ? props.color : "#00ff00")};
+  border: ${(props) => (props.selected ? "2px solid #FFFFFF" : null)};
+`;
 
 const generateDocuments = () => {
   const starLogs = [];
@@ -87,11 +86,11 @@ export const Printer = ({ onReady, onComplete }: RoomApi) => {
     <>
       <OxygenMeter roomId="printer" />
       <TextDisplay background={selected && "orange"}>
-        {selected ? selected : "Choose document"}
+        {selected ? selected : "Copy a document"}
       </TextDisplay>
       {codes.map((c) => {
         return (
-          <Document
+          <FloatingDocument
             key={c.code}
             x={c.x}
             y={c.y}
@@ -111,7 +110,7 @@ export const Printer = ({ onReady, onComplete }: RoomApi) => {
             }}
           >
             {c.code}
-          </Document>
+          </FloatingDocument>
         );
       })}
     </>
