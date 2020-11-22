@@ -17,7 +17,8 @@ import { ExitHatch } from "../../ExitHatch";
 
 const minimumSize = 20;
 const miniumTarget = 40;
-const SCREEN_HEIGHT = 75;
+const TEXT_DISPLAY_HEIGHT = 75;
+const BOTTOM_MARGIN = 50;
 
 const treshold = 4;
 
@@ -62,8 +63,8 @@ const TextDisplay = styled.div`
   font-family: "Courier New", Courier, monospace;
   font-size: 24px;
   border-radius: 4px;
-  line-height: ${SCREEN_HEIGHT}px;
-  height: ${SCREEN_HEIGHT}px;
+  line-height: ${TEXT_DISPLAY_HEIGHT}px;
+  height: ${TEXT_DISPLAY_HEIGHT}px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: clip;
@@ -79,7 +80,8 @@ function generateTarget() {
   const h = miniumTarget + Math.round(Math.random() * 150);
   const x = 10 + Math.round(Math.random() * (WW - w));
   const y =
-    SCREEN_HEIGHT + Math.round(Math.random() * (WH - SCREEN_HEIGHT - h));
+    TEXT_DISPLAY_HEIGHT +
+    Math.round(Math.random() * (WH - TEXT_DISPLAY_HEIGHT - BOTTOM_MARGIN - h));
 
   return [w, h, x, y];
 }
