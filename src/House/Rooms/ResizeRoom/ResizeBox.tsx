@@ -38,6 +38,7 @@ const ResizableBox = styled.div`
   position: absolute;
   top: ${(props) => (props.y ? props.y : 100)}px;
   left: ${(props) => (props.x ? props.x : 100)}px;
+  z-index: 9999;
 `;
 
 const Corners = styled.div`
