@@ -34,7 +34,7 @@ const FaxMachine = styled(Document)`
   top: ${(props) => (props.y ? props.y : 100)}%;
   left: ${(props) => (props.x ? props.x : 100)}%;
   background: ${(props) => (props.color ? props.color : "#00ff00")};
-  border: ${(props) => (props.completed ? "6px solid #FFFFFF" : null)};
+  border: ${(props) => (props.completed ? "2px solid #FFFFFF" : null)};
 `;
 
 const generateDocuments = () => {
