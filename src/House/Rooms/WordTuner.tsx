@@ -121,7 +121,7 @@ export class WordTuner extends React.PureComponent<RoomApi, State> {
   };
 
   componentDidMount() {
-    this.props.onReady("Radio");
+    this.props.onReady();
   }
 
   submitSolution = () => {

@@ -64,7 +64,7 @@ export const Printer = ({ onReady, onComplete, roomCompleted }: RoomApi) => {
   const [visible] = useIsVisible();
 
   useEffect(() => {
-    onReady("Printer");
+    onReady();
   }, []);
 
   React.useEffect(() => {

@@ -6,11 +6,18 @@ import { Printer } from "./Rooms/PrinterRoom/Printer";
 import { Engine } from "./Rooms/Engine";
 
 export interface RoomApi {
-  onReady: (roomName: string) => void;
+  onReady: () => void;
   onComplete: () => void;
   roomCompleted: boolean;
 }
 
+export const roomNames = {
+  resizer: "Scanner",
+  wordBox: "Radio",
+  fax: "Fax",
+  printer: "Archives",
+  engine: "Engine",
+};
 export const rooms = {
   resizer: ResizeBox as React.ComponentType<RoomApi>,
   wordBox: WordTuner as React.ComponentType<RoomApi>,

@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
-import { rooms } from "./rooms";
+import { roomNames, rooms } from "./rooms";
 import { useSyncedState } from "./sync";
 import { useLocalStorage } from "../hooks/localStorage";
 import Spaceship from "./Spaceship";
@@ -266,11 +266,11 @@ const Lobby = () => {
                   if (state.completed) {
                     return (
                       <li key={id}>
-                        <StrikedThrough>{id}</StrikedThrough>
+                        <StrikedThrough>{roomNames[id]}</StrikedThrough>
                       </li>
                     );
                   } else {
-                    return <li key={id}>{id}</li>;
+                    return <li key={id}>{roomNames[id]}</li>;
                   }
                 })}
               </ul>

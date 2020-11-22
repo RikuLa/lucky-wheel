@@ -97,7 +97,7 @@ export const Engine = (props: RoomApi) => {
   const audioCtx = React.useRef<AudioContext>();
   const nodes = React.useRef<[GainNode, BiquadFilterNode]>();
   React.useEffect(() => {
-    props.onReady("Engine");
+    props.onReady();
     audioCtx.current = new AudioContext();
     audioCtx.current.suspend();
 

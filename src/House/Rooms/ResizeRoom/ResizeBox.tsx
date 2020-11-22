@@ -133,7 +133,7 @@ export const ResizeBox = ({
   }, [visible]);
 
   useEffect(() => {
-    onReady("Scanner");
+    onReady();
   }, []);
 
   useEffect(() => {

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { RoomApi, RoomKeys, rooms } from "./rooms";
+import { RoomApi, RoomKeys, roomNames, rooms } from "./rooms";
 import Lobby from "./Lobby";
 import { useSyncedState } from "./sync";
 
@@ -25,9 +25,9 @@ const RoomManager = ({
   }, []);
   return (
     <Room
-      onReady={(roomName) => {
+      onReady={() => {
         setRoomState(roomId, { ready: true });
-        document.title = `${roomName} room`;
+        document.title = `${roomNames[roomId]} Room`;
       }}
       onComplete={() => {
         if (roomId === "fax") {

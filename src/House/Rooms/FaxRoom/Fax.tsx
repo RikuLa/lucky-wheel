@@ -50,7 +50,7 @@ export const Fax = ({ onReady, onComplete, roomCompleted }: RoomApi) => {
   const [visible] = useIsVisible();
 
   useEffect(() => {
-    onReady("Fax");
+    onReady();
   }, []);
 
   useEffect(() => {
