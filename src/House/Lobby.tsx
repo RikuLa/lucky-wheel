@@ -100,7 +100,6 @@ const PopupPermissionsEnabler = ({ onPass }: { onPass: () => void }) => {
 type GameState = "waiting" | "loading" | "active" | "game-over" | "completed";
 
 const Lobby = () => {
-  const [tempo, setTempo] = React.useState(1);
   const [popupsWork, setPopupsWork] = useLocalStorage("popupsWork", false);
   const [state, setState] = React.useState<GameState>("waiting");
   const roomWindows = React.useRef<Window[]>();
@@ -121,12 +120,6 @@ const Lobby = () => {
         source.current.connect(audioCtx.current.destination);
       });
   }, []);
-
-  React.useEffect(() => {
-    if (source.current) {
-      source.current.playbackRate.value = tempo;
-    }
-  }, [tempo]);
 
   const [syncedState] = useSyncedState();
 
@@ -295,14 +288,6 @@ const Lobby = () => {
           </GameEndText>
         </>
       )}
-      <input
-        type={"range"}
-        min={"0.25"}
-        max={"3"}
-        step={"0.25"}
-        value={tempo}
-        onChange={(e) => setTempo(Number(e.target.value))}
-      />
     </Container>
   );
 };
