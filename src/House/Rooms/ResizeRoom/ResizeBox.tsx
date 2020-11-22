@@ -231,7 +231,7 @@ export const ResizeBox = ({
   return (
     <>
       <OxygenMeter roomId="resizer" />
-      <ExitHatch roomId="resizer" />
+      <ExitHatch completed={roomCompleted} />
       <TextDisplay>
         Accuracy: {Math.round(scaneLevel * 10000) / 100}%
         <ActionButton

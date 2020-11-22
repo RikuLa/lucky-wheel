@@ -136,8 +136,8 @@ export const Engine = (props: RoomApi) => {
 
   return (
     <div>
-      <ExitHatch roomId="engine" />
       <OxygenMeter roomId="engine" />
+      <ExitHatch completed={props.roomCompleted} />
       <CenteredParagraph>
         You are wide awake, but something is missing. Where&apos;s the familiar
         sound of engine rumbling?

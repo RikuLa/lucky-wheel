@@ -4,6 +4,7 @@ import { MessageEmitter } from "./util/WordStream";
 import { RoomApi } from "../rooms";
 import { Silver } from "react-dial-knob";
 import { OxygenMeter } from "../../OxygenMeter";
+<<<<<<< HEAD
 import { TextBox } from "../Lobby";
 
 const RadioContainer = styled.div`
@@ -20,6 +21,10 @@ const RadioContainer = styled.div`
     grid-template-rows: 1fr;
   }
 `;
+=======
+import { Container, TextBox } from "../Lobby";
+import { ExitHatch } from "../ExitHatch";
+>>>>>>> Add exit hatches to rooms
 
 const Radio = styled.div`
   min-height: 350px;
@@ -139,6 +144,7 @@ export class WordTuner extends React.PureComponent<RoomApi, State> {
             You go to check the comms, but somewhere along the way the radio
             settings have taken a beating.
           </TextBox>
+<<<<<<< HEAD
           <Radio>
             <TextDisplay>{this.state.message}</TextDisplay>
             <KnobContainer>
@@ -176,6 +182,50 @@ export class WordTuner extends React.PureComponent<RoomApi, State> {
           </Radio>
         </RadioContainer>
         <OxygenMeter roomId="wordBox" />
+=======
+        </Container>
+        <Radio>
+          <OxygenMeter roomId="wordBox" />
+          <ExitHatch completed={this.props.roomCompleted} />
+          <TextDisplay>{this.state.message}</TextDisplay>
+          <KnobContainer>
+            <Knob>
+              <p>Offset</p>
+              <Silver
+                diameter={120}
+                min={6}
+                max={14}
+                step={1}
+                onValueChange={this.updateCipher}
+                value={this.state.cipher}
+                style={{
+                  display: "inline-block",
+                  margin: "0px 20px",
+                }}
+              />
+            </Knob>
+            <Knob>
+              <p>Phase</p>
+              <Silver
+                diameter={120}
+                min={0}
+                max={2}
+                step={1}
+                onValueChange={this.updateChannel}
+                value={this.state.channel}
+                style={{
+                  display: "inline-block",
+                  margin: "0px 20px",
+                }}
+              />
+            </Knob>
+          </KnobContainer>
+          <ControlsContainer>
+            <SubmitButton onClick={this.submitSolution}>SEND</SubmitButton>
+            <Indicator done={this.props.roomCompleted} />
+          </ControlsContainer>
+        </Radio>
+>>>>>>> Add exit hatches to rooms
       </>
     );
   }
