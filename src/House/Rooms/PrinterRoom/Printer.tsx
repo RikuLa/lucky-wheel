@@ -9,10 +9,11 @@ import { OxygenMeter } from "../../../OxygenMeter";
 
 const TextDisplay = styled.div`
   width: 100%;
-  background-color: darkgreen;
+  background-color: ${({ background }: { background?: string }) =>
+    background ?? "darkgreen"};
   color: lightgreen;
   font-family: "Courier New", Courier, monospace;
-  font-size: 50px;
+  font-size: 40px;
   border-radius: 4px;
   line-height: 75px;
   height: 75px;
@@ -32,10 +33,16 @@ const Document = styled.div`
   top: ${(props) => (props.y ? props.y : 100)}%;
   left: ${(props) => (props.x ? props.x : 100)}%;
   background: ${(props) => (props.color ? props.color : "#00ff00")};
-  border: ${(props) => (props.selected ? "6px solid #FFFFFF" : null)};
-  font-size: 0.8em;
+  border: ${(props) => (props.selected ? "2px solid #FFFFFF" : null)};
+  font-size: 16px;
+  font-weight: bolder;
+  word-wrap: break-word;
+  font-family: "Courier New", Courier, monospace;
   -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: black;
+  -webkit-text-stroke-color: #000;
+  color: #fff;
+  text-align: center;
+  line-height: 25px;
 `;
 /*
   writing-mode: vertical-rl;
@@ -79,8 +86,8 @@ export const Printer = ({ onReady, onComplete }: RoomApi) => {
   return (
     <>
       <OxygenMeter roomId="printer" />
-      <TextDisplay>
-        {selected ? "holding " + selected : "Pick the document"}
+      <TextDisplay background={selected && "orange"}>
+        {selected ? selected : "Choose document"}
       </TextDisplay>
       {codes.map((c) => {
         return (
