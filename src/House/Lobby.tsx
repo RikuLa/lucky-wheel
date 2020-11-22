@@ -196,7 +196,7 @@ const Lobby = () => {
             />
             <TextBox>
               You wake up from cryo sleep to the blare of klaxons. The engine
-              has shut down, communications are out of sync and your location is
+              has shut down, communications have gone dark and your location is
               unknown. You need to fix the situation or your precious cargo of
               potassium will never reach its destination at the Tannhauser Gate.
               <br />
