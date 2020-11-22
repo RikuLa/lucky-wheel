@@ -35,6 +35,7 @@ export const Document = styled.div`
   font-family: "Courier New", Courier, monospace;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: #000;
+  text-shadow: #000 0 0 3px;
   color: #fff;
   text-align: center;
   line-height: 25px;
