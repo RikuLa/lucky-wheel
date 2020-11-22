@@ -52,6 +52,7 @@ export const DokuText = styled.div`
 export const FaxImage = styled.img`
   top: ${(props) => (props.y ? props.y : 100)}%;
   left: ${(props) => (props.x ? props.x : 100)}%;
+  filter: ${(props) => (props.completed ? "hue-rotate(90deg)" : null)};
   width: 16em;
   height: 16em;
   position: absolute;
@@ -133,8 +134,8 @@ export const Fax = ({ onReady, onComplete }: RoomApi) => {
           <>
             <FaxMachine
               key={c.code}
-              x={c.x}
-              y={c.y}
+              x={10}
+              y={30}
               completed={c.solved}
               src={FaxImg}
               onClick={() => {
@@ -155,8 +156,8 @@ export const Fax = ({ onReady, onComplete }: RoomApi) => {
             />
             <DokuText
               key={c.code}
-              x={c.x}
-              y={c.y}
+              x={10}
+              y={30}
               color={c.color}
               completed={c.solved}
             >
