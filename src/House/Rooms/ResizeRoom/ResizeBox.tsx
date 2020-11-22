@@ -4,6 +4,7 @@ import { ActionButton } from "../../Lobby";
 import { OxygenMeter } from "../../../OxygenMeter";
 import { RoomApi } from "../../rooms";
 
+import { useIsVisible } from "../../../hooks/visibility";
 import { useAudio } from "../../../hooks/useAudio";
 
 // @ts-ignore
@@ -14,6 +15,9 @@ import beep from "../../../assets/beep.flac";
 import { TargetBox } from "./TargetBox";
 
 const minimumSize = 20;
+const miniumTarget = 40;
+const SCREEN_HEIGHT = 75;
+
 const treshold = 4;
 
 const lastTouch = [0, 0];
@@ -57,8 +61,8 @@ const TextDisplay = styled.div`
   font-family: "Courier New", Courier, monospace;
   font-size: 24px;
   border-radius: 4px;
-  line-height: 75px;
-  height: 75px;
+  line-height: ${SCREEN_HEIGHT}px;
+  height: ${SCREEN_HEIGHT}px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: clip;
@@ -68,10 +72,13 @@ const TextDisplay = styled.div`
 `;
 
 function generateTarget() {
-  const w = 40 + Math.round(Math.random() * 200);
-  const h = 40 + Math.round(Math.random() * 200);
-  const x = 100 + Math.round(Math.random() * 200);
-  const y = 50 + Math.round(Math.random() * 200);
+  const WH = window.screen.height;
+  const WW = window.screen.width;
+  const w = miniumTarget + Math.round(Math.random() * 150);
+  const h = miniumTarget + Math.round(Math.random() * 150);
+  const x = 10 + Math.round(Math.random() * (WW - w));
+  const y =
+    SCREEN_HEIGHT + Math.round(Math.random() * (WH - SCREEN_HEIGHT - h));
 
   return [w, h, x, y];
 }
@@ -91,8 +98,10 @@ export const ResizeBox = ({
   roomCompleted,
 }: BoxPorps & RoomApi) => {
   const [scaneLevel, setScanLevel] = useState(0);
-  const [targets] = useState(generateTargets);
+  const [targets, setTargets] = useState(generateTargets);
   const [currentTarget, setTarget] = useState(0);
+  const [visible] = useIsVisible();
+
   const getTouchOffset = (e) => {
     const ret = [
       e.touches[0].pageX - lastTouch[0],
@@ -105,6 +114,22 @@ export const ResizeBox = ({
 
   const [, playScanSound] = useAudio(success);
   const [, playBeep] = useAudio(beep);
+
+  useEffect(() => {
+    const html = document.querySelector("html") as HTMLElement;
+    const body = document.querySelector("body") as HTMLElement;
+    html.style.overflowX = "hidden";
+    html.style.overflowY = "hidden";
+    body.style.overflowX = "hidden";
+    body.style.overflowY = "hidden";
+
+    const box = document.querySelector(".resizableBox") as HTMLElement;
+    box.style.height = "100px";
+    box.style.width = "100px";
+    box.style.top = "100px";
+    box.style.left = "100px";
+    setTargets(generateTargets());
+  }, [visible]);
 
   useEffect(() => {
     onReady("Scanner");
