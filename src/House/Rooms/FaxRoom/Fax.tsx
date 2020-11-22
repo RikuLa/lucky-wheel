@@ -56,7 +56,7 @@ export const Fax = ({ onReady, onComplete }: RoomApi) => {
     if (codes.every((c) => c.solved)) {
       onComplete();
     }
-  }, [selected]);
+  }, [selected, codes]);
 
   useEffect(() => {
     navigator.clipboard.readText().then((clipText) => {
