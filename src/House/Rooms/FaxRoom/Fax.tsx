@@ -8,6 +8,7 @@ import { generateDocument } from "../util/DocumentGenerator";
 import { Document } from "../PrinterRoom/Printer";
 
 import { OxygenMeter } from "../../../OxygenMeter";
+import { ExitHatch } from "../../ExitHatch";
 
 const TextDisplay = styled.div`
   width: 100%;
@@ -43,7 +44,7 @@ const generateDocuments = () => {
   return starLogs;
 };
 
-export const Fax = ({ onReady, onComplete }: RoomApi) => {
+export const Fax = ({ onReady, onComplete, roomCompleted }: RoomApi) => {
   const [codes, setCodes] = useState(generateDocuments);
   const [selected, setSelected] = useState(null);
   const [visible] = useIsVisible();
@@ -78,6 +79,7 @@ export const Fax = ({ onReady, onComplete }: RoomApi) => {
 
   return (
     <>
+      <ExitHatch completed={roomCompleted} />
       <OxygenMeter roomId="fax" />
       <TextDisplay background={solved ? "#0074D9" : status && status.color}>
         {solved

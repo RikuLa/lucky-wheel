@@ -13,6 +13,7 @@ import success from "../../../assets/success.wav";
 import beep from "../../../assets/beep.flac";
 
 import { TargetBox } from "./TargetBox";
+import { ExitHatch } from "../../ExitHatch";
 
 const minimumSize = 20;
 const miniumTarget = 40;
@@ -255,6 +256,7 @@ export const ResizeBox = ({
   return (
     <>
       <OxygenMeter roomId="resizer" />
+      <ExitHatch completed={roomCompleted} />
       <TextDisplay>
         Accuracy: {Math.round(scaneLevel * 10000) / 100}%
         <ActionButton
