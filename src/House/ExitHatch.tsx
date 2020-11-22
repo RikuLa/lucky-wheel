@@ -1,22 +1,52 @@
 import React from "react";
-import { RoomId, useSyncedState } from "../House/sync";
+import styled from "styled-components";
 
-export const ExitHatch = ({ roomId }: { roomId: RoomId }) => {
-  const [syncedState] = useSyncedState();
-  const canExit = syncedState.roomStates[roomId].completed;
-  const exitRoom = React.useCallback(() => {
-    console.log("exit room ", roomId);
-  }, [roomId, syncedState]);
+const Container = styled.div`
+  position: fixed;
+  bottom: 0;
+  right: 200;
+  display: inline-block;
+  width: 100px;
+  padding: 10px;
+  background-color: #121212;
+  text-align: center;
+  color: #888;
+  border: 2px solid #666;
+  font-family: monospace;
+  font-size: 14pt;
+  border-radius: 6px;
+
+  h4 {
+    margin: 0;
+    margin-bottom: 8px;
+  }
+`;
+
+const Button = styled.div`
+  margin: 4px auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  background-color: red;
+  border-bottom: 3px solid black;
+
+  &:active {
+    transform: translateY(2px);
+  }
+`;
+
+export const ExitHatch = ({ completed }: { completed: boolean }) => {
+  const exitRoom = () => {
+    window.close();
+  };
   return (
-    <div
+    <Container
       style={{
-        width: "100px",
-        height: "50px",
-        backgroundColor: canExit ? "green" : "yellow",
+        backgroundColor: completed ? "green" : "yellow",
       }}
     >
-      exit?
-      <button onClick={exitRoom}>exit now</button>
-    </div>
+      EXIT
+      <Button onClick={exitRoom} />
+    </Container>
   );
 };
