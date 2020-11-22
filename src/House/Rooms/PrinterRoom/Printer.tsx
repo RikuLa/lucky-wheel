@@ -33,6 +33,7 @@ const Document = styled.div`
   left: ${(props) => (props.x ? props.x : 100)}%;
   background: ${(props) => (props.color ? props.color : "#00ff00")};
   border: ${(props) => (props.selected ? "6px solid #FFFFFF" : null)};
+  transform: ${(props) => (props.selected ? "rotate(20deg)" : null)};
   font-size: 0.8em;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
@@ -93,8 +94,10 @@ export const Printer = ({ onReady, onComplete }: RoomApi) => {
             onClick={() => {
               navigator.clipboard.readText().then(() => {
                 const newCodes = codes.slice().map((nc) => {
-                  nc.x = 5 + 10 * Math.round(Math.random() * 7);
-                  nc.y = 5 + 5 * Math.round(Math.random() * 16);
+                  if (nc.code !== c.code) {
+                    nc.x = 5 + 10 * Math.round(Math.random() * 7);
+                    nc.y = 5 + 5 * Math.round(Math.random() * 16);
+                  }
                   return nc;
                 });
                 setCodes(newCodes);
