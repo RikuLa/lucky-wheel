@@ -201,9 +201,10 @@ const Lobby = () => {
               <br />
               <br />
               The planets need to be scanned, comms need to be checked for
-              messages and the course needs to be adjusted. But the oxygen
-              supplies are not designed for you to stay awake. You better
-              hurry...
+              messages and the course needs to be adjusted. The different parts
+              of the spaceship will be located in different tabs in your
+              browser. However, the oxygen supplies are not designed for you to
+              stay awake. You better hurry...
             </TextBox>
           </div>
           <ActionButton
