@@ -11,7 +11,6 @@ Used APIs (**From roulette**)
 - **Page Visibility API**
 - **ReadableStream**
 - **Resize Observer API**
-- Service Worker API
 - Clipboard API
 - Web Audio API
 - Web Storage API
