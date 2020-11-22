@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { RoomApi } from "../../rooms";
 import { OxygenMeter } from "../../../OxygenMeter";
 
+import { useIsVisible } from "../../../hooks/visibility";
+
 const TextDisplay = styled.div`
   width: 100%;
   background-color: darkgreen;
@@ -21,28 +23,14 @@ const TextDisplay = styled.div`
 }
 `;
 
-const Card = styled.div`
-  width: 3em;
-  height: 8em;
-  position: absolute;
-  bottom: ${(props) => (props.y ? props.y : 100)}%;
-  left: ${(props) => (props.x ? props.x : 100)}%;
-  background: ${(props) => (props.color ? props.color : "#00ff00")};
-  border: ${(props) => (props.selected ? "6px solid #FFFFFF" : null)};
-  font-size: 0.8em;
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: black;
-  writing-mode: vertical-rl;
-  text-orientation: upright;
-`;
-
-const Reader = styled.div`
+const FaxMachine = styled.div`
   width: 60px;
   height: 50px;
   position: absolute;
   top: ${(props) => (props.y ? props.y : 100)}%;
   left: ${(props) => (props.x ? props.x : 100)}%;
   background: ${(props) => (props.color ? props.color : "#00ff00")};
+  border: ${(props) => (props.completed ? "6px solid #FFFFFF" : null)};
   font-size: 0.8em;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
@@ -84,35 +72,44 @@ const generateDocument = (n) => {
 export const Fax = ({ onReady, onComplete }: RoomApi) => {
   const [codes, setCodes] = useState(generateDocuments);
   const [selected, setSelected] = useState(null);
+  const [visible] = useIsVisible();
 
   useEffect(() => {
     onReady("Fax");
+  }, []);
+
+  React.useEffect(() => {
+    if (codes.every((c) => c.solved)) {
+      onComplete();
+    }
+  }, [selected]);
+
+  useEffect(() => {
     navigator.clipboard.readText().then((clipText) => {
       if (clipText.startsWith("Log")) {
         setSelected(clipText);
       }
     });
-  }, []);
-  React.useEffect(() => {
-    onComplete();
-  }, []);
+  }, [visible]);
 
   return (
     <>
       <OxygenMeter roomId="fax" />
       <TextDisplay>
-        {selected
+        {codes.every((c) => c.solved)
+          ? "Log has been faxed to base"
+          : selected
           ? "holding " + selected
           : "Return " + codes[0].code + " To the fax machine"}
       </TextDisplay>
       {codes.map((c) => {
         return (
-          <Reader
+          <FaxMachine
             key={c.code}
             x={c.x}
             y={c.y}
             color={c.color}
-            selected={selected === c.code}
+            completed={c.solved}
             onClick={() => {
               navigator.clipboard.readText().then((clipText) => {
                 if (c.code === clipText) {
@@ -127,7 +124,7 @@ export const Fax = ({ onReady, onComplete }: RoomApi) => {
             }}
           >
             {c.code}
-          </Reader>
+          </FaxMachine>
         );
       })}
     </>

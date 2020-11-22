@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { RoomApi } from "../../rooms";
 import { OxygenMeter } from "../../../OxygenMeter";
 
+import { useIsVisible } from "../../../hooks/visibility";
+
 const TextDisplay = styled.div`
   width: 100%;
   background-color: darkgreen;
@@ -21,32 +23,22 @@ const TextDisplay = styled.div`
 }
 `;
 
-const Card = styled.div`
-  width: 3em;
-  height: 8em;
-  position: absolute;
-  bottom: ${(props) => (props.y ? props.y : 100)}%;
-  left: ${(props) => (props.x ? props.x : 100)}%;
-  background: ${(props) => (props.color ? props.color : "#00ff00")};
-  border: ${(props) => (props.selected ? "6px solid #FFFFFF" : null)};
-  font-size: 0.8em;
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: black;
-  writing-mode: vertical-rl;
-  text-orientation: upright;
-`;
-
-const Reader = styled.div`
+const Document = styled.div`
   width: 60px;
   height: 50px;
   position: absolute;
   top: ${(props) => (props.y ? props.y : 100)}%;
   left: ${(props) => (props.x ? props.x : 100)}%;
   background: ${(props) => (props.color ? props.color : "#00ff00")};
+  border: ${(props) => (props.selected ? "6px solid #FFFFFF" : null)};
   font-size: 0.8em;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
 `;
+/*
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+*/
 
 function getRandomColor() {
   const letters = "0123456789ABCDEF";
@@ -79,25 +71,32 @@ const generateDocument = (n) => {
     color: getRandomColor(),
     solved: false,
     x: 5 + 10 * Math.round(Math.random() * 7),
-    y: 5 + 5 * Math.round(Math.random() * 17),
+    y: 5 + 5 * Math.round(Math.random() * 16),
   };
 };
 
 export const Printer = ({ onReady, onComplete }: RoomApi) => {
-  const [codes] = useState(generateDocuments);
+  const [codes, setCodes] = useState(generateDocuments);
   const [selected, setSelected] = useState(null);
+  const [visible] = useIsVisible();
 
   useEffect(() => {
     onReady("Printer");
-    navigator.clipboard.readText().then((clipText) => {
-      if (clipText.startsWith("Log")) {
-        setSelected(clipText);
-      }
-    });
   }, []);
+
   React.useEffect(() => {
     onComplete();
   }, []);
+
+  useEffect(() => {
+    navigator.clipboard.readText().then((clipText) => {
+      if (clipText.startsWith("Log")) {
+        setSelected(clipText);
+      } else {
+        setSelected(null);
+      }
+    });
+  }, [visible]);
 
   return (
     <>
@@ -107,7 +106,7 @@ export const Printer = ({ onReady, onComplete }: RoomApi) => {
       </TextDisplay>
       {codes.map((c) => {
         return (
-          <Reader
+          <Document
             key={c.code}
             x={c.x}
             y={c.y}
@@ -115,13 +114,19 @@ export const Printer = ({ onReady, onComplete }: RoomApi) => {
             selected={selected === c.code}
             onClick={() => {
               navigator.clipboard.readText().then(() => {
+                const newCodes = codes.slice().map((nc) => {
+                  nc.x = 5 + 10 * Math.round(Math.random() * 7);
+                  nc.y = 5 + 5 * Math.round(Math.random() * 16);
+                  return nc;
+                });
+                setCodes(newCodes);
                 navigator.clipboard.writeText(c.code);
                 setSelected(c.code);
               });
             }}
           >
             {c.code}
-          </Reader>
+          </Document>
         );
       })}
     </>
