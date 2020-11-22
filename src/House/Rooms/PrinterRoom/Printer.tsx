@@ -6,6 +6,7 @@ import { generateDocument } from "../util/DocumentGenerator";
 import { useIsVisible } from "../../../hooks/visibility";
 
 import { OxygenMeter } from "../../../OxygenMeter";
+import { ExitHatch } from "../../ExitHatch";
 
 const TextDisplay = styled.div`
   width: 100%;
@@ -57,7 +58,7 @@ const generateDocuments = () => {
   return starLogs;
 };
 
-export const Printer = ({ onReady, onComplete }: RoomApi) => {
+export const Printer = ({ onReady, onComplete, roomCompleted }: RoomApi) => {
   const [codes, setCodes] = useState(generateDocuments);
   const [selected, setSelected] = useState(null);
   const [visible] = useIsVisible();
@@ -85,6 +86,7 @@ export const Printer = ({ onReady, onComplete }: RoomApi) => {
 
   return (
     <>
+      <ExitHatch completed={roomCompleted} />
       <OxygenMeter roomId="printer" />
       <TextDisplay background={selected && "orange"}>
         {selected ? selected : "Copy a document"}

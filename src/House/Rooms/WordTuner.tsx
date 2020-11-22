@@ -4,6 +4,7 @@ import { MessageEmitter } from "./util/WordStream";
 import { RoomApi } from "../rooms";
 import { Silver } from "react-dial-knob";
 import { OxygenMeter } from "../../OxygenMeter";
+import { ExitHatch } from "../ExitHatch";
 import { TextBox } from "../Lobby";
 
 const RadioContainer = styled.div`
@@ -54,6 +55,7 @@ const KnobContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-around;
+  touch-action: none;
 `;
 
 const Knob = styled.div`
@@ -175,6 +177,7 @@ export class WordTuner extends React.PureComponent<RoomApi, State> {
             </ControlsContainer>
           </Radio>
         </RadioContainer>
+        <ExitHatch completed={this.props.roomCompleted} />
         <OxygenMeter roomId="wordBox" />
       </>
     );
