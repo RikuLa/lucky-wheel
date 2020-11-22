@@ -15,6 +15,7 @@ Used APIs (**From roulette**)
 - Clipboard API
 - Web Audio API
 - Web Storage API
+- Canvas API
 
 ### Development
 

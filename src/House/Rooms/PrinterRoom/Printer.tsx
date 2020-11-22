@@ -101,7 +101,7 @@ export const Printer = ({ onReady, onComplete }: RoomApi) => {
                 const newCodes = codes.slice().map((nc) => {
                   if (nc.code !== c.code) {
                     nc.x = 5 + 10 * Math.round(Math.random() * 7);
-                    nc.y = 5 + 5 * Math.round(Math.random() * 16);
+                    nc.y = 10 + 5 * Math.round(Math.random() * 14);
                   }
                   return nc;
                 });
