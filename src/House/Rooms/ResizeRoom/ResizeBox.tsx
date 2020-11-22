@@ -4,6 +4,7 @@ import { ActionButton } from "../../Lobby";
 import { OxygenMeter } from "../../../OxygenMeter";
 import { RoomApi } from "../../rooms";
 
+import { useIsVisible } from "../../../hooks/visibility";
 import { useAudio } from "../../../hooks/useAudio";
 
 // @ts-ignore
@@ -93,6 +94,8 @@ export const ResizeBox = ({
   const [scaneLevel, setScanLevel] = useState(0);
   const [targets] = useState(generateTargets);
   const [currentTarget, setTarget] = useState(0);
+  const [visible] = useIsVisible();
+
   const getTouchOffset = (e) => {
     const ret = [
       e.touches[0].pageX - lastTouch[0],
@@ -105,6 +108,14 @@ export const ResizeBox = ({
 
   const [, playScanSound] = useAudio(success);
   const [, playBeep] = useAudio(beep);
+
+  useEffect(() => {
+    const box = document.querySelector(".resizableBox") as HTMLElement;
+    box.style.height = "100px";
+    box.style.width = "100px";
+    box.style.top = "100px";
+    box.style.left = "100px";
+  }, [visible]);
 
   useEffect(() => {
     onReady("Scanner");
